@@ -334,7 +334,7 @@ class Index extends AbstractNamedObject
         );
 
         $name         = $this->trimQuotes(strtolower($name));
-        $indexColumns = array_map('strtolower', $this->getUnquotedColumns());
+        $indexColumns = array_map(strtolower(...), $this->getUnquotedColumns());
 
         return array_search($name, $indexColumns, true) === $pos;
     }
@@ -685,7 +685,7 @@ class Index extends AbstractNamedObject
                         'doctrine/dbal',
                         'https://github.com/doctrine/dbal/pull/6787',
                         'Indexed column length should be an integer, %s given.',
-                        is_object($length) ? $length::class : gettype($length),
+                        get_debug_type($length),
                     );
 
                     $length = (int) $length;
@@ -730,9 +730,7 @@ class Index extends AbstractNamedObject
      */
     private function hasSameColumnLengths(self $other): bool
     {
-        $filter = static function (?int $length): bool {
-            return $length !== null;
-        };
+        $filter = (static fn(?int $length): bool => $length !== null);
 
         return array_filter($this->options['lengths'] ?? [], $filter)
             === array_filter($other->options['lengths'] ?? [], $filter);

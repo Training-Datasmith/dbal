@@ -17,18 +17,18 @@ use function strtoupper;
 use const CASE_LOWER;
 use const CASE_UPPER;
 
-final class Converter
+final readonly class Converter
 {
     public const CASE_LOWER = CASE_LOWER;
     public const CASE_UPPER = CASE_UPPER;
 
-    private readonly Closure $convertNumeric;
-    private readonly Closure $convertAssociative;
-    private readonly Closure $convertOne;
-    private readonly Closure $convertAllNumeric;
-    private readonly Closure $convertAllAssociative;
-    private readonly Closure $convertFirstColumn;
-    private readonly Closure $convertColumnName;
+    private Closure $convertNumeric;
+    private Closure $convertAssociative;
+    private Closure $convertOne;
+    private Closure $convertAllNumeric;
+    private Closure $convertAllAssociative;
+    private Closure $convertFirstColumn;
+    private Closure $convertColumnName;
 
     /**
      * @param bool                                   $convertEmptyStringToNull Whether each empty string should
@@ -53,7 +53,7 @@ final class Converter
         $this->convertFirstColumn    = $this->createConvertAll($convertValue);
 
         $this->convertColumnName = match ($case) {
-            null => static fn (string $name) => $name,
+            null => static fn (string $name): string => $name,
             self::CASE_LOWER => strtolower(...),
             self::CASE_UPPER => strtoupper(...),
         };

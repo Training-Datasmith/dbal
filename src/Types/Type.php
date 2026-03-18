@@ -109,7 +109,7 @@ abstract class Type
     {
         return new TypeRegistry(
             array_map(
-                static fn ($class) => new $class(),
+                static fn (string $class): \Doctrine\DBAL\Types\BigIntType|\Doctrine\DBAL\Types\BinaryType|\Doctrine\DBAL\Types\BlobType|\Doctrine\DBAL\Types\BooleanType|\Doctrine\DBAL\Types\DateImmutableType|\Doctrine\DBAL\Types\DateIntervalType|\Doctrine\DBAL\Types\DateTimeImmutableType|\Doctrine\DBAL\Types\DateTimeType|\Doctrine\DBAL\Types\DateTimeTzImmutableType|\Doctrine\DBAL\Types\DateTimeTzType|\Doctrine\DBAL\Types\DateType|\Doctrine\DBAL\Types\DecimalType|\Doctrine\DBAL\Types\EnumType|\Doctrine\DBAL\Types\FloatType|\Doctrine\DBAL\Types\IntegerType|\Doctrine\DBAL\Types\JsonType|\Doctrine\DBAL\Types\NumberType|\Doctrine\DBAL\Types\SimpleArrayType|\Doctrine\DBAL\Types\SmallFloatType|\Doctrine\DBAL\Types\SmallIntType|\Doctrine\DBAL\Types\StringType|\Doctrine\DBAL\Types\TextType|\Doctrine\DBAL\Types\TimeImmutableType|\Doctrine\DBAL\Types\TimeType => new $class(),
                 self::BUILTIN_TYPES_MAP,
             ),
         );

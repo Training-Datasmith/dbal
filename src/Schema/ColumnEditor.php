@@ -56,11 +56,6 @@ final class ColumnEditor
     /** @var ?non-empty-string */
     private ?string $columnDefinition = null;
 
-    /** @internal Use {@link Column::editor()} or {@link Column::edit()} to create an instance */
-    public function __construct()
-    {
-    }
-
     public function setName(UnqualifiedName $name): self
     {
         $this->name = $name;

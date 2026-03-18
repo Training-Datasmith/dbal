@@ -18,11 +18,6 @@ final class SequenceEditor
     /** @var ?non-negative-int */
     private ?int $cacheSize = null;
 
-    /** @internal Use {@link Sequence::editor()} or {@link Sequence::edit()} to create an instance */
-    public function __construct()
-    {
-    }
-
     public function setName(OptionallyQualifiedName $name): self
     {
         $this->name = $name;

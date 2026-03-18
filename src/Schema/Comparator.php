@@ -230,8 +230,10 @@ class Comparator
         // See if all the indexes from the old table exist in the new one
         foreach ($newIndexes as $newIndex) {
             $newIndexName = $newIndex->getName();
-
-            if (($newIndex->isPrimary() && $oldTable->getPrimaryKey() !== null) || $oldTable->hasIndex($newIndexName)) {
+            if ($newIndex->isPrimary() && $oldTable->getPrimaryKey() !== null) {
+                continue;
+            }
+            if ($oldTable->hasIndex($newIndexName)) {
                 continue;
             }
 
@@ -418,15 +420,15 @@ class Comparator
     protected function diffForeignKey(ForeignKeyConstraint $key1, ForeignKeyConstraint $key2): bool
     {
         if (
-            array_map('strtolower', $key1->getUnquotedLocalColumns())
-            !== array_map('strtolower', $key2->getUnquotedLocalColumns())
+            array_map(strtolower(...), $key1->getUnquotedLocalColumns())
+            !== array_map(strtolower(...), $key2->getUnquotedLocalColumns())
         ) {
             return true;
         }
 
         if (
-            array_map('strtolower', $key1->getUnquotedForeignColumns())
-            !== array_map('strtolower', $key2->getUnquotedForeignColumns())
+            array_map(strtolower(...), $key1->getUnquotedForeignColumns())
+            !== array_map(strtolower(...), $key2->getUnquotedForeignColumns())
         ) {
             return true;
         }

@@ -44,14 +44,14 @@ class DB2SchemaManager extends AbstractSchemaManager
         if ($tableColumn['default'] !== null && $tableColumn['default'] !== 'NULL') {
             $default = $tableColumn['default'];
 
-            if (preg_match('/^\'(.*)\'$/s', $default, $matches) === 1) {
+            if (preg_match('/^\'(.*)\'$/s', (string) $default, $matches) === 1) {
                 $default = str_replace("''", "'", $matches[1]);
             }
         }
 
         $type = $this->platform->getDoctrineTypeMapping($tableColumn['typename']);
 
-        switch (strtolower($tableColumn['typename'])) {
+        switch (strtolower((string) $tableColumn['typename'])) {
             case 'varchar':
                 if ($tableColumn['codepage'] === 0) {
                     $type = Types::BINARY;
@@ -178,10 +178,10 @@ class DB2SchemaManager extends AbstractSchemaManager
         $view = array_change_key_case($view, CASE_LOWER);
 
         $sql = '';
-        $pos = strpos($view['text'], ' AS ');
+        $pos = strpos((string) $view['text'], ' AS ');
 
         if ($pos !== false) {
-            $sql = substr($view['text'], $pos + 4);
+            $sql = substr((string) $view['text'], $pos + 4);
         }
 
         return new View($view['name'], $sql);

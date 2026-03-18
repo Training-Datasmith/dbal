@@ -48,7 +48,7 @@ final class ExceptionConverter implements ExceptionConverterInterface
             12545 => new ConnectionException($exception, $query),
             1400 => new NotNullConstraintViolationException($exception, $query),
             1918 => new DatabaseDoesNotExist($exception, $query),
-            2091 => (function () use ($exception, $query) {
+            2091 => (function () use ($exception, $query): \Doctrine\DBAL\Exception\TransactionRolledBack {
                 //SQLSTATE[HY000]: General error: 2091 OCITransCommit: ORA-02091: transaction rolled back
                 //ORA-00001: unique constraint (DOCTRINE.GH3423_UNIQUE) violated
                 $lines = explode("\n", $exception->getMessage(), 2);

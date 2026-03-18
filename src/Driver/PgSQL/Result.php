@@ -32,11 +32,8 @@ use const PHP_INT_SIZE;
 
 final class Result implements ResultInterface
 {
-    private ?PgSqlResult $result;
-
-    public function __construct(PgSqlResult $result)
+    public function __construct(private ?PgSqlResult $result)
     {
-        $this->result = $result;
     }
 
     public function __destruct()
@@ -94,7 +91,7 @@ final class Result implements ResultInterface
         $types = $this->fetchNumericColumnTypes();
 
         return array_map(
-            fn (array $row) => $this->mapNumericRow($row, $types),
+            fn (array $row): array => $this->mapNumericRow($row, $types),
             pg_fetch_all($this->result, PGSQL_NUM),
         );
     }
@@ -109,7 +106,7 @@ final class Result implements ResultInterface
         $types = $this->fetchAssociativeColumnTypes();
 
         return array_map(
-            fn (array $row) => $this->mapAssociativeRow($row, $types),
+            fn (array $row): array => $this->mapAssociativeRow($row, $types),
             pg_fetch_all($this->result, PGSQL_ASSOC),
         );
     }
@@ -124,7 +121,7 @@ final class Result implements ResultInterface
         $postgresType = pg_field_type($this->result, 0);
 
         return array_map(
-            fn ($value) => $this->mapType($postgresType, $value),
+            fn (?string $value): bool|float|int|string|null => $this->mapType($postgresType, $value),
             pg_fetch_all_columns($this->result),
         );
     }
@@ -209,7 +206,7 @@ final class Result implements ResultInterface
         assert($this->result !== null);
 
         return array_map(
-            fn ($value, $field) => $this->mapType($types[$field], $value),
+            fn (?string $value, $field): bool|float|int|string|null => $this->mapType($types[$field], $value),
             $row,
             array_keys($row),
         );

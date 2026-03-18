@@ -20,17 +20,17 @@ use function oci_server_version;
 use function preg_match;
 use function str_replace;
 
-final class Connection implements ConnectionInterface
+final readonly class Connection implements ConnectionInterface
 {
-    private readonly Parser $parser;
-    private readonly ExecutionMode $executionMode;
+    private Parser $parser;
+    private ExecutionMode $executionMode;
 
     /**
      * @internal The connection can be only instantiated by its driver.
      *
      * @param resource $connection
      */
-    public function __construct(private readonly mixed $connection)
+    public function __construct(private mixed $connection)
     {
         $this->parser        = new Parser(false);
         $this->executionMode = new ExecutionMode();
@@ -84,7 +84,7 @@ final class Connection implements ConnectionInterface
      * @throws Exception
      * @throws Parser\Exception
      */
-    public function exec(string $sql): int|string
+    public function exec(string $sql): int
     {
         return $this->prepare($sql)->execute()->rowCount();
     }

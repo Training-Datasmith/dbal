@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
-final class ComparatorConfig
+final readonly class ComparatorConfig
 {
     public function __construct(
-        private readonly bool $detectRenamedColumns = true,
-        private readonly bool $detectRenamedIndexes = true,
-        private readonly bool $reportModifiedIndexes = true,
+        private bool $detectRenamedColumns = true,
+        private bool $detectRenamedIndexes = true,
+        private bool $reportModifiedIndexes = true,
     ) {
     }
 

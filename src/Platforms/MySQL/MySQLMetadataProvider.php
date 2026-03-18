@@ -218,7 +218,7 @@ final readonly class MySQLMetadataProvider implements MetadataProvider
                 $this->platform->getDoctrineTypeMapping($dbType),
             );
 
-        if (str_contains($columnType, 'unsigned')) {
+        if (str_contains((string) $columnType, 'unsigned')) {
             $editor->setUnsigned(true);
         }
 
@@ -295,7 +295,7 @@ final readonly class MySQLMetadataProvider implements MetadataProvider
             ->setCharset($characterSetName)
             ->setCollation($collationName);
 
-        if (str_contains($extra, 'auto_increment')) {
+        if (str_contains((string) $extra, 'auto_increment')) {
             $editor->setAutoincrement(true);
         }
 

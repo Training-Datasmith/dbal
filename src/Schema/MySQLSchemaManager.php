@@ -89,14 +89,14 @@ class MySQLSchemaManager extends AbstractSchemaManager
 
             $row['primary'] = $row['key_name'] === 'PRIMARY';
 
-            if (str_contains($row['index_type'], 'FULLTEXT')) {
+            if (str_contains((string) $row['index_type'], 'FULLTEXT')) {
                 $row['flags'] = ['FULLTEXT'];
-            } elseif (str_contains($row['index_type'], 'SPATIAL')) {
+            } elseif (str_contains((string) $row['index_type'], 'SPATIAL')) {
                 $row['flags'] = ['SPATIAL'];
             }
 
             // Ignore prohibited prefix `length` for spatial index
-            if (! str_contains($row['index_type'], 'SPATIAL')) {
+            if (! str_contains((string) $row['index_type'], 'SPATIAL')) {
                 $row['length'] = isset($row['sub_part']) ? (int) $row['sub_part'] : null;
             }
 
@@ -200,13 +200,13 @@ class MySQLSchemaManager extends AbstractSchemaManager
 
         $options = [
             'length'        => $length,
-            'unsigned'      => str_contains($tableColumn['column_type'], 'unsigned'),
+            'unsigned'      => str_contains((string) $tableColumn['column_type'], 'unsigned'),
             'fixed'         => $fixed,
             'default'       => $columnDefault,
             'notnull'       => $tableColumn['null'] !== 'YES',
             'scale'         => $scale,
             'precision'     => $precision,
-            'autoincrement' => str_contains($tableColumn['extra'], 'auto_increment'),
+            'autoincrement' => str_contains((string) $tableColumn['extra'], 'auto_increment'),
             'values'        => $values,
         ];
 

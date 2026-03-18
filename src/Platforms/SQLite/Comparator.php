@@ -39,8 +39,10 @@ class Comparator extends BaseComparator
 
         foreach ($table->getColumns() as $column) {
             $options = $column->getPlatformOptions();
-
-            if (! isset($options['collation']) || strcasecmp($options['collation'], 'binary') !== 0) {
+            if (! isset($options['collation'])) {
+                continue;
+            }
+            if (strcasecmp((string) $options['collation'], 'binary') !== 0) {
                 continue;
             }
 

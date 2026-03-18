@@ -44,7 +44,7 @@ abstract class KeywordList
 
     protected function initializeKeywords(): void
     {
-        $this->keywords = array_flip(array_map('strtoupper', $this->getKeywords()));
+        $this->keywords = array_flip(array_map(strtoupper(...), $this->getKeywords()));
     }
 
     /**

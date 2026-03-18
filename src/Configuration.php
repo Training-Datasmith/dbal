@@ -38,9 +38,7 @@ class Configuration
 
     public function __construct()
     {
-        $this->schemaAssetsFilter = static function (): bool {
-            return true;
-        };
+        $this->schemaAssetsFilter = (static fn(): bool => true);
     }
 
     /**

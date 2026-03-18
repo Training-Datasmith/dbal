@@ -11,10 +11,10 @@ use Doctrine\DBAL\Query\UnionType;
 use function count;
 use function implode;
 
-final class DefaultUnionSQLBuilder implements UnionSQLBuilder
+final readonly class DefaultUnionSQLBuilder implements UnionSQLBuilder
 {
     public function __construct(
-        private readonly AbstractPlatform $platform,
+        private AbstractPlatform $platform,
     ) {
     }
 
@@ -40,7 +40,7 @@ final class DefaultUnionSQLBuilder implements UnionSQLBuilder
         $limit = $query->getLimit();
 
         if ($limit->isDefined()) {
-            $sql = $this->platform->modifyLimitQuery($sql, $limit->getMaxResults(), $limit->getFirstResult());
+            return $this->platform->modifyLimitQuery($sql, $limit->getMaxResults(), $limit->getFirstResult());
         }
 
         return $sql;

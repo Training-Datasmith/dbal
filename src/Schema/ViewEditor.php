@@ -13,11 +13,6 @@ final class ViewEditor
 
     private ?string $sql = null;
 
-    /** @internal Use {@link View::editor()} or {@link View::edit()} to create an instance */
-    public function __construct()
-    {
-    }
-
     public function setName(OptionallyQualifiedName $name): self
     {
         $this->name = $name;

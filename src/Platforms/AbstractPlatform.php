@@ -248,7 +248,7 @@ abstract class AbstractPlatform
 
         $length = count($column['values']) > 1
             ? max(...array_map(mb_strlen(...), $column['values']))
-            : mb_strlen($column['values'][key($column['values'])]);
+            : mb_strlen((string) $column['values'][key($column['values'])]);
 
         if (isset($column['length'])) {
             if ($length > $column['length']) {
@@ -1054,20 +1054,16 @@ abstract class AbstractPlatform
 
         $columnListSql = $this->getColumnDeclarationListSQL($columns);
 
-        if (! empty($options['uniqueConstraints'])) {
-            foreach ($options['uniqueConstraints'] as $definition) {
-                $columnListSql .= ', ' . $this->getUniqueConstraintDeclarationSQL($definition);
-            }
+        foreach ($options['uniqueConstraints'] as $definition) {
+            $columnListSql .= ', ' . $this->getUniqueConstraintDeclarationSQL($definition);
         }
 
         if (! empty($options['primary'])) {
             $columnListSql .= ', PRIMARY KEY (' . implode(', ', array_unique(array_values($options['primary']))) . ')';
         }
 
-        if (! empty($options['indexes'])) {
-            foreach ($options['indexes'] as $definition) {
-                $columnListSql .= ', ' . $this->getIndexDeclarationSQL($definition);
-            }
+        foreach ($options['indexes'] as $definition) {
+            $columnListSql .= ', ' . $this->getIndexDeclarationSQL($definition);
         }
 
         $query = 'CREATE TABLE ' . $name . ' (' . $columnListSql;
@@ -1217,9 +1213,8 @@ abstract class AbstractPlatform
         }
 
         $query  = 'CREATE ' . $this->getCreateIndexSQLFlags($index) . 'INDEX ' . $name . ' ON ' . $table;
-        $query .= ' (' . implode(', ', $index->getQuotedColumns($this)) . ')' . $this->getPartialIndexSQL($index);
 
-        return $query;
+        return $query . (' (' . implode(', ', $index->getQuotedColumns($this)) . ')' . $this->getPartialIndexSQL($index));
     }
 
     /**
@@ -1720,9 +1715,8 @@ abstract class AbstractPlatform
     public function getForeignKeyDeclarationSQL(ForeignKeyConstraint $foreignKey): string
     {
         $sql  = $this->getForeignKeyBaseDeclarationSQL($foreignKey);
-        $sql .= $this->getAdvancedForeignKeyOptionsSQL($foreignKey);
 
-        return $sql;
+        return $sql . $this->getAdvancedForeignKeyOptionsSQL($foreignKey);
     }
 
     /**

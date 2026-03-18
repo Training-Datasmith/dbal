@@ -22,11 +22,11 @@ use function strpos;
 use function substr;
 
 /** @phpstan-import-type Params from DriverManager */
-final class DsnParser
+final readonly class DsnParser
 {
     /** @param array<string, string|class-string<Driver>> $schemeMapping An array used to map DSN schemes to DBAL drivers */
     public function __construct(
-        private readonly array $schemeMapping = [],
+        private array $schemeMapping = [],
     ) {
     }
 
@@ -85,9 +85,8 @@ final class DsnParser
         }
 
         $params = $this->parseDatabaseUrlPath($url, $params);
-        $params = $this->parseDatabaseUrlQuery($url, $params);
 
-        return $params;
+        return $this->parseDatabaseUrlQuery($url, $params);
     }
 
     /**
@@ -121,7 +120,7 @@ final class DsnParser
             return $this->parseRegularDatabaseUrlPath($url, $params);
         }
 
-        if (strpos($params['driver'], 'sqlite') !== false) {
+        if (str_contains((string) $params['driver'], 'sqlite')) {
             return $this->parseSqliteDatabaseUrlPath($url, $params);
         }
 
@@ -157,7 +156,7 @@ final class DsnParser
 
         $query = [];
 
-        parse_str($url['query'], $query); // simply ingest query as extra params, e.g. charset or sslmode
+        parse_str((string) $url['query'], $query); // simply ingest query as extra params, e.g. charset or sslmode
 
         return array_merge($params, $query); // parse_str wipes existing array elements
     }

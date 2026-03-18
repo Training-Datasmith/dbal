@@ -411,10 +411,8 @@ class PostgreSQLPlatform extends AbstractPlatform
 
         $sql = [$query];
 
-        if (! empty($options['indexes'])) {
-            foreach ($options['indexes'] as $index) {
-                $sql[] = $this->getCreateIndexSQL($index, $name);
-            }
+        foreach ($options['indexes'] as $index) {
+            $sql[] = $this->getCreateIndexSQL($index, $name);
         }
 
         if (isset($options['uniqueConstraints'])) {
@@ -531,9 +529,7 @@ class PostgreSQLPlatform extends AbstractPlatform
         return $this->doConvertBooleans(
             $item,
             /** @param mixed $value */
-            static function ($value): ?int {
-                return $value === null ? null : (int) $value;
-            },
+            static fn($value): ?int => $value === null ? null : (int) $value,
         );
     }
 

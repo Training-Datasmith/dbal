@@ -262,17 +262,13 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
 
         $queryFields = $this->getColumnDeclarationListSQL($columns);
 
-        if (! empty($options['uniqueConstraints'])) {
-            foreach ($options['uniqueConstraints'] as $definition) {
-                $queryFields .= ', ' . $this->getUniqueConstraintDeclarationSQL($definition);
-            }
+        foreach ($options['uniqueConstraints'] as $definition) {
+            $queryFields .= ', ' . $this->getUniqueConstraintDeclarationSQL($definition);
         }
 
         // add all indexes
-        if (! empty($options['indexes'])) {
-            foreach ($options['indexes'] as $definition) {
-                $queryFields .= ', ' . $this->getIndexDeclarationSQL($definition);
-            }
+        foreach ($options['indexes'] as $definition) {
+            $queryFields .= ', ' . $this->getIndexDeclarationSQL($definition);
         }
 
         // attach all primary keys
@@ -395,7 +391,6 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
 
         $droppedIndexes = $this->indexIndexesByLowerCaseName($diff->getDroppedIndexes());
         $addedIndexes   = $this->indexIndexesByLowerCaseName($diff->getAddedIndexes());
-        $diffModified   = false;
 
         $noLongerPrimaryKeyColumns = [];
 
@@ -587,10 +582,12 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
 
             foreach ($primaryKeyColumns as $column) {
                 // Check if an autoincrement column was dropped from the primary key.
-                if (! $column->getAutoincrement() || in_array($column->getName(), $changedIndex->getColumns(), true)) {
+                if (! $column->getAutoincrement()) {
                     continue;
                 }
-
+                if (in_array($column->getName(), $changedIndex->getColumns(), true)) {
+                    continue;
+                }
                 // The autoincrement attribute needs to be removed from the dropped column
                 // before we can drop and recreate the primary key.
                 $column->setAutoincrement(false);
@@ -732,9 +729,7 @@ abstract class AbstractMySQLPlatform extends AbstractPlatform
             $query .= ' MATCH ' . $foreignKey->getOption('match');
         }
 
-        $query .= parent::getAdvancedForeignKeyOptionsSQL($foreignKey);
-
-        return $query;
+        return $query . parent::getAdvancedForeignKeyOptionsSQL($foreignKey);
     }
 
     public function getDropIndexSQL(string $name, string $table): string

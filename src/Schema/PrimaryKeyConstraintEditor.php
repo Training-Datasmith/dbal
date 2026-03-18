@@ -67,7 +67,7 @@ final class PrimaryKeyConstraintEditor
         string ...$otherColumnNames,
     ): self {
         $this->columnNames = array_map(
-            static fn (string $name): UnqualifiedName => UnqualifiedName::unquoted($name),
+            UnqualifiedName::unquoted(...),
             [$firstColumnName, ...array_values($otherColumnNames)],
         );
 
@@ -83,7 +83,7 @@ final class PrimaryKeyConstraintEditor
         string ...$otherColumnNames,
     ): self {
         $this->columnNames = array_map(
-            static fn (string $name): UnqualifiedName => UnqualifiedName::quoted($name),
+            UnqualifiedName::quoted(...),
             [$firstColumnName, ...array_values($otherColumnNames)],
         );
 

@@ -23,7 +23,7 @@ final class TableEditor
     private readonly UnqualifiedNamedObjectSet $columns;
 
     /** @var UnqualifiedNamedObjectSet<Index> */
-    private UnqualifiedNamedObjectSet $indexes;
+    private readonly UnqualifiedNamedObjectSet $indexes;
 
     private ?PrimaryKeyConstraint $primaryKeyConstraint = null;
 
@@ -174,11 +174,9 @@ final class TableEditor
                 continue;
             }
 
-            $this->indexes->modify($index->getObjectName(), static function (Index $index) use ($columns): Index {
-                return $index->edit()
-                    ->setColumns(...$columns)
-                    ->create();
-            });
+            $this->indexes->modify($index->getObjectName(), static fn(Index $index): Index => $index->edit()
+                ->setColumns(...$columns)
+                ->create());
         }
     }
 
@@ -220,11 +218,9 @@ final class TableEditor
             $oldColumnName,
             $newColumnName,
             static fn (UniqueConstraint $constraint): array => $constraint->getColumnNames(),
-            static function (UniqueConstraint $constraint, array $columnNames): UniqueConstraint {
-                return $constraint->edit()
-                    ->setColumnNames(...$columnNames)
-                    ->create();
-            },
+            static fn(UniqueConstraint $constraint, array $columnNames): UniqueConstraint => $constraint->edit()
+                ->setColumnNames(...$columnNames)
+                ->create(),
         );
     }
 
@@ -237,11 +233,9 @@ final class TableEditor
             $oldColumnName,
             $newColumnName,
             static fn (ForeignKeyConstraint $constraint): array => $constraint->getReferencingColumnNames(),
-            static function (ForeignKeyConstraint $constraint, array $columnNames): ForeignKeyConstraint {
-                return $constraint->edit()
-                    ->setReferencingColumnNames(...$columnNames)
-                    ->create();
-            },
+            static fn(ForeignKeyConstraint $constraint, array $columnNames): ForeignKeyConstraint => $constraint->edit()
+                ->setReferencingColumnNames(...$columnNames)
+                ->create(),
         );
     }
 
@@ -350,11 +344,9 @@ final class TableEditor
     public function renameIndex(UnqualifiedName $oldIndexName, UnqualifiedName $newIndexName): self
     {
         try {
-            $this->indexes->modify($oldIndexName, static function (Index $index) use ($newIndexName): Index {
-                return $index->edit()
-                    ->setName($newIndexName)
-                    ->create();
-            });
+            $this->indexes->modify($oldIndexName, static fn(Index $index): Index => $index->edit()
+                ->setName($newIndexName)
+                ->create());
         } catch (ObjectDoesNotExist $e) {
             throw InvalidTableModification::indexDoesNotExist($this->name, $e);
         } catch (ObjectAlreadyExists $e) {

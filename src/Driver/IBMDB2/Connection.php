@@ -26,14 +26,14 @@ use function error_get_last;
 use const DB2_AUTOCOMMIT_OFF;
 use const DB2_AUTOCOMMIT_ON;
 
-final class Connection implements ConnectionInterface
+final readonly class Connection implements ConnectionInterface
 {
     /**
      * @internal The connection can be only instantiated by its driver.
      *
      * @param resource $connection
      */
-    public function __construct(private readonly mixed $connection)
+    public function __construct(private mixed $connection)
     {
     }
 
@@ -66,7 +66,7 @@ final class Connection implements ConnectionInterface
         return "'" . db2_escape_string($value) . "'";
     }
 
-    public function exec(string $sql): int|string
+    public function exec(string $sql): int
     {
         $stmt = @db2_exec($this->connection, $sql);
 

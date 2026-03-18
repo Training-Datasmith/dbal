@@ -94,7 +94,7 @@ SQL,
         if (
             preg_match(
                 '(ON UPDATE ([a-zA-Z0-9]+( (NULL|ACTION|DEFAULT))?))',
-                $tableForeignKey['condef'],
+                (string) $tableForeignKey['condef'],
                 $match,
             ) === 1
         ) {
@@ -104,20 +104,20 @@ SQL,
         if (
             preg_match(
                 '(ON DELETE ([a-zA-Z0-9]+( (NULL|ACTION|DEFAULT))?))',
-                $tableForeignKey['condef'],
+                (string) $tableForeignKey['condef'],
                 $match,
             ) === 1
         ) {
             $onDelete = $match[1];
         }
 
-        $result = preg_match('/FOREIGN KEY \((.+)\) REFERENCES (.+)\((.+)\)/', $tableForeignKey['condef'], $values);
+        $result = preg_match('/FOREIGN KEY \((.+)\) REFERENCES (.+)\((.+)\)/', (string) $tableForeignKey['condef'], $values);
         assert($result === 1);
 
         // PostgreSQL returns identifiers that are keywords with quotes, we need them later, don't get
         // the idea to trim them here.
-        $localColumns   = array_map('trim', explode(',', $values[1]));
-        $foreignColumns = array_map('trim', explode(',', $values[3]));
+        $localColumns   = array_map(trim(...), explode(',', $values[1]));
+        $foreignColumns = array_map(trim(...), explode(',', $values[3]));
         $foreignTable   = $values[2];
 
         return new ForeignKeyConstraint(
@@ -166,15 +166,13 @@ SQL,
     {
         return parent::_getPortableTableIndexesList(array_map(
             /** @param array<string, mixed> $row */
-            static function (array $row): array {
-                return [
-                    'key_name' => $row['relname'],
-                    'non_unique' => ! $row['indisunique'],
-                    'primary' => (bool) $row['indisprimary'],
-                    'where' => $row['where'],
-                    'column_name' => $row['attname'],
-                ];
-            },
+            static fn(array $row): array => [
+                'key_name' => $row['relname'],
+                'non_unique' => ! $row['indisunique'],
+                'primary' => (bool) $row['indisprimary'],
+                'where' => $row['where'],
+                'column_name' => $row['attname'],
+            ],
             $rows,
         ), $tableName);
     }

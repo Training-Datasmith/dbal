@@ -70,7 +70,7 @@ final class Driver extends AbstractPostgreSQLDriver
         // pg_connect used by Doctrine DBAL does not support [...] notation,
         // but requires the host address in plain form like `aa:bb:99...`
         $matches = [];
-        if (isset($params['host']) && preg_match('/^\[(.+)\]$/', $params['host'], $matches) === 1) {
+        if (isset($params['host']) && preg_match('/^\[(.+)\]$/', (string) $params['host'], $matches) === 1) {
             $params['hostaddr'] = $matches[1];
             unset($params['host']);
         }
@@ -86,11 +86,11 @@ final class Driver extends AbstractPostgreSQLDriver
                 'sslmode' => $params['sslmode'] ?? null,
                 'gssencmode' => $params['gssencmode'] ?? null,
             ],
-            static fn (int|string|null $value) => $value !== '' && $value !== null,
+            static fn (int|string|null $value): bool => $value !== '' && $value !== null,
         );
 
         return implode(' ', array_map(
-            static fn (int|string $value, string $key) => sprintf("%s='%s'", $key, addslashes((string) $value)),
+            static fn (int|string $value, string $key): string => sprintf("%s='%s'", $key, addslashes((string) $value)),
             array_values($components),
             array_keys($components),
         ));

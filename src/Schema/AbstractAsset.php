@@ -411,7 +411,7 @@ abstract class AbstractAsset
                 $value = $identifier->getValue();
 
                 if (! $identifier->isQuoted()) {
-                    $value = $folding->foldUnquotedIdentifier($value);
+                    return $folding->foldUnquotedIdentifier($value);
                 }
 
                 return $value;
@@ -425,7 +425,7 @@ abstract class AbstractAsset
                         . 'The current name %s will become %s in 5.0. '
                         . 'Please quote the name if the case needs to be preserved.',
                     $name,
-                    implode('.', array_map([$platform, 'quoteSingleIdentifier'], $futureParts)),
+                    implode('.', array_map($platform->quoteSingleIdentifier(...), $futureParts)),
                 );
             }
         }
@@ -447,9 +447,7 @@ abstract class AbstractAsset
      */
     protected function _generateIdentifierName(array $columnNames, string $prefix = '', int $maxSize = 30): string
     {
-        $hash = implode('', array_map(static function ($column): string {
-            return dechex(crc32($column));
-        }, $columnNames));
+        $hash = implode('', array_map(static fn(string $column): string => dechex(crc32($column)), $columnNames));
 
         return strtoupper(substr($prefix . '_' . $hash, 0, $maxSize));
     }

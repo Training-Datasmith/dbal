@@ -66,7 +66,7 @@ class DateIntervalType extends Type
 
         if (isset($value[0]) && ($value[0] === '+' || $value[0] === '-')) {
             $negative = $value[0] === '-';
-            $value    = substr($value, 1);
+            $value    = substr((string) $value, 1);
         }
 
         try {

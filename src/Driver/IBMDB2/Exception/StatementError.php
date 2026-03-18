@@ -23,8 +23,6 @@ final class StatementError extends AbstractException
             $sqlState = db2_stmt_error();
         }
 
-        return Factory::create($message, static function (int $code) use ($message, $sqlState): self {
-            return new self($message, $sqlState, $code);
-        });
+        return Factory::create($message, static fn(int $code): self => new self($message, $sqlState, $code));
     }
 }

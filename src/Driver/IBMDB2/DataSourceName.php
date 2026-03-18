@@ -13,11 +13,11 @@ use function str_contains;
 /**
  * Db2 DSN
  */
-final class DataSourceName
+final readonly class DataSourceName
 {
     private function __construct(
         #[SensitiveParameter]
-        private readonly string $string,
+        private string $string,
     ) {
     }
 
@@ -52,7 +52,7 @@ final class DataSourceName
     public static function fromConnectionParameters(#[SensitiveParameter]
     array $params,): self
     {
-        if (isset($params['dbname']) && str_contains($params['dbname'], '=')) {
+        if (isset($params['dbname']) && str_contains((string) $params['dbname'], '=')) {
             return new self($params['dbname']);
         }
 

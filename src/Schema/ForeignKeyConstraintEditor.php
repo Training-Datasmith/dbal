@@ -85,7 +85,7 @@ final class ForeignKeyConstraintEditor
         string ...$otherColumnNames,
     ): self {
         $this->referencingColumnNames = array_map(
-            static fn (string $name): UnqualifiedName => UnqualifiedName::unquoted($name),
+            UnqualifiedName::unquoted(...),
             [$firstColumnName, ...array_values($otherColumnNames)],
         );
 
@@ -101,7 +101,7 @@ final class ForeignKeyConstraintEditor
         string ...$otherColumnNames,
     ): self {
         $this->referencingColumnNames = array_map(
-            static fn (string $name): UnqualifiedName => UnqualifiedName::quoted($name),
+            UnqualifiedName::quoted(...),
             [$firstColumnName, ...array_values($otherColumnNames)],
         );
 
@@ -168,7 +168,7 @@ final class ForeignKeyConstraintEditor
         string ...$otherColumnNames,
     ): self {
         $this->referencedColumnNames = array_map(
-            static fn (string $name): UnqualifiedName => UnqualifiedName::unquoted($name),
+            UnqualifiedName::unquoted(...),
             [$firstColumnName, ...array_values($otherColumnNames)],
         );
 
@@ -184,7 +184,7 @@ final class ForeignKeyConstraintEditor
         string ...$otherColumnNames,
     ): self {
         $this->referencedColumnNames = array_map(
-            static fn (string $name): UnqualifiedName => UnqualifiedName::quoted($name),
+            UnqualifiedName::quoted(...),
             [$firstColumnName, ...array_values($otherColumnNames)],
         );
 
@@ -256,12 +256,12 @@ final class ForeignKeyConstraintEditor
 
         return new ForeignKeyConstraint(
             array_map(
-                static fn (UnqualifiedName $columnName) => $columnName->toString(),
+                static fn (UnqualifiedName $columnName): string => $columnName->toString(),
                 $this->referencingColumnNames,
             ),
             $this->referencedTableName->toString(),
             array_map(
-                static fn (UnqualifiedName $columnName) => $columnName->toString(),
+                static fn (UnqualifiedName $columnName): string => $columnName->toString(),
                 $this->referencedColumnNames,
             ),
             $this->name?->toString() ?? '',

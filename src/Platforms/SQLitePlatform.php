@@ -276,10 +276,8 @@ class SQLitePlatform extends AbstractPlatform
 
         $queryFields = $this->getColumnDeclarationListSQL($columns);
 
-        if (! empty($options['uniqueConstraints'])) {
-            foreach ($options['uniqueConstraints'] as $definition) {
-                $queryFields .= ', ' . $this->getUniqueConstraintDeclarationSQL($definition);
-            }
+        foreach ($options['uniqueConstraints'] as $definition) {
+            $queryFields .= ', ' . $this->getUniqueConstraintDeclarationSQL($definition);
         }
 
         if (! empty($options['primary'])) {
@@ -304,10 +302,8 @@ class SQLitePlatform extends AbstractPlatform
             return $query;
         }
 
-        if (! empty($options['indexes'])) {
-            foreach ($options['indexes'] as $indexDef) {
-                $query[] = $this->getCreateIndexSQL($indexDef, $name);
-            }
+        foreach ($options['indexes'] as $indexDef) {
+            $query[] = $this->getCreateIndexSQL($indexDef, $name);
         }
 
         return $query;
@@ -575,15 +571,14 @@ class SQLitePlatform extends AbstractPlatform
             return $this->getCreatePrimaryKeySQL($index, $table);
         }
 
-        if (strpos($table, '.') !== false) {
+        if (str_contains($table, '.')) {
             [$schema, $table] = explode('.', $table);
             $name             = $schema . '.' . $name;
         }
 
         $query  = 'CREATE ' . $this->getCreateIndexSQLFlags($index) . 'INDEX ' . $name . ' ON ' . $table;
-        $query .= ' (' . implode(', ', $index->getQuotedColumns($this)) . ')' . $this->getPartialIndexSQL($index);
 
-        return $query;
+        return $query . (' (' . implode(', ', $index->getQuotedColumns($this)) . ')' . $this->getPartialIndexSQL($index));
     }
 
     /**

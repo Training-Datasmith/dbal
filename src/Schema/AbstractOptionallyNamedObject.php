@@ -23,7 +23,7 @@ abstract class AbstractOptionallyNamedObject extends AbstractAsset implements Op
      *
      * @var ?N
      */
-    protected ?Name $name;
+    protected ?Name $name = null;
 
     public function __construct(?string $name)
     {

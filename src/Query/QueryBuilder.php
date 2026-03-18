@@ -42,7 +42,7 @@ use function substr;
  *
  * @phpstan-import-type WrapperParameterTypeArray from Connection
  */
-class QueryBuilder
+class QueryBuilder implements \Stringable
 {
     /**
      * The complete SQL string for this query.

@@ -85,14 +85,6 @@ class Connection implements ServerVersionProvider
     private ?TransactionIsolationLevel $transactionIsolationLevel = null;
 
     /**
-     * The parameters used during creation of the Connection instance.
-     *
-     * @var array<string,mixed>
-     * @phpstan-var Params
-     */
-    private array $params;
-
-    /**
      * The database platform object used by the connection or NULL before it's initialized.
      */
     private ?AbstractPlatform $platform = null;
@@ -105,7 +97,7 @@ class Connection implements ServerVersionProvider
      */
     private bool $isRollbackOnly = false;
 
-    private SchemaManagerFactory $schemaManagerFactory;
+    private readonly SchemaManagerFactory $schemaManagerFactory;
 
     /**
      * Initializes a new instance of the Connection class.
@@ -118,13 +110,17 @@ class Connection implements ServerVersionProvider
      * @phpstan-param Params $params
      */
     public function __construct(
+        /**
+         * The parameters used during creation of the Connection instance.
+         *
+         * @phpstan-var Params
+         */
         #[SensitiveParameter]
-        array $params,
+        private array $params,
         protected Driver $driver,
         ?Configuration $config = null,
     ) {
         $this->_config    = $config ?? new Configuration();
-        $this->params     = $params;
         $this->autoCommit = $this->_config->getAutoCommit();
 
         $this->schemaManagerFactory = $this->_config->getSchemaManagerFactory()

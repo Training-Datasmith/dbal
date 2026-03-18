@@ -159,7 +159,7 @@ final readonly class SQLiteMetadataProvider implements MetadataProvider
     {
         [$tableName, $columnName, $type, $notNull, $defaultExpression] = $row;
 
-        $matchResult = preg_match('/^([A-Z\s]+?)(?:\s*\((\d+)(?:,\s*(\d+))?\))?$/i', $type, $matches);
+        $matchResult = preg_match('/^([A-Z\s]+?)(?:\s*\((\d+)(?:,\s*(\d+))?\))?$/i', (string) $type, $matches);
         assert($matchResult === 1);
 
         $editor = Column::editor()
@@ -223,7 +223,7 @@ final readonly class SQLiteMetadataProvider implements MetadataProvider
         }
 
         if (preg_match('/^\'(.*)\'$/s', $value, $matches) === 1) {
-            $value = str_replace("''", "'", $matches[1]);
+            return str_replace("''", "'", $matches[1]);
         }
 
         return $value;
@@ -272,9 +272,7 @@ final readonly class SQLiteMetadataProvider implements MetadataProvider
     private function buildIdentifierPattern(string $identifier): string
     {
         return '(?:' . implode('|', array_map(
-            static function (string $sql): string {
-                    return '\W' . preg_quote($sql, '/') . '\W';
-            },
+            static fn(string $sql): string => '\W' . preg_quote($sql, '/') . '\W',
             [
                 $identifier,
                 $this->platform->quoteSingleIdentifier($identifier),

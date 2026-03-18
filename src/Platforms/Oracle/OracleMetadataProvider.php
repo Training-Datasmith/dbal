@@ -162,7 +162,7 @@ final readonly class OracleMetadataProvider implements MetadataProvider
             $comments,
         ] = $row;
 
-        $dbType = strtolower($dataType);
+        $dbType = strtolower((string) $dataType);
         if (str_starts_with($dbType, 'timestamp(')) {
             if (str_contains($dbType, 'with time zone')) {
                 $dbType = 'timestamptz';

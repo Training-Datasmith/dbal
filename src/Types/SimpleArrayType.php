@@ -46,6 +46,6 @@ class SimpleArrayType extends Type
 
         $value = is_resource($value) ? stream_get_contents($value) : $value;
 
-        return explode(',', $value);
+        return explode(',', (string) $value);
     }
 }

@@ -14,12 +14,9 @@ use const SQLITE3_NUM;
 
 final class Result implements ResultInterface
 {
-    private ?SQLite3Result $result;
-
     /** @internal The result can be only instantiated by its driver connection or statement. */
-    public function __construct(SQLite3Result $result, private readonly int $changes)
+    public function __construct(private ?SQLite3Result $result, private readonly int $changes)
     {
-        $this->result = $result;
     }
 
     public function fetchNumeric(): array|false

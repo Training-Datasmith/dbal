@@ -73,7 +73,7 @@ class SQLiteSchemaManager extends AbstractSchemaManager
      */
     protected function _getPortableTableColumnDefinition(array $tableColumn): Column
     {
-        $matchResult = preg_match('/^([A-Z\s]+?)(?:\s*\((\d+)(?:,\s*(\d+))?\))?$/i', $tableColumn['type'], $matches);
+        $matchResult = preg_match('/^([A-Z\s]+?)(?:\s*\((\d+)(?:,\s*(\d+))?\))?$/i', (string) $tableColumn['type'], $matches);
         assert($matchResult === 1);
 
         $dbType = strtolower($matches[1]);
@@ -104,7 +104,7 @@ class SQLiteSchemaManager extends AbstractSchemaManager
 
         if ($default !== null) {
             // SQLite returns the default value as a literal expression, so we need to parse it
-            if (preg_match('/^\'(.*)\'$/s', $default, $matches) === 1) {
+            if (preg_match('/^\'(.*)\'$/s', (string) $default, $matches) === 1) {
                 $default = str_replace("''", "'", $matches[1]);
             }
         }
@@ -279,9 +279,7 @@ CREATE\sTABLE' . $this->buildIdentifierPattern($table) . '
     private function buildIdentifierPattern(string $identifier): string
     {
         return '(?:' . implode('|', array_map(
-            static function (string $sql): string {
-                return '\W' . preg_quote($sql, '/') . '\W';
-            },
+            static fn(string $sql): string => '\W' . preg_quote($sql, '/') . '\W',
             [
                 $identifier,
                 $this->platform->quoteSingleIdentifier($identifier),
@@ -466,8 +464,13 @@ SQL,
             $tableName = $row['table_name'];
 
             $sqlByTable[$tableName] ??= $this->getCreateTableSQL($tableName);
-
-            if ($row['pk'] === 0 || $row['pk'] === '0' || $row['type'] !== 'INTEGER') {
+            if ($row['pk'] === 0) {
+                continue;
+            }
+            if ($row['pk'] === '0') {
+                continue;
+            }
+            if ($row['type'] !== 'INTEGER') {
                 continue;
             }
 

@@ -79,7 +79,7 @@ final class IndexEditor
     public function setColumnNames(UnqualifiedName $firstColumnName, UnqualifiedName ...$otherColumnNames): self
     {
         $this->columns = array_map(
-            static fn (UnqualifiedName $name) => new IndexedColumn($name, null),
+            static fn (UnqualifiedName $name): \Doctrine\DBAL\Schema\Index\IndexedColumn => new IndexedColumn($name, null),
             [$firstColumnName, ...array_values($otherColumnNames)],
         );
 

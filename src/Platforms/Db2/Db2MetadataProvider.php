@@ -160,7 +160,7 @@ final readonly class Db2MetadataProvider implements MetadataProvider
 
         $type = $this->platform->getDoctrineTypeMapping($typeName);
 
-        switch (strtolower($typeName)) {
+        switch (strtolower((string) $typeName)) {
             case 'varchar':
                 if ($codePage === 0) {
                     $type = Types::BINARY;

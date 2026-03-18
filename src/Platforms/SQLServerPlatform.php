@@ -217,10 +217,8 @@ class SQLServerPlatform extends AbstractPlatform
 
         $columnListSql = $this->getColumnDeclarationListSQL($columns);
 
-        if (! empty($options['uniqueConstraints'])) {
-            foreach ($options['uniqueConstraints'] as $definition) {
-                $columnListSql .= ', ' . $this->getUniqueConstraintDeclarationSQL($definition);
-            }
+        foreach ($options['uniqueConstraints'] as $definition) {
+            $columnListSql .= ', ' . $this->getUniqueConstraintDeclarationSQL($definition);
         }
 
         if (! empty($options['primary'])) {
@@ -244,10 +242,8 @@ class SQLServerPlatform extends AbstractPlatform
 
         $sql = [$query];
 
-        if (! empty($options['indexes'])) {
-            foreach ($options['indexes'] as $index) {
-                $sql[] = $this->getCreateIndexSQL($index, $name);
-            }
+        foreach ($options['indexes'] as $index) {
+            $sql[] = $this->getCreateIndexSQL($index, $name);
         }
 
         if (isset($options['foreignKeys'])) {
@@ -345,7 +341,7 @@ class SQLServerPlatform extends AbstractPlatform
         $constraint = parent::getCreateIndexSQL($index, $table);
 
         if ($index->isUnique() && ! $index->isPrimary()) {
-            $constraint = $this->_appendUniqueConstraintDefinition($constraint, $index);
+            return $this->_appendUniqueConstraintDefinition($constraint, $index);
         }
 
         return $constraint;
@@ -492,15 +488,14 @@ class SQLServerPlatform extends AbstractPlatform
             if ($declarationSQLChanged) {
                 $queryParts[] = 'ALTER COLUMN ' . $newDeclarationSQL;
             }
-
-            if (
-                    $newColumn->getDefault() === null
-                    || (! $requireDropDefaultConstraint && ! $defaultChanged)
-            ) {
+            if ($newColumn->getDefault() === null) {
+                continue;
+            }
+            if (! $requireDropDefaultConstraint && ! $defaultChanged) {
                 continue;
             }
 
-            $queryParts[] = $this->getAlterTableAddDefaultConstraintClause($tableName, $newColumn);
+            $queryParts[] = $this->getAlterTableAddDefaultConstraintClause($newColumn);
         }
 
         foreach ($queryParts as $query) {
@@ -523,10 +518,9 @@ class SQLServerPlatform extends AbstractPlatform
     /**
      * Returns the SQL clause for adding a default constraint in an ALTER TABLE statement.
      *
-     * @param string $tableName The name of the table to generate the clause for.
      * @param Column $column    The column to generate the clause for.
      */
-    private function getAlterTableAddDefaultConstraintClause(string $tableName, Column $column): string
+    private function getAlterTableAddDefaultConstraintClause(Column $column): string
     {
         $columnDef         = $column->toArray();
         $columnDef['name'] = $column->getQuotedName($this);
@@ -572,10 +566,12 @@ class SQLServerPlatform extends AbstractPlatform
         if ($columnDiff->hasDefaultChanged()) {
             return true;
         }
-
         // We need to drop an existing default constraint if the column was
         // defined with a default value before and the native column type has changed.
-        return $columnDiff->hasTypeChanged() || $columnDiff->hasFixedChanged();
+        if ($columnDiff->hasTypeChanged()) {
+            return true;
+        }
+        return $columnDiff->hasFixedChanged();
     }
 
     /**
@@ -677,9 +673,7 @@ class SQLServerPlatform extends AbstractPlatform
      */
     private function getRenameSQL(string ...$arguments): string
     {
-        return $this->getExecSQL('sp_rename', ...array_map(function (string $argument): string {
-            return $this->quoteNationalStringLiteral($argument);
-        }, $arguments));
+        return $this->getExecSQL('sp_rename', ...array_map(fn(string $argument): string => $this->quoteNationalStringLiteral($argument), $arguments));
     }
 
     /**

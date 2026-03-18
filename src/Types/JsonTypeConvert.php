@@ -51,7 +51,7 @@ trait JsonTypeConvert
         }
 
         try {
-            return json_decode($value, $this->isAssociative(), 512, JSON_THROW_ON_ERROR);
+            return json_decode((string) $value, $this->isAssociative(), 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             throw ValueNotConvertible::new($value, 'json', $e->getMessage(), $e);
         }

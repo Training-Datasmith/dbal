@@ -40,8 +40,10 @@ class Comparator extends BaseComparator
 
         foreach ($table->getColumns() as $column) {
             $options = $column->getPlatformOptions();
-
-            if (! isset($options['collation']) || $options['collation'] !== $this->databaseCollation) {
+            if (! isset($options['collation'])) {
+                continue;
+            }
+            if ($options['collation'] !== $this->databaseCollation) {
                 continue;
             }
 

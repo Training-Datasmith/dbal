@@ -335,10 +335,10 @@ class OraclePlatform extends AbstractPlatform
             if (isset($column['sequence'])) {
                 $sql[] = $this->getCreateSequenceSQL($column['sequence']);
             }
-
-            if (
-                ! isset($column['autoincrement']) || $column['autoincrement'] === false
-            ) {
+            if (! isset($column['autoincrement'])) {
+                continue;
+            }
+            if ($column['autoincrement'] === false) {
                 continue;
             }
 

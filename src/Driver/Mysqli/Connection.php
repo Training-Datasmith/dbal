@@ -10,7 +10,7 @@ use Doctrine\DBAL\Driver\Mysqli\Exception\ConnectionError;
 use mysqli;
 use mysqli_sql_exception;
 
-final class Connection implements ConnectionInterface
+final readonly class Connection implements ConnectionInterface
 {
     /**
      * Name of the option to set connection flags
@@ -18,7 +18,7 @@ final class Connection implements ConnectionInterface
     public const OPTION_FLAGS = 'flags';
 
     /** @internal The connection can be only instantiated by its driver. */
-    public function __construct(private readonly mysqli $connection)
+    public function __construct(private mysqli $connection)
     {
     }
 

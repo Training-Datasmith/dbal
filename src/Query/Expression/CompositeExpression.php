@@ -16,7 +16,7 @@ use function implode;
  *
  * This class is immutable.
  */
-class CompositeExpression implements Countable
+class CompositeExpression implements Countable, \Stringable
 {
     /**
      * Constant that represents an AND composite expression.

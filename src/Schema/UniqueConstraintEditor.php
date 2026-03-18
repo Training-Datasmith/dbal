@@ -21,11 +21,6 @@ final class UniqueConstraintEditor
 
     private bool $isClustered = false;
 
-    /** @internal Use {@link UniqueConstraint::editor()} or {@link UniqueConstraint::edit()} to create an instance */
-    public function __construct()
-    {
-    }
-
     public function setName(?UnqualifiedName $name): self
     {
         $this->name = $name;
@@ -65,7 +60,7 @@ final class UniqueConstraintEditor
         string ...$otherColumnNames,
     ): self {
         $this->columnNames = array_map(
-            static fn (string $name): UnqualifiedName => UnqualifiedName::unquoted($name),
+            UnqualifiedName::unquoted(...),
             array_merge([$firstColumnName], array_values($otherColumnNames)),
         );
 
@@ -81,7 +76,7 @@ final class UniqueConstraintEditor
         string ...$otherColumnNames,
     ): self {
         $this->columnNames = array_map(
-            static fn (string $name): UnqualifiedName => UnqualifiedName::quoted($name),
+            UnqualifiedName::quoted(...),
             array_merge([$firstColumnName], array_values($otherColumnNames)),
         );
 
@@ -103,7 +98,7 @@ final class UniqueConstraintEditor
 
         return new UniqueConstraint(
             $this->name?->toString() ?? '',
-            array_map(static fn (UnqualifiedName $columnName) => $columnName->toString(), $this->columnNames),
+            array_map(static fn (UnqualifiedName $columnName): string => $columnName->toString(), $this->columnNames),
             $this->isClustered ? ['clustered'] : [],
         );
     }

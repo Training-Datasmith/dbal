@@ -28,7 +28,7 @@ final class NumberType extends Type
         }
 
         if (! $value instanceof Number) {
-            throw InvalidType::new($value, static::class, ['null', Number::class]);
+            throw InvalidType::new($value, self::class, ['null', Number::class]);
         }
 
         return (string) $value;
@@ -48,7 +48,7 @@ final class NumberType extends Type
         try {
             return new Number($value);
         } catch (TypeError | ValueError $e) {
-            throw ValueNotConvertible::new($value, static::class, previous: $e);
+            throw ValueNotConvertible::new($value, self::class, previous: $e);
         }
     }
 }

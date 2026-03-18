@@ -72,7 +72,7 @@ class OracleSchemaManager extends AbstractSchemaManager
                 $buffer['primary']    = true;
                 $buffer['non_unique'] = false;
             } else {
-                $buffer['key_name']   = strtolower($row['name']);
+                $buffer['key_name']   = strtolower((string) $row['name']);
                 $buffer['primary']    = false;
                 $buffer['non_unique'] = ! $row['is_unique'];
             }
@@ -91,7 +91,7 @@ class OracleSchemaManager extends AbstractSchemaManager
     {
         $tableColumn = array_change_key_case($tableColumn, CASE_LOWER);
 
-        $dbType = strtolower($tableColumn['data_type']);
+        $dbType = strtolower((string) $tableColumn['data_type']);
         if (str_starts_with($dbType, 'timestamp(')) {
             if (str_contains($dbType, 'with time zone')) {
                 $dbType = 'timestamptz';
@@ -117,7 +117,7 @@ class OracleSchemaManager extends AbstractSchemaManager
 
         if ($tableColumn['data_default'] !== null) {
             // Default values returned from database are represented as literal expressions
-            if (preg_match('/^\'(.*)\'$/s', $tableColumn['data_default'], $matches) === 1) {
+            if (preg_match('/^\'(.*)\'$/s', (string) $tableColumn['data_default'], $matches) === 1) {
                 $tableColumn['data_default'] = str_replace("''", "'", $matches[1]);
             }
         }

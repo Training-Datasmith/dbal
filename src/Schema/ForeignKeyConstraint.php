@@ -59,15 +59,6 @@ class ForeignKeyConstraint extends AbstractOptionallyNamedObject
     protected array $_foreignColumnNames;
 
     /**
-     * Options associated with the foreign key constraint.
-     *
-     * @deprecated
-     *
-     * @var array<string, mixed>
-     */
-    protected array $options;
-
-    /**
      * Referencing table column names the foreign key constraint is associated with.
      *
      * An empty list indicates that an attempt to parse column names failed.
@@ -135,10 +126,13 @@ class ForeignKeyConstraint extends AbstractOptionallyNamedObject
         string $foreignTableName,
         array $foreignColumnNames,
         string $name = '',
-        array $options = [],
+        /**
+         * Options associated with the foreign key constraint.
+         *
+         * @deprecated
+         */
+        protected array $options = [],
     ) {
-        $this->options = $options;
-
         if (count($localColumnNames) < 1) {
             Deprecation::trigger(
                 'doctrine/dbal',
@@ -175,11 +169,11 @@ class ForeignKeyConstraint extends AbstractOptionallyNamedObject
         $this->referencedTableName    = $this->parseReferencedTableName($foreignTableName);
         $this->referencedColumnNames  = $this->parseColumnNames($foreignColumnNames);
 
-        $this->matchType      = $this->parseMatchType($options);
-        $this->onUpdateAction = $this->parseReferentialAction($options, 'onUpdate');
-        $this->onDeleteAction = $this->parseReferentialAction($options, 'onDelete');
+        $this->matchType      = $this->parseMatchType($this->options);
+        $this->onUpdateAction = $this->parseReferentialAction($this->options, 'onUpdate');
+        $this->onDeleteAction = $this->parseReferentialAction($this->options, 'onDelete');
 
-        $this->deferrability = $this->parseDeferrability($options);
+        $this->deferrability = $this->parseDeferrability($this->options);
     }
 
     protected function getNameParser(): UnqualifiedNameParser
@@ -628,7 +622,7 @@ class ForeignKeyConstraint extends AbstractOptionallyNamedObject
 
         try {
             return array_map(
-                static fn (string $columnName) => $parser->parse($columnName),
+                $parser->parse(...),
                 $columnNames,
             );
         } catch (Throwable $e) {
@@ -653,7 +647,7 @@ class ForeignKeyConstraint extends AbstractOptionallyNamedObject
                  *
                  * @phpstan-ignore missingType.checkedException
                  */
-                return MatchType::from(strtoupper($options['match']));
+                return MatchType::from(strtoupper((string) $options['match']));
             } catch (ValueError $e) {
                 Deprecation::trigger(
                     'doctrine/dbal',
