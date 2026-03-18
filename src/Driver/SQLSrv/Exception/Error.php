@@ -7,9 +7,10 @@ namespace Doctrine\DBAL\Driver\SQLSrv\Exception;
 use Doctrine\DBAL\Driver\AbstractException;
 
 use function rtrim;
-use function sqlsrv_errors;
 
 use const SQLSRV_ERR_ERRORS;
+
+use function sqlsrv_errors;
 
 /** @internal */
 final class Error extends AbstractException

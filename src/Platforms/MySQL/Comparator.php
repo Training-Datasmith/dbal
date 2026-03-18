@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms\MySQL;
 
+use function array_diff_assoc;
+
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Comparator as BaseComparator;
 use Doctrine\DBAL\Schema\ComparatorConfig;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Schema\TableDiff;
 
-use function array_diff_assoc;
+use Doctrine\DBAL\Schema\TableDiff;
 
 /**
  * Compares schemas in the context of MySQL platform.

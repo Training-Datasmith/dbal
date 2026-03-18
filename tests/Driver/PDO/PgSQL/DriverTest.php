@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Driver\PDO\PgSQL;
 
+use function array_merge;
+
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Driver\PDO;
 use Doctrine\DBAL\Driver\PDO\Exception\InvalidConfiguration;
 use Doctrine\DBAL\Driver\PDO\PgSQL\Driver;
 use Doctrine\DBAL\Tests\Driver\AbstractDriverTestCase;
-use Doctrine\DBAL\Tests\TestUtil;
 
-use function array_merge;
+use Doctrine\DBAL\Tests\TestUtil;
 
 class DriverTest extends AbstractDriverTestCase
 {

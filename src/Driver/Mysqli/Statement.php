@@ -4,23 +4,27 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\Mysqli;
 
+use function array_fill;
+use function assert;
+use function count;
+
 use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Driver\Mysqli\Exception\FailedReadingStreamOffset;
 use Doctrine\DBAL\Driver\Mysqli\Exception\NonStreamResourceUsedAsLargeObject;
 use Doctrine\DBAL\Driver\Mysqli\Exception\StatementError;
 use Doctrine\DBAL\Driver\Statement as StatementInterface;
-use Doctrine\DBAL\ParameterType;
-use mysqli_sql_exception;
-use mysqli_stmt;
 
-use function array_fill;
-use function assert;
-use function count;
+use Doctrine\DBAL\ParameterType;
+
 use function feof;
 use function fread;
 use function get_resource_type;
 use function is_int;
 use function is_resource;
+
+use mysqli_sql_exception;
+use mysqli_stmt;
+
 use function str_repeat;
 
 final class Statement implements StatementInterface
@@ -60,7 +64,7 @@ final class Statement implements StatementInterface
 
         $this->types[$param - 1]   = $this->convertParameterType($type);
         $this->values[$param]      = $value;
-        $this->boundValues[$param] =& $this->values[$param];
+        $this->boundValues[$param] = & $this->values[$param];
     }
 
     public function execute(): Result

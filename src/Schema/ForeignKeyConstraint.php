@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_keys;
+use function array_map;
+use function count;
+
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Exception\InvalidState;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint\Deferrability;
@@ -13,17 +17,16 @@ use Doctrine\DBAL\Schema\Name\OptionallyQualifiedName;
 use Doctrine\DBAL\Schema\Name\Parser\UnqualifiedNameParser;
 use Doctrine\DBAL\Schema\Name\Parsers;
 use Doctrine\DBAL\Schema\Name\UnqualifiedName;
-use Doctrine\Deprecations\Deprecation;
-use Throwable;
-use ValueError;
 
-use function array_keys;
-use function array_map;
-use function count;
+use Doctrine\Deprecations\Deprecation;
+
 use function strrpos;
 use function strtolower;
 use function strtoupper;
 use function substr;
+
+use Throwable;
+use ValueError;
 
 /**
  * An abstraction class for a foreign key constraint.

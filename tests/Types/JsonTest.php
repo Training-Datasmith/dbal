@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Types;
 
+use function base64_encode;
+
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\JsonType;
+
+use function fopen;
+
 use PHPUnit\Framework\Attributes\DataProvider;
+
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-
-use function base64_encode;
-use function fopen;
 
 class JsonTest extends TestCase
 {

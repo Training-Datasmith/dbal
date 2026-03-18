@@ -20,10 +20,13 @@ use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Tests\TestUtil;
 use Doctrine\DBAL\Types\Types;
 use Error;
-use PDO;
-use Throwable;
 
 use function file_exists;
+
+use PDO;
+
+use Throwable;
+
 use function unlink;
 
 class ConnectionTest extends FunctionalTestCase

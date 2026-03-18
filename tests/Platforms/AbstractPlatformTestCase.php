@@ -26,11 +26,14 @@ use Doctrine\DBAL\Schema\UniqueConstraint;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Deprecations\PHPUnit\VerifyDeprecations;
-use InvalidArgumentException;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 
 use function implode;
+
+use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
+
+use PHPUnit\Framework\TestCase;
+
 use function sprintf;
 
 /** @template T of AbstractPlatform */

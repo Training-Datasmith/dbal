@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional;
 
+use function array_change_key_case;
+
+use const CASE_LOWER;
+
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -12,12 +16,10 @@ use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Types\Types;
+
 use PHPUnit\Framework\Attributes\DataProvider;
+
 use Throwable;
-
-use function array_change_key_case;
-
-use const CASE_LOWER;
 
 /** @phpstan-import-type WrapperParameterType from Connection */
 class NamedParametersTest extends FunctionalTestCase

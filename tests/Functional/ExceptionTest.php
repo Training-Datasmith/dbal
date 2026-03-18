@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional;
 
+use function array_merge;
+use function chmod;
+
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
@@ -12,25 +15,28 @@ use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Tests\TestUtil;
-use Doctrine\DBAL\Types\Types;
-use PHPUnit\Framework\Attributes\DataProvider;
 
-use function array_merge;
-use function chmod;
+use Doctrine\DBAL\Types\Types;
+
+use const E_WARNING;
+
 use function exec;
 use function extension_loaded;
 use function file_exists;
 use function func_get_args;
+
+use const PHP_OS_FAMILY;
+
+use PHPUnit\Framework\Attributes\DataProvider;
+
 use function posix_geteuid;
 use function restore_error_handler;
 use function set_error_handler;
 use function sprintf;
 use function sys_get_temp_dir;
+
 use function touch;
 use function unlink;
-
-use const E_WARNING;
-use const PHP_OS_FAMILY;
 
 /** @phpstan-import-type Params from DriverManager */
 class ExceptionTest extends FunctionalTestCase

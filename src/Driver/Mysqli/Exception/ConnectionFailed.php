@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\Mysqli\Exception;
 
+use function assert;
+
 use Doctrine\DBAL\Driver\AbstractException;
 use mysqli;
 use mysqli_sql_exception;
-use ReflectionProperty;
 
-use function assert;
+use ReflectionProperty;
 
 /** @internal */
 final class ConnectionFailed extends AbstractException

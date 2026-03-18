@@ -7,14 +7,17 @@ namespace Doctrine\DBAL\Tests\Tools\Console;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Tools\Console\Command\RunSqlCommand;
 use Doctrine\DBAL\Tools\Console\ConnectionProvider\SingleConnectionProvider;
+
+use function method_exists;
+
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+
+use function str_replace;
+
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-
-use function method_exists;
-use function str_replace;
 
 class RunSqlCommandTest extends TestCase
 {

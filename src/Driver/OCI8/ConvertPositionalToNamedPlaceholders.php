@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\OCI8;
 
+use function count;
+
 use Doctrine\DBAL\SQL\Parser\Visitor;
 
-use function count;
 use function implode;
 
 /**

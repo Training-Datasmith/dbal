@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema\Collections;
 
-use Doctrine\DBAL\Schema\Collections\Exception\ObjectAlreadyExists;
-use Doctrine\DBAL\Schema\Collections\Exception\ObjectDoesNotExist;
-use Doctrine\DBAL\Schema\Name\UnqualifiedName;
-use Doctrine\DBAL\Schema\NamedObject;
-use Traversable;
-
 use function array_combine;
 use function array_keys;
 use function array_search;
 use function array_values;
 use function assert;
+
 use function count;
+
+use Doctrine\DBAL\Schema\Collections\Exception\ObjectAlreadyExists;
+use Doctrine\DBAL\Schema\Collections\Exception\ObjectDoesNotExist;
+use Doctrine\DBAL\Schema\Name\UnqualifiedName;
+use Doctrine\DBAL\Schema\NamedObject;
+
 use function strtolower;
+
+use Traversable;
 
 /**
  * An ordered set of {@link NamedObject}s with names being {@link UnqualifiedName}.

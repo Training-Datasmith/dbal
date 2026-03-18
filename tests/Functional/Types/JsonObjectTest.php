@@ -11,10 +11,13 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
-use stdClass;
 
 use function is_resource;
+
 use function json_decode;
+
+use stdClass;
+
 use function stream_get_contents;
 
 class JsonObjectTest extends FunctionalTestCase

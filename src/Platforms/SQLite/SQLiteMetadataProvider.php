@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms\SQLite;
 
+use function array_map;
+use function assert;
+use function count;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\Exception\NotSupported;
@@ -21,13 +25,11 @@ use Doctrine\DBAL\Schema\Metadata\MetadataProvider;
 use Doctrine\DBAL\Schema\Metadata\PrimaryKeyConstraintColumnRow;
 use Doctrine\DBAL\Schema\Metadata\TableColumnMetadataRow;
 use Doctrine\DBAL\Schema\Metadata\TableMetadataRow;
+
 use Doctrine\DBAL\Schema\Metadata\ViewMetadataRow;
 use Doctrine\DBAL\Types\Exception\TypesException;
 use Doctrine\DBAL\Types\Types;
 
-use function array_map;
-use function assert;
-use function count;
 use function implode;
 use function is_string;
 use function preg_match;
@@ -272,7 +274,7 @@ final readonly class SQLiteMetadataProvider implements MetadataProvider
     private function buildIdentifierPattern(string $identifier): string
     {
         return '(?:' . implode('|', array_map(
-            static fn(string $sql): string => '\W' . preg_quote($sql, '/') . '\W',
+            static fn (string $sql): string => '\W' . preg_quote($sql, '/') . '\W',
             [
                 $identifier,
                 $this->platform->quoteSingleIdentifier($identifier),

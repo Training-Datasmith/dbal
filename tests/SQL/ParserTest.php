@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\SQL;
 
+use function array_merge;
+
 use Doctrine\DBAL\SQL\Parser;
 use Doctrine\DBAL\SQL\Parser\Visitor;
+
+use function implode;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-use function array_merge;
-use function implode;
 use function sprintf;
 
 class ParserTest extends TestCase implements Visitor

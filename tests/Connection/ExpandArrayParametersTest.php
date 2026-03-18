@@ -12,10 +12,12 @@ use Doctrine\DBAL\ExpandArrayParameters;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\SQL\Parser;
 use Doctrine\DBAL\Types\Type;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 
 use function hex2bin;
+
+use PHPUnit\Framework\Attributes\DataProvider;
+
+use PHPUnit\Framework\TestCase;
 
 /** @phpstan-import-type WrapperParameterTypeArray from Connection */
 class ExpandArrayParametersTest extends TestCase

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Doctrine\DBAL\Driver\Middleware;
 
 use Doctrine\DBAL\Driver\Result;
-use LogicException;
 
 use function get_debug_type;
+
+use LogicException;
+
 use function method_exists;
 use function sprintf;
 

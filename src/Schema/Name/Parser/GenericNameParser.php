@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema\Name\Parser;
 
+use function assert;
+use function count;
+
 use Doctrine\DBAL\Schema\Name\GenericName;
 use Doctrine\DBAL\Schema\Name\Identifier;
 use Doctrine\DBAL\Schema\Name\Parser;
 use Doctrine\DBAL\Schema\Name\Parser\Exception\ExpectedDot;
+
 use Doctrine\DBAL\Schema\Name\Parser\Exception\ExpectedNextIdentifier;
 use Doctrine\DBAL\Schema\Name\Parser\Exception\UnableToParseIdentifier;
 
-use function assert;
-use function count;
 use function preg_match;
 use function str_replace;
 use function strlen;

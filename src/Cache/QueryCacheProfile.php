@@ -6,9 +6,11 @@ namespace Doctrine\DBAL\Cache;
 
 use Doctrine\DBAL\Cache\Exception\NoCacheKey;
 use Doctrine\DBAL\Connection;
-use Psr\Cache\CacheItemPoolInterface;
 
 use function hash;
+
+use Psr\Cache\CacheItemPoolInterface;
+
 use function serialize;
 use function sha1;
 

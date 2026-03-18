@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_change_key_case;
+use function array_map;
+use function assert;
+
+use const CASE_LOWER;
+
+use function count;
+
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Types\JsonType;
 use Doctrine\DBAL\Types\Type;
 
-use function array_change_key_case;
-use function array_map;
-use function assert;
-use function count;
 use function explode;
 use function implode;
 use function is_string;
@@ -22,9 +26,8 @@ use function sprintf;
 use function str_contains;
 use function str_replace;
 use function str_starts_with;
-use function strlen;
 
-use const CASE_LOWER;
+use function strlen;
 
 /**
  * PostgreSQL Schema Manager.
@@ -166,7 +169,7 @@ SQL,
     {
         return parent::_getPortableTableIndexesList(array_map(
             /** @param array<string, mixed> $row */
-            static fn(array $row): array => [
+            static fn (array $row): array => [
                 'key_name' => $row['relname'],
                 'non_unique' => ! $row['indisunique'],
                 'primary' => (bool) $row['indisprimary'],

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema\Introspection;
 
+use function array_map;
+use function array_values;
+
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
@@ -21,11 +24,9 @@ use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\PrimaryKeyConstraintEditor;
 use Doctrine\DBAL\Schema\SchemaProvider;
+
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableConfiguration;
-
-use function array_map;
-use function array_values;
 
 /**
  * Provides access to the database schema obtained by introspection.

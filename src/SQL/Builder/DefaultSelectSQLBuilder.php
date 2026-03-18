@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\SQL\Builder;
 
+use function count;
+
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\Exception\NotSupported;
 use Doctrine\DBAL\Query\ForUpdate\ConflictResolutionMode;
+
 use Doctrine\DBAL\Query\SelectQuery;
 
-use function count;
 use function implode;
 
 final readonly class DefaultSelectSQLBuilder implements SelectSQLBuilder

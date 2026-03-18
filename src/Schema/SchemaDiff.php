@@ -41,7 +41,7 @@ class SchemaDiff
         private readonly array $alteredSequences,
         private readonly array $droppedSequences,
     ) {
-        $this->alteredTables = array_filter($alteredTables, static fn(TableDiff $diff): bool => ! $diff->isEmpty());
+        $this->alteredTables = array_filter($alteredTables, static fn (TableDiff $diff): bool => ! $diff->isEmpty());
     }
 
     /** @return array<string> */

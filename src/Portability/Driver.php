@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Portability;
 
+use const CASE_LOWER;
+use const CASE_UPPER;
+
 use Doctrine\DBAL\ColumnCase;
 use Doctrine\DBAL\Driver as DriverInterface;
 use Doctrine\DBAL\Driver\Connection as ConnectionInterface;
 use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Driver\Middleware\AbstractDriverMiddleware;
 use Doctrine\DBAL\Platforms\Exception\PlatformException;
+
 use PDO;
 use SensitiveParameter;
-
-use const CASE_LOWER;
-use const CASE_UPPER;
 
 final class Driver extends AbstractDriverMiddleware
 {

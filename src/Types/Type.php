@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace Doctrine\DBAL\Types;
 
 use ArgumentCountError;
+
+use function array_map;
+
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Exception\TypeArgumentCountError;
+
 use Doctrine\DBAL\Types\Exception\TypesException;
 
-use function array_map;
 use function is_string;
 
 /**

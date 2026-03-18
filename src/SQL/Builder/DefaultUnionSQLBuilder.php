@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\SQL\Builder;
 
+use function count;
+
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\UnionQuery;
+
 use Doctrine\DBAL\Query\UnionType;
 
-use function count;
 use function implode;
 
 final readonly class DefaultUnionSQLBuilder implements UnionSQLBuilder

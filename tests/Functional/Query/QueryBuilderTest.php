@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Query;
 
+use function array_change_key_case;
+
+use const CASE_UPPER;
+
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
@@ -22,12 +26,10 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
+
 use Doctrine\DBAL\Tests\TestUtil;
+
 use Doctrine\DBAL\Types\Types;
-
-use function array_change_key_case;
-
-use const CASE_UPPER;
 
 final class QueryBuilderTest extends FunctionalTestCase
 {

@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_change_key_case;
+use function array_key_exists;
+use function assert;
+
+use const CASE_LOWER;
+
 use Doctrine\DBAL\Exception;
+
 use Doctrine\DBAL\Exception\DatabaseObjectNotFoundException;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Types\Type;
 
-use function array_change_key_case;
-use function array_key_exists;
-use function assert;
 use function implode;
 use function is_string;
 use function preg_match;
@@ -22,9 +26,8 @@ use function str_replace;
 use function str_starts_with;
 use function strtolower;
 use function strtoupper;
-use function trim;
 
-use const CASE_LOWER;
+use function trim;
 
 /**
  * Oracle Schema Manager.

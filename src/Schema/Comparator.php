@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_map;
+use function assert;
+
+use function count;
+
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\Deprecations\Deprecation;
 
-use function array_map;
-use function assert;
-use function count;
 use function strtolower;
 
 /**

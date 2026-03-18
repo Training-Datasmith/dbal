@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\PDO\SQLite;
 
+use function array_intersect_key;
+
 use Doctrine\DBAL\Driver\AbstractSQLiteDriver;
 use Doctrine\DBAL\Driver\PDO\Connection;
 use Doctrine\DBAL\Driver\PDO\Exception;
 use Doctrine\DBAL\Driver\PDO\Exception\InvalidConfiguration;
 use Doctrine\DBAL\Driver\PDO\PDOConnect;
+
+use function is_string;
+
 use PDOException;
 use SensitiveParameter;
-
-use function array_intersect_key;
-use function is_string;
 
 final class Driver extends AbstractSQLiteDriver
 {

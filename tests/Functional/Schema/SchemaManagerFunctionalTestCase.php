@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Schema;
 
+use function array_keys;
+use function array_map;
+use function array_values;
+
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\DatabaseObjectNotFoundException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -42,14 +46,14 @@ use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\DBAL\Types\SmallFloatType;
 use Doctrine\DBAL\Types\StringType;
 use Doctrine\DBAL\Types\TextType;
+
 use Doctrine\DBAL\Types\TimeType;
 use Doctrine\DBAL\Types\Types;
+
+use function get_debug_type;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 
-use function array_keys;
-use function array_map;
-use function array_values;
-use function get_debug_type;
 use function sprintf;
 use function str_starts_with;
 use function strtolower;

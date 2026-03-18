@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Schema;
 
+use function array_map;
+
 use Doctrine\DBAL\Exception\DatabaseObjectNotFoundException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
@@ -18,9 +20,8 @@ use Doctrine\DBAL\Types\BinaryType;
 use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\DBAL\Types\DateTimeTzType;
 use Doctrine\DBAL\Types\DateType;
-use Doctrine\DBAL\Types\Types;
 
-use function array_map;
+use Doctrine\DBAL\Types\Types;
 
 class OracleSchemaManagerTest extends SchemaManagerFunctionalTestCase
 {

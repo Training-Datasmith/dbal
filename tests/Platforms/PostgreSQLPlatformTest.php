@@ -20,9 +20,10 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
-use UnexpectedValueException;
 
 use function sprintf;
+
+use UnexpectedValueException;
 
 /** @extends AbstractPlatformTestCase<PostgreSQLPlatform> */
 class PostgreSQLPlatformTest extends AbstractPlatformTestCase

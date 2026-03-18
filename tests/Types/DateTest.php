@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Types;
 
+use function date_default_timezone_set;
+
 use DateTime;
 use Doctrine\DBAL\Types\ConversionException;
-use Doctrine\DBAL\Types\DateType;
 
-use function date_default_timezone_set;
+use Doctrine\DBAL\Types\DateType;
 
 class DateTest extends BaseDateTypeTestCase
 {

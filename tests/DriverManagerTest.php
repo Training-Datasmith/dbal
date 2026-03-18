@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests;
 
+use function array_merge;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDO;
 use Doctrine\DBAL\Driver\SQLSrv\Driver as SQLSrvDriver;
@@ -11,13 +13,14 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Tools\DsnParser;
 use Doctrine\Deprecations\PHPUnit\VerifyDeprecations;
+
+use function in_array;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+
 use PHPUnit\Framework\TestCase;
 use stdClass;
-
-use function array_merge;
-use function in_array;
 
 /** @phpstan-import-type Params from DriverManager */
 class DriverManagerTest extends TestCase

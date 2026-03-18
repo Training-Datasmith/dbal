@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Schema;
 
+use function array_shift;
+
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\SQLServerPlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnEditor;
 use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Types\Types;
 
-use function array_shift;
+use Doctrine\DBAL\Types\Types;
 
 class SQLServerSchemaManagerTest extends SchemaManagerFunctionalTestCase
 {

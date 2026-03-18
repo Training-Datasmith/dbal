@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Connections;
 
+use function array_rand;
+use function assert;
+use function count;
+
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver;
@@ -11,13 +15,10 @@ use Doctrine\DBAL\Driver\Connection as DriverConnection;
 use Doctrine\DBAL\Driver\Exception as DriverException;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
+
 use Doctrine\DBAL\Statement;
 use InvalidArgumentException;
 use SensitiveParameter;
-
-use function array_rand;
-use function assert;
-use function count;
 
 /**
  * Primary-Replica Connection

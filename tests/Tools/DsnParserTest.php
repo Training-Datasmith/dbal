@@ -7,11 +7,12 @@ namespace Doctrine\DBAL\Tests\Tools;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Tools\DsnParser;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 
 use function get_class;
 use function ksort;
+
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 /** @phpstan-import-type Params from DriverManager */
 final class DsnParserTest extends TestCase

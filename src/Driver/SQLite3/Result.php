@@ -7,10 +7,12 @@ namespace Doctrine\DBAL\Driver\SQLite3;
 use Doctrine\DBAL\Driver\FetchUtils;
 use Doctrine\DBAL\Driver\Result as ResultInterface;
 use Doctrine\DBAL\Exception\InvalidColumnIndex;
-use SQLite3Result;
 
 use const SQLITE3_ASSOC;
+
 use const SQLITE3_NUM;
+
+use SQLite3Result;
 
 final class Result implements ResultInterface
 {

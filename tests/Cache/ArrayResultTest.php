@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Cache;
 
+use function assert;
+
 use Doctrine\DBAL\Cache\ArrayResult;
 use Doctrine\DBAL\Exception\InvalidColumnIndex;
+
+use function file_get_contents;
+
 use PHPUnit\Framework\Attributes\DataProvider;
+
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
-use function assert;
-use function file_get_contents;
 use function serialize;
 use function unserialize;
 

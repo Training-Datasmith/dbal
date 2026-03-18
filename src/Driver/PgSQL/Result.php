@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\PgSQL;
 
-use Doctrine\DBAL\Driver\FetchUtils;
-use Doctrine\DBAL\Driver\PgSQL\Exception\UnexpectedValue;
-use Doctrine\DBAL\Driver\Result as ResultInterface;
-use Doctrine\DBAL\Exception\InvalidColumnIndex;
-use PgSql\Result as PgSqlResult;
-use ValueError;
-
 use function array_keys;
 use function array_map;
 use function assert;
+
+use Doctrine\DBAL\Driver\FetchUtils;
+use Doctrine\DBAL\Driver\PgSQL\Exception\UnexpectedValue;
+use Doctrine\DBAL\Driver\Result as ResultInterface;
+
+use Doctrine\DBAL\Exception\InvalidColumnIndex;
+
 use function hex2bin;
 use function pg_affected_rows;
 use function pg_fetch_all;
@@ -24,11 +24,17 @@ use function pg_field_name;
 use function pg_field_type;
 use function pg_free_result;
 use function pg_num_fields;
-use function substr;
+
+use PgSql\Result as PgSqlResult;
 
 use const PGSQL_ASSOC;
 use const PGSQL_NUM;
+
 use const PHP_INT_SIZE;
+
+use function substr;
+
+use ValueError;
 
 final class Result implements ResultInterface
 {

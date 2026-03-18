@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
-use Doctrine\DBAL\Schema\Exception\InvalidPrimaryKeyConstraintDefinition;
-use Doctrine\DBAL\Schema\Name\UnqualifiedName;
-
 use function count;
+
+use Doctrine\DBAL\Schema\Exception\InvalidPrimaryKeyConstraintDefinition;
+
+use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 
 /** @implements OptionallyNamedObject<UnqualifiedName> */
 final readonly class PrimaryKeyConstraint implements OptionallyNamedObject

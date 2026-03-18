@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms;
 
+use function array_merge;
+use function count;
+use function current;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\Db2\Db2MetadataProvider;
 use Doctrine\DBAL\Platforms\Exception\NotSupported;
@@ -18,13 +22,11 @@ use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\SQL\Builder\DefaultSelectSQLBuilder;
 use Doctrine\DBAL\SQL\Builder\SelectSQLBuilder;
 use Doctrine\DBAL\TransactionIsolationLevel;
+
 use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Deprecations\Deprecation;
 
-use function array_merge;
-use function count;
-use function current;
 use function explode;
 use function implode;
 use function sprintf;

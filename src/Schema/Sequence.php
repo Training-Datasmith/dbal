@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function count;
+
 use Doctrine\DBAL\Schema\Name\OptionallyQualifiedName;
 use Doctrine\DBAL\Schema\Name\Parser\OptionallyQualifiedNameParser;
 use Doctrine\DBAL\Schema\Name\Parsers;
+
 use Doctrine\Deprecations\Deprecation;
 
-use function count;
 use function sprintf;
 
 /**

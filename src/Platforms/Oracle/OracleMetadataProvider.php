@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms\Oracle;
 
+use function assert;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\Exception\NotSupported;
@@ -22,9 +24,9 @@ use Doctrine\DBAL\Schema\Metadata\SequenceMetadataRow;
 use Doctrine\DBAL\Schema\Metadata\TableColumnMetadataRow;
 use Doctrine\DBAL\Schema\Metadata\TableMetadataRow;
 use Doctrine\DBAL\Schema\Metadata\ViewMetadataRow;
+
 use Doctrine\DBAL\Types\Exception\TypesException;
 
-use function assert;
 use function implode;
 use function is_string;
 use function preg_match;

@@ -6,9 +6,10 @@ namespace Doctrine\DBAL\Tests\Cache;
 
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\ParameterType;
-use PHPUnit\Framework\TestCase;
 
 use function parse_str;
+
+use PHPUnit\Framework\TestCase;
 
 class QueryCacheProfileTest extends TestCase
 {

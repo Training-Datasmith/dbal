@@ -9,14 +9,16 @@ use Doctrine\DBAL\Driver\PDO\Connection;
 use Doctrine\DBAL\Driver\PDO\Exception;
 use Doctrine\DBAL\Driver\PDO\Exception\InvalidConfiguration;
 use Doctrine\DBAL\Driver\PDO\PDOConnect;
-use PDO;
-use Pdo\Pgsql;
-use PDOException;
-use SensitiveParameter;
 
 use function is_string;
 
+use PDO;
+use Pdo\Pgsql;
+use PDOException;
+
 use const PHP_VERSION_ID;
+
+use SensitiveParameter;
 
 final class Driver extends AbstractPostgreSQLDriver
 {

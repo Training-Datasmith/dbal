@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Doctrine\DBAL\Types\Exception;
 
 use Doctrine\DBAL\Types\ConversionException;
-use Throwable;
 
 use function get_debug_type;
+
 use function implode;
 use function is_scalar;
 use function sprintf;
+
+use Throwable;
+
 use function var_export;
 
 /**

@@ -301,7 +301,7 @@ class PostgreSQLSchemaManagerTest extends SchemaManagerFunctionalTestCase
     public function testGeneratedColumn(): void
     {
         if (! $this->connection->getDatabasePlatform() instanceof PostgreSQL120Platform) {
-             self::markTestSkipped('Generated columns are not supported in Postgres 11 and earlier');
+            self::markTestSkipped('Generated columns are not supported in Postgres 11 and earlier');
         }
 
         $table = Table::editor()

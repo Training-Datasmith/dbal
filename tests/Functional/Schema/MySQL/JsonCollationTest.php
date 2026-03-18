@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Schema\MySQL;
 
+use function array_filter;
+
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
@@ -14,9 +16,8 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Types\Types;
 use Iterator;
-use PHPUnit\Framework\Attributes\DataProvider;
 
-use function array_filter;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Tests that character set and collation are ignored for columns declared as native JSON in MySQL and

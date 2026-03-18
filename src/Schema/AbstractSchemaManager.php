@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_filter;
+use function array_intersect;
+use function array_map;
+use function array_values;
+use function assert;
+use function count;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\DatabaseRequired;
@@ -12,22 +19,18 @@ use Doctrine\DBAL\Platforms\Exception\NotSupported;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Exception\TableDoesNotExist;
 use Doctrine\DBAL\Schema\Introspection\IntrospectingSchemaProvider;
+
 use Doctrine\DBAL\Schema\Name\OptionallyQualifiedName;
 use Doctrine\DBAL\Schema\Name\Parsers;
 use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 use Doctrine\DBAL\Types\Exception\TypesException;
 use Doctrine\Deprecations\Deprecation;
-use Throwable;
 
-use function array_filter;
-use function array_intersect;
-use function array_map;
-use function array_values;
-use function assert;
-use function count;
 use function func_get_arg;
 use function func_num_args;
 use function strtolower;
+
+use Throwable;
 
 /**
  * Base class for schema managers. Schema managers are used to inspect and/or
@@ -72,7 +75,7 @@ abstract class AbstractSchemaManager
      */
     public function listDatabases(): array
     {
-        return array_map(fn(array $row): string => $this->_getPortableDatabaseDefinition($row), $this->connection->fetchAllAssociative(
+        return array_map(fn (array $row): string => $this->_getPortableDatabaseDefinition($row), $this->connection->fetchAllAssociative(
             $this->platform->getListDatabasesSQL(),
         ));
     }
@@ -103,7 +106,7 @@ abstract class AbstractSchemaManager
     public function listSequences(): array
     {
         return $this->filterAssetNames(
-            array_map(fn(array $row): Sequence => $this->_getPortableSequenceDefinition($row), $this->connection->fetchAllAssociative(
+            array_map(fn (array $row): Sequence => $this->_getPortableSequenceDefinition($row), $this->connection->fetchAllAssociative(
                 $this->platform->getListSequencesSQL(
                     $this->getDatabase(__METHOD__),
                 ),
@@ -198,7 +201,7 @@ abstract class AbstractSchemaManager
     public function listTableNames(): array
     {
         return $this->filterAssetNames(
-            array_map(fn(array $row): string => $this->_getPortableTableDefinition($row), $this->selectTableNames(
+            array_map(fn (array $row): string => $this->_getPortableTableDefinition($row), $this->selectTableNames(
                 $this->getDatabase(__METHOD__),
             )->fetchAllAssociative()),
         );
@@ -502,7 +505,7 @@ abstract class AbstractSchemaManager
      */
     public function listViews(): array
     {
-        return array_map(fn(array $row): View => $this->_getPortableViewDefinition($row), $this->connection->fetchAllAssociative(
+        return array_map(fn (array $row): View => $this->_getPortableViewDefinition($row), $this->connection->fetchAllAssociative(
             $this->platform->getListViewsSQL(
                 $this->getDatabase(__METHOD__),
             ),
@@ -712,7 +715,7 @@ abstract class AbstractSchemaManager
     {
         return $this->introspectTableObjects(
             $tableName,
-            static fn(SchemaProvider $schemaProvider, ?string $schemaName, string $tableName): array => $schemaProvider->getColumnsForTable($schemaName, $tableName),
+            static fn (SchemaProvider $schemaProvider, ?string $schemaName, string $tableName): array => $schemaProvider->getColumnsForTable($schemaName, $tableName),
         );
     }
 
@@ -770,7 +773,7 @@ abstract class AbstractSchemaManager
     {
         return $this->introspectTableObjects(
             $tableName,
-            static fn(SchemaProvider $schemaProvider, ?string $schemaName, string $tableName): array => $schemaProvider->getIndexesForTable($schemaName, $tableName),
+            static fn (SchemaProvider $schemaProvider, ?string $schemaName, string $tableName): array => $schemaProvider->getIndexesForTable($schemaName, $tableName),
         );
     }
 
@@ -826,7 +829,7 @@ abstract class AbstractSchemaManager
     {
         return $this->introspectTableObjects(
             $tableName,
-            static fn(SchemaProvider $schemaProvider, ?string $schemaName, string $tableName): ?PrimaryKeyConstraint => $schemaProvider->getPrimaryKeyConstraintForTable($schemaName, $tableName),
+            static fn (SchemaProvider $schemaProvider, ?string $schemaName, string $tableName): ?PrimaryKeyConstraint => $schemaProvider->getPrimaryKeyConstraintForTable($schemaName, $tableName),
         );
     }
 
@@ -844,7 +847,7 @@ abstract class AbstractSchemaManager
     {
         return $this->introspectTableObjects(
             $tableName,
-            static fn(SchemaProvider $schemaProvider, ?string $schemaName, string $tableName): array => $schemaProvider->getForeignKeyConstraintsForTable($schemaName, $tableName),
+            static fn (SchemaProvider $schemaProvider, ?string $schemaName, string $tableName): array => $schemaProvider->getForeignKeyConstraintsForTable($schemaName, $tableName),
         );
     }
 

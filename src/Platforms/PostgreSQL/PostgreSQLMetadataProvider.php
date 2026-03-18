@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms\PostgreSQL;
 
+use function assert;
+use function count;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
@@ -21,11 +24,10 @@ use Doctrine\DBAL\Schema\Metadata\SchemaMetadataRow;
 use Doctrine\DBAL\Schema\Metadata\SequenceMetadataRow;
 use Doctrine\DBAL\Schema\Metadata\TableColumnMetadataRow;
 use Doctrine\DBAL\Schema\Metadata\TableMetadataRow;
+
 use Doctrine\DBAL\Schema\Metadata\ViewMetadataRow;
 use Doctrine\DBAL\Types\Exception\TypesException;
 
-use function assert;
-use function count;
 use function implode;
 use function preg_match;
 use function sprintf;

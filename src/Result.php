@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL;
 
-use Doctrine\DBAL\Driver\Exception as DriverException;
-use Doctrine\DBAL\Driver\Result as DriverResult;
-use Doctrine\DBAL\Exception\NoKeyValue;
-use LogicException;
-use Traversable;
-
 use function array_shift;
 use function assert;
 use function count;
+
+use Doctrine\DBAL\Driver\Exception as DriverException;
+use Doctrine\DBAL\Driver\Result as DriverResult;
+
+use Doctrine\DBAL\Exception\NoKeyValue;
+
 use function get_debug_type;
+
+use LogicException;
+
 use function method_exists;
 use function sprintf;
+
+use Traversable;
 
 class Result
 {

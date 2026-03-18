@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Schema;
 
+use function array_map;
+
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Table;
@@ -11,9 +13,9 @@ use Doctrine\DBAL\Tests\Functional\Schema\Types\MoneyType;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Tests\TestUtil;
 use Doctrine\DBAL\Types\Type;
+
 use Doctrine\DBAL\Types\Types;
 
-use function array_map;
 use function implode;
 use function sprintf;
 

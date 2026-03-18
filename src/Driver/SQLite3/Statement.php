@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\SQLite3;
 
+use function assert;
+
 use Doctrine\DBAL\Driver\Statement as StatementInterface;
 use Doctrine\DBAL\ParameterType;
 use SQLite3;
-use SQLite3Stmt;
-
-use function assert;
 
 use const SQLITE3_BLOB;
+
 use const SQLITE3_INTEGER;
 use const SQLITE3_NULL;
 use const SQLITE3_TEXT;
+
+use SQLite3Stmt;
 
 final readonly class Statement implements StatementInterface
 {

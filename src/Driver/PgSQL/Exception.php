@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Doctrine\DBAL\Driver\PgSQL;
 
 use Doctrine\DBAL\Driver\AbstractException;
-use PgSql\Result as PgSqlResult;
 
 use function pg_result_error_field;
+
+use PgSql\Result as PgSqlResult;
 
 use const PGSQL_DIAG_MESSAGE_PRIMARY;
 use const PGSQL_DIAG_SQLSTATE;

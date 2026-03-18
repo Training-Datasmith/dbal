@@ -29,13 +29,13 @@ class MariaDBJsonComparatorTest extends TestCase
     {
         $this->comparator = new Comparator(
             new MariaDBPlatform(),
-            new class implements CharsetMetadataProvider {
+            new class () implements CharsetMetadataProvider {
                 public function getDefaultCharsetCollation(string $charset): ?string
                 {
                     return null;
                 }
             },
-            new class implements CollationMetadataProvider {
+            new class () implements CollationMetadataProvider {
                 public function getCollationCharset(string $collation): ?string
                 {
                     return null;

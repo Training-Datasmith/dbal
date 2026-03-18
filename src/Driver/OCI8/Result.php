@@ -10,18 +10,23 @@ use Doctrine\DBAL\Driver\OCI8\Exception\Error;
 use Doctrine\DBAL\Driver\Result as ResultInterface;
 use Doctrine\DBAL\Exception\InvalidColumnIndex;
 
+use const OCI_ASSOC;
+
 use function oci_cancel;
 use function oci_error;
 use function oci_fetch_all;
 use function oci_fetch_array;
+
+use const OCI_FETCHSTATEMENT_BY_COLUMN;
+use const OCI_FETCHSTATEMENT_BY_ROW;
+
 use function oci_field_name;
+
+use const OCI_NUM;
+
 use function oci_num_fields;
 use function oci_num_rows;
 
-use const OCI_ASSOC;
-use const OCI_FETCHSTATEMENT_BY_COLUMN;
-use const OCI_FETCHSTATEMENT_BY_ROW;
-use const OCI_NUM;
 use const OCI_RETURN_LOBS;
 use const OCI_RETURN_NULLS;
 

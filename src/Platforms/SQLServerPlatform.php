@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms;
 
+use function array_map;
+use function array_merge;
+use function array_unique;
+use function array_values;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\InvalidColumnType\ColumnLengthRequired;
 use Doctrine\DBAL\LockMode;
@@ -20,22 +25,24 @@ use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\SQLServerSchemaManager;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\SQL\Builder\SelectSQLBuilder;
+
 use Doctrine\DBAL\TransactionIsolationLevel;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Deprecations\Deprecation;
-use InvalidArgumentException;
 
-use function array_map;
-use function array_merge;
-use function array_unique;
-use function array_values;
 use function explode;
 use function implode;
+
+use InvalidArgumentException;
+
 use function is_array;
 use function is_bool;
 use function is_numeric;
 use function preg_match;
 use function preg_match_all;
+
+use const PREG_OFFSET_CAPTURE;
+
 use function sprintf;
 use function str_contains;
 use function str_ends_with;
@@ -43,9 +50,8 @@ use function str_replace;
 use function str_starts_with;
 use function strtoupper;
 use function substr;
-use function substr_count;
 
-use const PREG_OFFSET_CAPTURE;
+use function substr_count;
 
 /**
  * Provides the behavior, features and SQL dialect of the Microsoft SQL Server database platform
@@ -445,8 +451,8 @@ class SQLServerPlatform extends AbstractPlatform
             $newComment    = $newColumn->getComment();
             $hasNewComment = $newComment !== '';
 
-                $oldComment    = $oldColumn->getComment();
-                $hasOldComment = $oldComment !== '';
+            $oldComment    = $oldColumn->getComment();
+            $hasOldComment = $oldComment !== '';
 
             if ($hasOldComment && $hasNewComment && $oldComment !== $newComment) {
                 $commentsSql[] = $this->getAlterColumnCommentSQL(
@@ -673,7 +679,7 @@ class SQLServerPlatform extends AbstractPlatform
      */
     private function getRenameSQL(string ...$arguments): string
     {
-        return $this->getExecSQL('sp_rename', ...array_map(fn(string $argument): string => $this->quoteNationalStringLiteral($argument), $arguments));
+        return $this->getExecSQL('sp_rename', ...array_map(fn (string $argument): string => $this->quoteNationalStringLiteral($argument), $arguments));
     }
 
     /**

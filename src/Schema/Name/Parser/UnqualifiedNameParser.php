@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema\Name\Parser;
 
+use function count;
+
 use Doctrine\DBAL\Schema\Name\Parser;
 use Doctrine\DBAL\Schema\Name\Parser\Exception\InvalidName;
-use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 
-use function count;
+use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 
 /**
  * @internal

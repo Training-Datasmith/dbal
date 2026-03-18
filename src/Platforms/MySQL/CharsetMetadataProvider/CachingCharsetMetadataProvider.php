@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms\MySQL\CharsetMetadataProvider;
 
-use Doctrine\DBAL\Platforms\MySQL\CharsetMetadataProvider;
-
 use function array_key_exists;
+
+use Doctrine\DBAL\Platforms\MySQL\CharsetMetadataProvider;
 
 /** @internal */
 final class CachingCharsetMetadataProvider implements CharsetMetadataProvider

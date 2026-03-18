@@ -7,13 +7,17 @@ namespace Doctrine\DBAL\Tests\Types;
 use Doctrine\DBAL\Types\Exception\InvalidFormat;
 use Doctrine\DBAL\Types\Exception\InvalidType;
 use Doctrine\DBAL\Types\Exception\ValueNotConvertible;
+
+use function get_debug_type;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+
+use function sprintf;
+
 use stdClass;
 use Throwable;
 
-use function get_debug_type;
-use function sprintf;
 use function tmpfile;
 
 class ConversionExceptionTest extends TestCase

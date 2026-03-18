@@ -4,23 +4,26 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional;
 
+use function array_change_key_case;
+use function array_keys;
+use function array_map;
+
+use const CASE_LOWER;
+
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
+
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Tests\TestUtil;
 use Doctrine\DBAL\Types\Types;
 
-use function array_change_key_case;
-use function array_keys;
-use function array_map;
 use function hex2bin;
 use function is_resource;
-use function stream_get_contents;
 
-use const CASE_LOWER;
+use function stream_get_contents;
 
 class BinaryDataAccessTest extends FunctionalTestCase
 {

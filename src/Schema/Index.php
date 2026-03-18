@@ -4,28 +4,30 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Schema\Exception\InvalidState;
-use Doctrine\DBAL\Schema\Index\IndexedColumn;
-use Doctrine\DBAL\Schema\Index\IndexType;
-use Doctrine\DBAL\Schema\Name\Parser\UnqualifiedNameParser;
-use Doctrine\DBAL\Schema\Name\Parsers;
-use Doctrine\DBAL\Schema\Name\UnqualifiedName;
-use Doctrine\Deprecations\Deprecation;
-use Throwable;
-
 use function array_filter;
 use function array_keys;
 use function array_map;
 use function array_search;
 use function array_shift;
 use function count;
+
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\Exception\InvalidState;
+use Doctrine\DBAL\Schema\Index\IndexedColumn;
+
+use Doctrine\DBAL\Schema\Index\IndexType;
+use Doctrine\DBAL\Schema\Name\Parser\UnqualifiedNameParser;
+use Doctrine\DBAL\Schema\Name\Parsers;
+use Doctrine\DBAL\Schema\Name\UnqualifiedName;
+use Doctrine\Deprecations\Deprecation;
+
 use function gettype;
 use function implode;
 use function is_int;
-use function is_object;
 use function strlen;
 use function strtolower;
+
+use Throwable;
 
 /**
  * @final
@@ -730,7 +732,7 @@ class Index extends AbstractNamedObject
      */
     private function hasSameColumnLengths(self $other): bool
     {
-        $filter = (static fn(?int $length): bool => $length !== null);
+        $filter = (static fn (?int $length): bool => $length !== null);
 
         return array_filter($this->options['lengths'] ?? [], $filter)
             === array_filter($other->options['lengths'] ?? [], $filter);

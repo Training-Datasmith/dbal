@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
-use Doctrine\DBAL\Schema\Exception\InvalidState;
-use Doctrine\DBAL\Schema\Name\UnqualifiedName;
-use Doctrine\Deprecations\Deprecation;
-
 use function array_filter;
 use function array_values;
 use function count;
+
+use Doctrine\DBAL\Schema\Exception\InvalidState;
+use Doctrine\DBAL\Schema\Name\UnqualifiedName;
+use Doctrine\Deprecations\Deprecation;
 
 /**
  * Table Diff.
@@ -165,7 +165,7 @@ class TableDiff
     {
         $this->addedIndexes = array_filter(
             $this->addedIndexes,
-            static fn(Index $addedIndex): bool => $addedIndex !== $index,
+            static fn (Index $addedIndex): bool => $addedIndex !== $index,
         );
     }
 
@@ -200,7 +200,7 @@ class TableDiff
     {
         $this->droppedIndexes = array_filter(
             $this->droppedIndexes,
-            static fn(Index $droppedIndex): bool => $droppedIndex !== $index,
+            static fn (Index $droppedIndex): bool => $droppedIndex !== $index,
         );
     }
 

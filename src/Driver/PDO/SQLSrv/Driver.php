@@ -11,11 +11,13 @@ use Doctrine\DBAL\Driver\PDO\Connection as PDOConnection;
 use Doctrine\DBAL\Driver\PDO\Exception as PDOException;
 use Doctrine\DBAL\Driver\PDO\Exception\InvalidConfiguration;
 use Doctrine\DBAL\Driver\PDO\PDOConnect;
-use PDO;
-use SensitiveParameter;
 
 use function is_int;
 use function is_string;
+
+use PDO;
+use SensitiveParameter;
+
 use function sprintf;
 
 final class Driver extends AbstractSQLServerDriver

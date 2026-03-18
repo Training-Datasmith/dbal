@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Types;
 
+use function assert;
+
 use Doctrine\DBAL\ParameterType;
+
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-use function assert;
 use function is_int;
 use function is_numeric;
 use function is_string;

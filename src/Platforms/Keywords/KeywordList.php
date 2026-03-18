@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms\Keywords;
 
+use function array_flip;
+
+use function array_map;
+
 use Doctrine\Deprecations\Deprecation;
 
-use function array_flip;
-use function array_map;
 use function strtoupper;
 
 /**

@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms;
 
+use function array_combine;
+use function array_fill_keys;
+use function array_keys;
+use function array_merge;
+use function array_search;
+use function array_unique;
+use function array_values;
+use function count;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\Exception\NotSupported;
 use Doctrine\DBAL\Platforms\Keywords\KeywordList;
@@ -16,6 +25,7 @@ use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Name\UnquotedIdentifierFolding;
 use Doctrine\DBAL\Schema\SQLiteSchemaManager;
+
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\SQL\Builder\DefaultSelectSQLBuilder;
@@ -23,18 +33,12 @@ use Doctrine\DBAL\SQL\Builder\SelectSQLBuilder;
 use Doctrine\DBAL\TransactionIsolationLevel;
 use Doctrine\DBAL\Types;
 use Doctrine\Deprecations\Deprecation;
-use InvalidArgumentException;
 
-use function array_combine;
-use function array_fill_keys;
-use function array_keys;
-use function array_merge;
-use function array_search;
-use function array_unique;
-use function array_values;
-use function count;
 use function explode;
 use function implode;
+
+use InvalidArgumentException;
+
 use function sprintf;
 use function str_replace;
 use function strpos;

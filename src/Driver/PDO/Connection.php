@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\PDO;
 
+use function assert;
+
 use Doctrine\DBAL\Driver\Connection as ConnectionInterface;
 use Doctrine\DBAL\Driver\Exception\IdentityColumnsNotSupported;
 use Doctrine\DBAL\Driver\Exception\NoIdentityValue;
 use PDO;
 use PDOException;
-use PDOStatement;
 
-use function assert;
+use PDOStatement;
 
 final readonly class Connection implements ConnectionInterface
 {

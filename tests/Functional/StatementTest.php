@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional;
 
+use function base64_decode;
+
 use Doctrine\DBAL\Driver\IBMDB2;
 use Doctrine\DBAL\Driver\Mysqli;
 use Doctrine\DBAL\Driver\PDO;
@@ -17,9 +19,9 @@ use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Tests\TestUtil;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
+
 use Error;
 
-use function base64_decode;
 use function get_debug_type;
 use function ini_restore;
 use function ini_set;
@@ -165,7 +167,7 @@ sneNxmNb/POO1pRXc7vnF2nc13Rq0cFWiyXkuHmzxuOtzUYfC7fEmK/3mx4QZd5u4E7XJWz6+dey
 Za4tXHUiPyB8Vm781oaT+3fN6Y/eUFDfPkcNWetNxb+tlxEZsPqPdZMOzS4rxwJ8CDC+ABj1+Tu0
 d+N0hqezcjblboJ3Bj8ARJilHX4FAAA=
 EOF
-        , true);
+            , true);
 
         $this->connection->insert('stmt_long_blob', ['contents' => $contents], [ParameterType::LARGE_OBJECT]);
 

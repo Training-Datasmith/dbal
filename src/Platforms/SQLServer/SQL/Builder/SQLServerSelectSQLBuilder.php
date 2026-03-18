@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms\SQLServer\SQL\Builder;
 
+use function count;
+
 use Doctrine\DBAL\Platforms\SQLServerPlatform;
 use Doctrine\DBAL\Query\ForUpdate\ConflictResolutionMode;
 use Doctrine\DBAL\Query\SelectQuery;
+
 use Doctrine\DBAL\SQL\Builder\SelectSQLBuilder;
 
-use function count;
 use function implode;
 
 final readonly class SQLServerSelectSQLBuilder implements SelectSQLBuilder

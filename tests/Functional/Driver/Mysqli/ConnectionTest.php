@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Driver\Mysqli;
 
+use function array_merge;
+
 use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Driver\Mysqli\Connection;
 use Doctrine\DBAL\Driver\Mysqli\Driver;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
-use Doctrine\DBAL\Tests\TestUtil;
 
-use function array_merge;
+use Doctrine\DBAL\Tests\TestUtil;
 
 use const MYSQLI_OPT_CONNECT_TIMEOUT;
 

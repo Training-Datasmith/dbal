@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional;
 
+use function array_change_key_case;
+
+use const CASE_LOWER;
+
 use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
@@ -11,12 +15,10 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
+
 use Doctrine\DBAL\Types\Types;
+
 use Throwable;
-
-use function array_change_key_case;
-
-use const CASE_LOWER;
 
 /** @phpstan-import-type Params from DriverManager */
 class PrimaryReadReplicaConnectionTest extends FunctionalTestCase

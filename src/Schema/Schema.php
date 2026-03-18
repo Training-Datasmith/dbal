@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_values;
+use function count;
+
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Exception\NamespaceAlreadyExists;
@@ -15,11 +18,10 @@ use Doctrine\DBAL\Schema\Name\Parser\UnqualifiedNameParser;
 use Doctrine\DBAL\Schema\Name\Parsers;
 use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 use Doctrine\DBAL\SQL\Builder\CreateSchemaObjectsSQLBuilder;
+
 use Doctrine\DBAL\SQL\Builder\DropSchemaObjectsSQLBuilder;
 use Doctrine\Deprecations\Deprecation;
 
-use function array_values;
-use function count;
 use function strtolower;
 
 /**

@@ -6,9 +6,10 @@ namespace Doctrine\DBAL\Exception;
 
 use Doctrine\DBAL\Exception;
 use LogicException;
-use Throwable;
 
 use function sprintf;
+
+use Throwable;
 
 final class InvalidColumnIndex extends LogicException implements Exception
 {

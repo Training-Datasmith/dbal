@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms;
 
+use function array_merge;
+use function array_unique;
+use function array_values;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\Keywords\KeywordList;
 use Doctrine\DBAL\Platforms\Keywords\PostgreSQLKeywords;
@@ -17,13 +21,10 @@ use Doctrine\DBAL\Schema\PostgreSQLSchemaManager;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\TransactionIsolationLevel;
+
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Deprecations\Deprecation;
-use UnexpectedValueException;
 
-use function array_merge;
-use function array_unique;
-use function array_values;
 use function explode;
 use function implode;
 use function in_array;
@@ -37,6 +38,8 @@ use function str_ends_with;
 use function strtolower;
 use function substr;
 use function trim;
+
+use UnexpectedValueException;
 
 /**
  * Provides the behavior, features and SQL dialect of the PostgreSQL database platform
@@ -529,7 +532,7 @@ class PostgreSQLPlatform extends AbstractPlatform
         return $this->doConvertBooleans(
             $item,
             /** @param mixed $value */
-            static fn($value): ?int => $value === null ? null : (int) $value,
+            static fn ($value): ?int => $value === null ? null : (int) $value,
         );
     }
 

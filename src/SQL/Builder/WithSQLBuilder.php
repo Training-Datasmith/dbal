@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\SQL\Builder;
 
+use function array_merge;
+
+use function count;
+
 use Doctrine\DBAL\Query\CommonTableExpression;
 
-use function array_merge;
-use function count;
 use function implode;
 
 final class WithSQLBuilder

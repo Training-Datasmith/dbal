@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Query;
 
+use function array_key_exists;
+use function array_keys;
+use function array_merge;
+use function array_unshift;
+use function count;
+
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Connection;
@@ -12,22 +18,15 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\Exception\NonUniqueAlias;
 use Doctrine\DBAL\Query\Exception\UnknownAlias;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
+
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Doctrine\DBAL\Query\ForUpdate\ConflictResolutionMode;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Statement;
 use Doctrine\DBAL\Types\Type;
 
-use function array_filter;
-use function array_intersect;
-use function array_key_exists;
-use function array_keys;
-use function array_merge;
-use function array_unshift;
-use function count;
 use function implode;
 use function is_object;
-use function sprintf;
 use function substr;
 
 /**

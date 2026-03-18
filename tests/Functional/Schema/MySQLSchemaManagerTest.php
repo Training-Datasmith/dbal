@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Schema;
 
+use function array_keys;
+
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception\DatabaseRequired;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
@@ -28,9 +30,8 @@ use Doctrine\DBAL\Types\JsonType;
 use Doctrine\DBAL\Types\SmallFloatType;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\Deprecations\PHPUnit\VerifyDeprecations;
 
-use function array_keys;
+use Doctrine\Deprecations\PHPUnit\VerifyDeprecations;
 
 class MySQLSchemaManagerTest extends SchemaManagerFunctionalTestCase
 {

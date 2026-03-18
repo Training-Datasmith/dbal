@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Types;
 
+use function date_default_timezone_get;
+use function date_default_timezone_set;
+
 use DateTime;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
+
 use PHPUnit\Framework\TestCase;
 use stdClass;
-
-use function date_default_timezone_get;
-use function date_default_timezone_set;
 
 abstract class BaseDateTypeTestCase extends TestCase
 {

@@ -4,27 +4,31 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\IBMDB2;
 
-use Doctrine\DBAL\Driver\Connection as ConnectionInterface;
-use Doctrine\DBAL\Driver\Exception\NoIdentityValue;
-use Doctrine\DBAL\Driver\IBMDB2\Exception\ConnectionError;
-use Doctrine\DBAL\Driver\IBMDB2\Exception\PrepareFailed;
-use Doctrine\DBAL\Driver\IBMDB2\Exception\StatementError;
-use stdClass;
-
 use function assert;
 use function db2_autocommit;
+
+use const DB2_AUTOCOMMIT_OFF;
+use const DB2_AUTOCOMMIT_ON;
+
 use function db2_commit;
 use function db2_escape_string;
+
 use function db2_exec;
 use function db2_last_insert_id;
 use function db2_num_rows;
 use function db2_prepare;
 use function db2_rollback;
 use function db2_server_info;
+
+use Doctrine\DBAL\Driver\Connection as ConnectionInterface;
+use Doctrine\DBAL\Driver\Exception\NoIdentityValue;
+use Doctrine\DBAL\Driver\IBMDB2\Exception\ConnectionError;
+use Doctrine\DBAL\Driver\IBMDB2\Exception\PrepareFailed;
+use Doctrine\DBAL\Driver\IBMDB2\Exception\StatementError;
+
 use function error_get_last;
 
-use const DB2_AUTOCOMMIT_OFF;
-use const DB2_AUTOCOMMIT_ON;
+use stdClass;
 
 final readonly class Connection implements ConnectionInterface
 {

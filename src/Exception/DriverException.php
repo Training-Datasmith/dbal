@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Exception;
 
+use function assert;
+
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Query;
 
-use function assert;
+use Doctrine\DBAL\Query;
 
 /**
  * Base class for all errors detected in the driver.

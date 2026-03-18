@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tools;
 
-use Doctrine\DBAL\Driver;
-use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Exception\MalformedDsnException;
-use SensitiveParameter;
-
 use function array_merge;
 use function assert;
+
+use Doctrine\DBAL\Driver;
+use Doctrine\DBAL\DriverManager;
+
+use Doctrine\DBAL\Exception\MalformedDsnException;
+
 use function is_a;
 use function is_string;
 use function parse_str;
 use function parse_url;
 use function preg_replace;
 use function rawurldecode;
+
+use SensitiveParameter;
+
 use function str_replace;
-use function strpos;
 use function substr;
 
 /** @phpstan-import-type Params from DriverManager */

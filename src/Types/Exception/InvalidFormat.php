@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Doctrine\DBAL\Types\Exception;
 
 use Doctrine\DBAL\Types\ConversionException;
-use Throwable;
 
 use function sprintf;
+
 use function strlen;
 use function substr;
+
+use Throwable;
 
 /**
  * Thrown when a Database to Doctrine Type Conversion fails and we can make a statement

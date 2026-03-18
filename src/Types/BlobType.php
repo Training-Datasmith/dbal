@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Types;
 
+use function assert;
+
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+
 use Doctrine\DBAL\Types\Exception\ValueNotConvertible;
 
-use function assert;
 use function fopen;
 use function fseek;
 use function fwrite;

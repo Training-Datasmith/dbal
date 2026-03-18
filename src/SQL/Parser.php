@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\SQL;
 
+use function array_merge;
+
 use Doctrine\DBAL\SQL\Parser\Exception;
 use Doctrine\DBAL\SQL\Parser\Exception\RegularExpressionError;
+
 use Doctrine\DBAL\SQL\Parser\Visitor;
 
-use function array_merge;
 use function implode;
 use function preg_last_error;
 use function preg_match;
-use function sprintf;
-use function strlen;
 
 use const PREG_NO_ERROR;
+
+use function sprintf;
+
+use function strlen;
 
 /**
  * The SQL parser that focuses on identifying prepared statement parameters. It implements parsing other tokens like

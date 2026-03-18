@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms;
 
+use function addcslashes;
+use function array_map;
+use function array_merge;
+use function array_unique;
+use function array_values;
+use function assert;
+use function count;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\InvalidArgumentException;
@@ -35,6 +43,7 @@ use Doctrine\DBAL\SQL\Builder\DefaultUnionSQLBuilder;
 use Doctrine\DBAL\SQL\Builder\SelectSQLBuilder;
 use Doctrine\DBAL\SQL\Builder\UnionSQLBuilder;
 use Doctrine\DBAL\SQL\Builder\WithSQLBuilder;
+
 use Doctrine\DBAL\SQL\Parser;
 use Doctrine\DBAL\TransactionIsolationLevel;
 use Doctrine\DBAL\Types;
@@ -43,13 +52,6 @@ use Doctrine\DBAL\Types\Exception\TypesException;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\Deprecations\Deprecation;
 
-use function addcslashes;
-use function array_map;
-use function array_merge;
-use function array_unique;
-use function array_values;
-use function assert;
-use function count;
 use function explode;
 use function implode;
 use function is_array;

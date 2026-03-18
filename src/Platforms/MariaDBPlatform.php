@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms;
 
+use function array_diff_key;
+use function array_merge;
+use function count;
+
 use Doctrine\DBAL\Platforms\Keywords\KeywordList;
 use Doctrine\DBAL\Platforms\Keywords\MariaDBKeywords;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
+
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\JsonType;
 use Doctrine\Deprecations\Deprecation;
 
-use function array_diff_key;
-use function array_merge;
-use function count;
 use function in_array;
 
 /**

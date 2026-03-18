@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\PgSQL;
 
+use function assert;
+
 use Doctrine\DBAL\Driver\PgSQL\Exception\UnknownParameter;
 use Doctrine\DBAL\Driver\Statement as StatementInterface;
 use Doctrine\DBAL\ParameterType;
-use PgSql\Connection as PgSqlConnection;
 
-use function assert;
 use function is_resource;
 use function ksort;
 use function pg_escape_bytea;
@@ -19,6 +19,9 @@ use function pg_last_error;
 use function pg_query;
 use function pg_result_error;
 use function pg_send_execute;
+
+use PgSql\Connection as PgSqlConnection;
+
 use function stream_get_contents;
 
 final class Statement implements StatementInterface

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Platforms;
 
+use function array_merge;
+use function count;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\InvalidColumnType\ColumnLengthRequired;
 use Doctrine\DBAL\Platforms\Keywords\KeywordList;
@@ -19,13 +22,14 @@ use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\TransactionIsolationLevel;
 use Doctrine\DBAL\Types\BinaryType;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\Deprecations\Deprecation;
-use InvalidArgumentException;
 
-use function array_merge;
-use function count;
+use Doctrine\Deprecations\Deprecation;
+
 use function explode;
 use function implode;
+
+use InvalidArgumentException;
+
 use function sprintf;
 use function str_contains;
 use function strlen;

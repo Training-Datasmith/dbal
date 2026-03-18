@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Driver\PgSQL;
 
+use function assert;
+use function chr;
+
 use Doctrine\DBAL\Driver\PgSQL\Result;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Tests\TestUtil;
 use Doctrine\DBAL\Types\Types;
 use Error;
 use Generator;
-use PgSql\Connection as PgSqlConnection;
-use PHPUnit\Framework\Attributes\DataProvider;
 
-use function assert;
-use function chr;
 use function pg_query;
 use function pg_result_status;
 
+use PgSql\Connection as PgSqlConnection;
+
 use const PGSQL_TUPLES_OK;
+
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ResultTest extends FunctionalTestCase
 {

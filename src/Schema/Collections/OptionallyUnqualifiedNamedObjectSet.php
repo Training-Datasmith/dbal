@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema\Collections;
 
+use function array_splice;
+use function count;
+
 use Doctrine\DBAL\Schema\Collections\Exception\ObjectAlreadyExists;
 use Doctrine\DBAL\Schema\Collections\Exception\ObjectDoesNotExist;
 use Doctrine\DBAL\Schema\Name\UnqualifiedName;
-use Doctrine\DBAL\Schema\OptionallyNamedObject;
-use Traversable;
 
-use function array_splice;
-use function count;
+use Doctrine\DBAL\Schema\OptionallyNamedObject;
+
 use function strtolower;
+
+use Traversable;
 
 /**
  * An ordered set of {@link OptionallyNamedObject}s with names being {@link UnqualifiedName}.

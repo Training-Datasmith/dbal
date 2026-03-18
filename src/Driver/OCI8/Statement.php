@@ -10,14 +10,18 @@ use Doctrine\DBAL\Driver\Statement as StatementInterface;
 use Doctrine\DBAL\ParameterType;
 
 use function is_int;
-use function oci_bind_by_name;
-use function oci_execute;
-use function oci_new_descriptor;
 
 use const OCI_B_BIN;
 use const OCI_B_BLOB;
+
+use function oci_bind_by_name;
+
 use const OCI_COMMIT_ON_SUCCESS;
 use const OCI_D_LOB;
+
+use function oci_execute;
+use function oci_new_descriptor;
+
 use const OCI_NO_AUTO_COMMIT;
 use const OCI_TEMP_BLOB;
 use const SQLT_CHR;
@@ -54,7 +58,7 @@ final readonly class Statement implements StatementInterface
                 $lob = oci_new_descriptor($this->connection, OCI_D_LOB);
                 $lob->writeTemporary($value, OCI_TEMP_BLOB);
 
-                $value =& $lob;
+                $value = & $lob;
             } else {
                 $type = ParameterType::STRING;
             }

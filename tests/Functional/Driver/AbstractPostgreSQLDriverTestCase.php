@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Driver;
 
+use function array_key_exists;
+
 use Doctrine\DBAL\Driver\AbstractPostgreSQLDriver;
 
-use function array_key_exists;
 use function microtime;
 use function sprintf;
 

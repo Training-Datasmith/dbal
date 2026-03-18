@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Cache;
 
-use Doctrine\DBAL\Driver\FetchUtils;
-use Doctrine\DBAL\Driver\Result;
-use Doctrine\DBAL\Exception\InvalidColumnIndex;
-
 use function array_combine;
 use function array_keys;
 use function array_map;
+
 use function array_values;
 use function count;
+
+use Doctrine\DBAL\Driver\FetchUtils;
+use Doctrine\DBAL\Driver\Result;
+use Doctrine\DBAL\Exception\InvalidColumnIndex;
 
 /** @internal The class is internal to the caching layer implementation. */
 final class ArrayResult implements Result

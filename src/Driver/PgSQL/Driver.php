@@ -4,25 +4,31 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\PgSQL;
 
-use Doctrine\DBAL\Driver\AbstractPostgreSQLDriver;
-use ErrorException;
-use SensitiveParameter;
-
 use function addslashes;
 use function array_filter;
 use function array_keys;
+
 use function array_map;
 use function array_slice;
 use function array_values;
+
+use Doctrine\DBAL\Driver\AbstractPostgreSQLDriver;
+use ErrorException;
+
 use function func_get_args;
 use function implode;
 use function pg_connect;
-use function preg_match;
-use function restore_error_handler;
-use function set_error_handler;
-use function sprintf;
 
 use const PGSQL_CONNECT_FORCE_NEW;
+
+use function preg_match;
+use function restore_error_handler;
+
+use SensitiveParameter;
+
+use function set_error_handler;
+
+use function sprintf;
 
 final class Driver extends AbstractPostgreSQLDriver
 {

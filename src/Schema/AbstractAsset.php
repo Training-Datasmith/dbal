@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_map;
+use function count;
+use function crc32;
+use function dechex;
+
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Exception\NotImplemented;
 use Doctrine\DBAL\Schema\Name\GenericName;
 use Doctrine\DBAL\Schema\Name\Identifier;
 use Doctrine\DBAL\Schema\Name\OptionallyQualifiedName;
+
 use Doctrine\DBAL\Schema\Name\Parser;
 use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 use Doctrine\Deprecations\Deprecation;
-use Throwable;
 
-use function array_map;
-use function count;
-use function crc32;
-use function dechex;
 use function explode;
 use function implode;
 use function sprintf;
@@ -26,6 +27,8 @@ use function str_replace;
 use function strtolower;
 use function strtoupper;
 use function substr;
+
+use Throwable;
 
 /**
  * The abstract asset allows to reset the name of all assets without publishing this to the public userland.
@@ -447,7 +450,7 @@ abstract class AbstractAsset
      */
     protected function _generateIdentifierName(array $columnNames, string $prefix = '', int $maxSize = 30): string
     {
-        $hash = implode('', array_map(static fn(string $column): string => dechex(crc32($column)), $columnNames));
+        $hash = implode('', array_map(static fn (string $column): string => dechex(crc32($column)), $columnNames));
 
         return strtoupper(substr($prefix . '_' . $hash, 0, $maxSize));
     }

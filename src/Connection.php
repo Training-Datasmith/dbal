@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL;
 
+use function array_key_exists;
+use function array_merge;
+
 use Closure;
+
+use function count;
+
 use Doctrine\DBAL\Cache\ArrayResult;
 use Doctrine\DBAL\Cache\CacheException;
 use Doctrine\DBAL\Cache\Exception\NoResultDriverConfigured;
@@ -33,20 +39,22 @@ use Doctrine\DBAL\Schema\SchemaManagerFactory;
 use Doctrine\DBAL\SQL\Parser;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\Deprecations\Deprecation;
-use InvalidArgumentException;
-use SensitiveParameter;
-use Throwable;
-use Traversable;
 
-use function array_key_exists;
-use function array_merge;
-use function count;
 use function implode;
+
+use InvalidArgumentException;
+
 use function is_array;
 use function is_int;
 use function is_string;
 use function key;
+
+use SensitiveParameter;
+
 use function sprintf;
+
+use Throwable;
+use Traversable;
 
 /**
  * A database abstraction-level connection that implements features like transaction isolation levels,

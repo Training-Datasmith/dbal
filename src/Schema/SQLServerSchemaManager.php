@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_change_key_case;
+use function assert;
+
+use const CASE_LOWER;
+
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\SQLServer;
 use Doctrine\DBAL\Platforms\SQLServerPlatform;
+
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\DefaultExpression\CurrentTimestamp;
 use Doctrine\DBAL\Types\Type;
 
-use function array_change_key_case;
-use function assert;
 use function explode;
 use function func_get_arg;
 use function func_num_args;
@@ -21,9 +25,8 @@ use function is_string;
 use function preg_match;
 use function sprintf;
 use function str_contains;
-use function str_replace;
 
-use const CASE_LOWER;
+use function str_replace;
 
 /**
  * SQL Server Schema Manager.

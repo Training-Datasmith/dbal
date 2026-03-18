@@ -4,6 +4,21 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\IBMDB2;
 
+use function assert;
+
+use const DB2_BINARY;
+
+use function db2_bind_param;
+
+use const DB2_CHAR;
+
+use function db2_execute;
+
+use const DB2_LONG;
+
+use const DB2_PARAM_FILE;
+use const DB2_PARAM_IN;
+
 use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Driver\IBMDB2\Exception\CannotCopyStreamToStream;
 use Doctrine\DBAL\Driver\IBMDB2\Exception\CannotCreateTemporaryFile;
@@ -11,22 +26,14 @@ use Doctrine\DBAL\Driver\IBMDB2\Exception\StatementError;
 use Doctrine\DBAL\Driver\Statement as StatementInterface;
 use Doctrine\DBAL\ParameterType;
 
-use function assert;
-use function db2_bind_param;
-use function db2_execute;
 use function error_get_last;
 use function fclose;
+
 use function is_int;
 use function is_resource;
 use function stream_copy_to_stream;
 use function stream_get_meta_data;
 use function tmpfile;
-
-use const DB2_BINARY;
-use const DB2_CHAR;
-use const DB2_LONG;
-use const DB2_PARAM_FILE;
-use const DB2_PARAM_IN;
 
 final class Statement implements StatementInterface
 {
@@ -72,7 +79,7 @@ final class Statement implements StatementInterface
     /** @throws Exception */
     private function bind(int $position, mixed &$variable, int $parameterType, int $dataType): void
     {
-        $this->parameters[$position] =& $variable;
+        $this->parameters[$position] = & $variable;
 
         if (! db2_bind_param($this->stmt, $position, '', $parameterType, $dataType)) {
             throw StatementError::new($this->stmt);

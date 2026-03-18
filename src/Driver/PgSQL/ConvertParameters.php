@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\PgSQL;
 
+use function count;
+
 use Doctrine\DBAL\SQL\Parser\Visitor;
 
-use function count;
 use function implode;
 
 final class ConvertParameters implements Visitor

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
-use Doctrine\DBAL\Schema\Exception\InvalidPrimaryKeyConstraintDefinition;
-use Doctrine\DBAL\Schema\Name\UnqualifiedName;
-
 use function array_map;
 use function array_values;
+
 use function count;
+
+use Doctrine\DBAL\Schema\Exception\InvalidPrimaryKeyConstraintDefinition;
+use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 
 final class PrimaryKeyConstraintEditor
 {

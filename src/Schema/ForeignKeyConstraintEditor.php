@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
-use Doctrine\DBAL\Schema\Exception\InvalidForeignKeyConstraintDefinition;
-use Doctrine\DBAL\Schema\ForeignKeyConstraint\Deferrability;
-use Doctrine\DBAL\Schema\ForeignKeyConstraint\MatchType;
-use Doctrine\DBAL\Schema\ForeignKeyConstraint\ReferentialAction;
-use Doctrine\DBAL\Schema\Name\OptionallyQualifiedName;
-use Doctrine\DBAL\Schema\Name\UnqualifiedName;
-
 use function array_map;
 use function array_merge;
 use function array_values;
 use function count;
+
+use Doctrine\DBAL\Schema\Exception\InvalidForeignKeyConstraintDefinition;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint\Deferrability;
+
+use Doctrine\DBAL\Schema\ForeignKeyConstraint\MatchType;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint\ReferentialAction;
+use Doctrine\DBAL\Schema\Name\OptionallyQualifiedName;
+use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 
 final class ForeignKeyConstraintEditor
 {

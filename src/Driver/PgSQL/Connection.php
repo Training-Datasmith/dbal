@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\PgSQL;
 
+use function assert;
+
 use Doctrine\DBAL\Driver\Connection as ConnectionInterface;
 use Doctrine\DBAL\Driver\Exception\NoIdentityValue;
 use Doctrine\DBAL\SQL\Parser;
-use PgSql\Connection as PgSqlConnection;
 
-use function assert;
 use function pg_close;
 use function pg_escape_literal;
 use function pg_get_result;
@@ -18,6 +18,9 @@ use function pg_result_error;
 use function pg_send_prepare;
 use function pg_send_query;
 use function pg_version;
+
+use PgSql\Connection as PgSqlConnection;
+
 use function uniqid;
 
 final readonly class Connection implements ConnectionInterface

@@ -15,11 +15,12 @@ use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Tests\TestUtil;
 use Doctrine\DBAL\Types\Types;
 
+use const E_WARNING;
+
 use function func_get_args;
 use function restore_error_handler;
-use function set_error_handler;
 
-use const E_WARNING;
+use function set_error_handler;
 
 class TransactionTest extends FunctionalTestCase
 {

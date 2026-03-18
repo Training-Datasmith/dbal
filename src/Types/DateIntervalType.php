@@ -8,9 +8,10 @@ use DateInterval;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Exception\InvalidFormat;
 use Doctrine\DBAL\Types\Exception\InvalidType;
-use Throwable;
 
 use function substr;
+
+use Throwable;
 
 /**
  * Type that maps interval string to a PHP DateInterval Object.

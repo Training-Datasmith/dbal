@@ -4,23 +4,27 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tools\Console\Command;
 
+use function array_keys;
+use function assert;
+
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Tools\Console\ConnectionProvider;
+
+use function is_bool;
+use function is_string;
+
 use RuntimeException;
+
+use function sprintf;
+use function stripos;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-
-use function array_keys;
-use function assert;
-use function is_bool;
-use function is_string;
-use function sprintf;
-use function stripos;
 
 /**
  * Task for executing arbitrary SQL that can come from a file or directly from

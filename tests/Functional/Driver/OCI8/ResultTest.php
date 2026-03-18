@@ -7,12 +7,16 @@ namespace Doctrine\DBAL\Tests\Functional\Driver\OCI8;
 use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Tests\TestUtil;
+
+use function func_get_args;
+
 use Generator;
+
+use function ini_get;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
-use function func_get_args;
-use function ini_get;
 use function restore_error_handler;
 use function set_error_handler;
 use function sprintf;

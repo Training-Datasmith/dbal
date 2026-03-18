@@ -7,15 +7,18 @@ namespace Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Exception\SerializationFailed;
 use Doctrine\DBAL\Types\Exception\ValueNotConvertible;
-use JsonException;
 
 use function is_resource;
+
 use function json_decode;
 use function json_encode;
-use function stream_get_contents;
 
 use const JSON_PRESERVE_ZERO_FRACTION;
 use const JSON_THROW_ON_ERROR;
+
+use JsonException;
+
+use function stream_get_contents;
 
 /** @internal */
 trait JsonTypeConvert

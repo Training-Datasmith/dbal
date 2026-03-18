@@ -174,7 +174,7 @@ final class TableEditor
                 continue;
             }
 
-            $this->indexes->modify($index->getObjectName(), static fn(Index $index): Index => $index->edit()
+            $this->indexes->modify($index->getObjectName(), static fn (Index $index): Index => $index->edit()
                 ->setColumns(...$columns)
                 ->create());
         }
@@ -218,7 +218,7 @@ final class TableEditor
             $oldColumnName,
             $newColumnName,
             static fn (UniqueConstraint $constraint): array => $constraint->getColumnNames(),
-            static fn(UniqueConstraint $constraint, array $columnNames): UniqueConstraint => $constraint->edit()
+            static fn (UniqueConstraint $constraint, array $columnNames): UniqueConstraint => $constraint->edit()
                 ->setColumnNames(...$columnNames)
                 ->create(),
         );
@@ -233,7 +233,7 @@ final class TableEditor
             $oldColumnName,
             $newColumnName,
             static fn (ForeignKeyConstraint $constraint): array => $constraint->getReferencingColumnNames(),
-            static fn(ForeignKeyConstraint $constraint, array $columnNames): ForeignKeyConstraint => $constraint->edit()
+            static fn (ForeignKeyConstraint $constraint, array $columnNames): ForeignKeyConstraint => $constraint->edit()
                 ->setReferencingColumnNames(...$columnNames)
                 ->create(),
         );
@@ -344,7 +344,7 @@ final class TableEditor
     public function renameIndex(UnqualifiedName $oldIndexName, UnqualifiedName $newIndexName): self
     {
         try {
-            $this->indexes->modify($oldIndexName, static fn(Index $index): Index => $index->edit()
+            $this->indexes->modify($oldIndexName, static fn (Index $index): Index => $index->edit()
                 ->setName($newIndexName)
                 ->create());
         } catch (ObjectDoesNotExist $e) {

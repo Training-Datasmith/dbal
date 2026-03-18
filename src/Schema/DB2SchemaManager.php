@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_change_key_case;
+
+use const CASE_LOWER;
+
 use Doctrine\DBAL\Platforms\DB2Platform;
 use Doctrine\DBAL\Result;
+
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 
-use function array_change_key_case;
 use function implode;
 use function preg_match;
 use function sprintf;
@@ -17,9 +21,8 @@ use function str_replace;
 use function strpos;
 use function strtolower;
 use function strtoupper;
-use function substr;
 
-use const CASE_LOWER;
+use function substr;
 
 /**
  * Db2 Schema Manager.

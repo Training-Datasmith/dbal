@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_diff_key;
+use function array_map;
+use function array_merge;
+use function array_values;
+use function assert;
+use function count;
+
 use Doctrine\DBAL\Schema\Exception\ColumnAlreadyExists;
 use Doctrine\DBAL\Schema\Exception\ColumnDoesNotExist;
 use Doctrine\DBAL\Schema\Exception\ForeignKeyDoesNotExist;
@@ -16,21 +23,18 @@ use Doctrine\DBAL\Schema\Exception\PrimaryKeyAlreadyExists;
 use Doctrine\DBAL\Schema\Exception\UniqueConstraintDoesNotExist;
 use Doctrine\DBAL\Schema\Name\OptionallyQualifiedName;
 use Doctrine\DBAL\Schema\Name\Parser\OptionallyQualifiedNameParser;
+
 use Doctrine\DBAL\Schema\Name\Parsers;
 use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 use Doctrine\DBAL\Types\Exception\TypesException;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\Deprecations\Deprecation;
-use LogicException;
 
-use function array_diff_key;
-use function array_map;
-use function array_merge;
-use function array_values;
-use function assert;
-use function count;
 use function implode;
 use function in_array;
+
+use LogicException;
+
 use function preg_match;
 use function sprintf;
 use function strtolower;

@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_change_key_case;
+use function array_map;
+use function assert;
+
+use const CASE_LOWER;
+
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\MariaDBPlatform;
@@ -14,14 +20,12 @@ use Doctrine\DBAL\Platforms\MySQL\CollationMetadataProvider\CachingCollationMeta
 use Doctrine\DBAL\Platforms\MySQL\CollationMetadataProvider\ConnectionCollationMetadataProvider;
 use Doctrine\DBAL\Platforms\MySQL\DefaultTableOptions;
 use Doctrine\DBAL\Result;
+
 use Doctrine\DBAL\Schema\DefaultExpression\CurrentDate;
 use Doctrine\DBAL\Schema\DefaultExpression\CurrentTime;
 use Doctrine\DBAL\Schema\DefaultExpression\CurrentTimestamp;
 use Doctrine\DBAL\Types\Type;
 
-use function array_change_key_case;
-use function array_map;
-use function assert;
 use function explode;
 use function func_get_arg;
 use function func_num_args;
@@ -30,9 +34,8 @@ use function preg_match;
 use function preg_match_all;
 use function sprintf;
 use function str_contains;
-use function strtr;
 
-use const CASE_LOWER;
+use function strtr;
 
 /**
  * Schema manager for the MySQL RDBMS.

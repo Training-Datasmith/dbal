@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Schema;
 
+use function array_values;
+
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ColumnEditor;
 use Doctrine\DBAL\Schema\Exception\InvalidTableDefinition;
@@ -16,9 +18,8 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\UniqueConstraint;
 use Doctrine\DBAL\Types\Exception\TypesException;
 use Doctrine\DBAL\Types\Types;
-use PHPUnit\Framework\TestCase;
 
-use function array_values;
+use PHPUnit\Framework\TestCase;
 
 class TableEditorTest extends TestCase
 {

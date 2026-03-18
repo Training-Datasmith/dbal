@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Driver\PDO\SQLSrv;
 
+use function array_merge;
+use function array_replace;
+
 use Doctrine\DBAL\Driver as DriverInterface;
 use Doctrine\DBAL\Driver\PDO\SQLSrv\Connection;
 use Doctrine\DBAL\Driver\PDO\SQLSrv\Driver;
 use Doctrine\DBAL\Tests\Functional\Driver\AbstractDriverTestCase;
 use Doctrine\DBAL\Tests\TestUtil;
+
 use PDO;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-
-use function array_merge;
-use function array_replace;
 
 #[RequiresPhpExtension('pdo_sqlsrv')]
 class DriverTest extends AbstractDriverTestCase

@@ -4,6 +4,16 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema;
 
+use function array_change_key_case;
+use function array_column;
+use function array_map;
+use function array_merge;
+use function assert;
+
+use const CASE_LOWER;
+
+use function count;
+
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\SQLite;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
@@ -12,12 +22,6 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Deprecations\Deprecation;
 
-use function array_change_key_case;
-use function array_column;
-use function array_map;
-use function array_merge;
-use function assert;
-use function count;
 use function func_get_arg;
 use function func_num_args;
 use function implode;
@@ -31,9 +35,8 @@ use function sprintf;
 use function str_contains;
 use function str_replace;
 use function strcasecmp;
-use function strtolower;
 
-use const CASE_LOWER;
+use function strtolower;
 
 /**
  * SQLite SchemaManager.
@@ -279,7 +282,7 @@ CREATE\sTABLE' . $this->buildIdentifierPattern($table) . '
     private function buildIdentifierPattern(string $identifier): string
     {
         return '(?:' . implode('|', array_map(
-            static fn(string $sql): string => '\W' . preg_quote($sql, '/') . '\W',
+            static fn (string $sql): string => '\W' . preg_quote($sql, '/') . '\W',
             [
                 $identifier,
                 $this->platform->quoteSingleIdentifier($identifier),

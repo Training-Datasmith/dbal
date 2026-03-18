@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional;
 
+use function array_change_key_case;
+
+use const CASE_LOWER;
+
+use function date;
+
 use DateTime;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\ParameterType;
@@ -14,16 +20,14 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Statement;
+
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Types\Types;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-use function array_change_key_case;
-use function date;
 use function sprintf;
-use function strtotime;
 
-use const CASE_LOWER;
+use function strtotime;
 
 class DataAccessTest extends FunctionalTestCase
 {

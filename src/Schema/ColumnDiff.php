@@ -59,32 +59,32 @@ class ColumnDiff
 
     public function hasLengthChanged(): bool
     {
-        return $this->hasPropertyChanged(static fn(Column $column): ?int => $column->getLength());
+        return $this->hasPropertyChanged(static fn (Column $column): ?int => $column->getLength());
     }
 
     public function hasPrecisionChanged(): bool
     {
-        return $this->hasPropertyChanged(static fn(Column $column): ?int => $column->getPrecision());
+        return $this->hasPropertyChanged(static fn (Column $column): ?int => $column->getPrecision());
     }
 
     public function hasScaleChanged(): bool
     {
-        return $this->hasPropertyChanged(static fn(Column $column): int => $column->getScale());
+        return $this->hasPropertyChanged(static fn (Column $column): int => $column->getScale());
     }
 
     public function hasUnsignedChanged(): bool
     {
-        return $this->hasPropertyChanged(static fn(Column $column): bool => $column->getUnsigned());
+        return $this->hasPropertyChanged(static fn (Column $column): bool => $column->getUnsigned());
     }
 
     public function hasFixedChanged(): bool
     {
-        return $this->hasPropertyChanged(static fn(Column $column): bool => $column->getFixed());
+        return $this->hasPropertyChanged(static fn (Column $column): bool => $column->getFixed());
     }
 
     public function hasNotNullChanged(): bool
     {
-        return $this->hasPropertyChanged(static fn(Column $column): bool => $column->getNotnull());
+        return $this->hasPropertyChanged(static fn (Column $column): bool => $column->getNotnull());
     }
 
     public function hasDefaultChanged(): bool
@@ -103,17 +103,17 @@ class ColumnDiff
 
     public function hasAutoIncrementChanged(): bool
     {
-        return $this->hasPropertyChanged(static fn(Column $column): bool => $column->getAutoincrement());
+        return $this->hasPropertyChanged(static fn (Column $column): bool => $column->getAutoincrement());
     }
 
     public function hasCommentChanged(): bool
     {
-        return $this->hasPropertyChanged(static fn(Column $column): string => $column->getComment());
+        return $this->hasPropertyChanged(static fn (Column $column): string => $column->getComment());
     }
 
     public function hasPlatformOptionsChanged(): bool
     {
-        return $this->hasPropertyChanged(static fn(Column $column): array => $column->getPlatformOptions());
+        return $this->hasPropertyChanged(static fn (Column $column): array => $column->getPlatformOptions());
     }
 
     private function hasPropertyChanged(callable $property): bool

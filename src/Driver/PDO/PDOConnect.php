@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Doctrine\DBAL\Driver\PDO;
 
 use PDO;
-use SensitiveParameter;
 
 use const PHP_VERSION_ID;
+
+use SensitiveParameter;
 
 /** @internal */
 trait PDOConnect

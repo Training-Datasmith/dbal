@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional\Platform;
 
+use function array_map;
+
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Name\UnqualifiedName;
@@ -12,9 +14,8 @@ use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
-use PHPUnit\Framework\Attributes\DataProvider;
 
-use function array_map;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class RenameColumnTest extends FunctionalTestCase
 {

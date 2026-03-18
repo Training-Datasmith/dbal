@@ -11,11 +11,13 @@ use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Tests\TestUtil;
 use Doctrine\DBAL\Types\Types;
 use Generator;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 use const PHP_INT_MAX;
+
 use const PHP_INT_MIN;
 use const PHP_INT_SIZE;
+
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class BigIntTypeTest extends FunctionalTestCase
 {

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests;
 
+use function array_map;
+use function assert;
+
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\AbstractSQLiteDriver\Middleware\EnableForeignKeys;
@@ -16,17 +19,20 @@ use Doctrine\DBAL\Platforms\DB2Platform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
-use InvalidArgumentException;
-use PDO;
-use PHPUnit\Framework\Assert;
 
-use function array_map;
-use function assert;
 use function extension_loaded;
+
 use function file_exists;
 use function implode;
 use function in_array;
+
+use InvalidArgumentException;
+
 use function is_string;
+
+use PDO;
+use PHPUnit\Framework\Assert;
+
 use function str_starts_with;
 use function strlen;
 use function substr;

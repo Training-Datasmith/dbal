@@ -6,9 +6,10 @@ namespace Doctrine\DBAL\Tests\Functional\Platform;
 
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 use function key;
+
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class QuotingTest extends FunctionalTestCase
 {

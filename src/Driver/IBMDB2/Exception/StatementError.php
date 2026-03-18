@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\IBMDB2\Exception;
 
-use Doctrine\DBAL\Driver\AbstractException;
-
 use function db2_stmt_error;
+
 use function db2_stmt_errormsg;
+
+use Doctrine\DBAL\Driver\AbstractException;
 
 /** @internal */
 final class StatementError extends AbstractException
@@ -23,6 +24,6 @@ final class StatementError extends AbstractException
             $sqlState = db2_stmt_error();
         }
 
-        return Factory::create($message, static fn(int $code): self => new self($message, $sqlState, $code));
+        return Factory::create($message, static fn (int $code): self => new self($message, $sqlState, $code));
     }
 }

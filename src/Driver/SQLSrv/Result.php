@@ -10,12 +10,14 @@ use Doctrine\DBAL\Exception\InvalidColumnIndex;
 
 use function sqlsrv_fetch;
 use function sqlsrv_fetch_array;
-use function sqlsrv_field_metadata;
-use function sqlsrv_num_fields;
-use function sqlsrv_rows_affected;
 
 use const SQLSRV_FETCH_ASSOC;
 use const SQLSRV_FETCH_NUMERIC;
+
+use function sqlsrv_field_metadata;
+
+use function sqlsrv_num_fields;
+use function sqlsrv_rows_affected;
 
 final readonly class Result implements ResultInterface
 {

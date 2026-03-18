@@ -12,14 +12,16 @@ use Doctrine\DBAL\Tests\TestUtil;
 use Doctrine\DBAL\Types\Types;
 use mysqli;
 use mysqli_driver;
+
+use const MYSQLI_REPORT_ERROR;
+use const MYSQLI_REPORT_OFF;
+
+use const MYSQLI_REPORT_STRICT;
+
 use mysqli_sql_exception;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 use function sprintf;
-
-use const MYSQLI_REPORT_ERROR;
-use const MYSQLI_REPORT_OFF;
-use const MYSQLI_REPORT_STRICT;
 
 #[RequiresPhpExtension('mysqli')]
 final class ResultTest extends FunctionalTestCase

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\SQLite3;
 
+use function assert;
+
 use Doctrine\DBAL\Driver\Connection as ConnectionInterface;
 use Doctrine\DBAL\Driver\Exception\NoIdentityValue;
-use SQLite3;
 
-use function assert;
 use function sprintf;
+
+use SQLite3;
 
 final readonly class Connection implements ConnectionInterface
 {

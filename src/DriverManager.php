@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL;
 
+use function array_keys;
+
 use Doctrine\DBAL\Driver\IBMDB2;
 use Doctrine\DBAL\Driver\Mysqli;
 use Doctrine\DBAL\Driver\OCI8;
@@ -15,10 +17,10 @@ use Doctrine\DBAL\Exception\DriverRequired;
 use Doctrine\DBAL\Exception\InvalidDriverClass;
 use Doctrine\DBAL\Exception\InvalidWrapperClass;
 use Doctrine\DBAL\Exception\UnknownDriver;
-use SensitiveParameter;
 
-use function array_keys;
 use function is_a;
+
+use SensitiveParameter;
 
 /**
  * Factory for creating {@see Connection} instances.

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional;
 
+use function array_keys;
+use function array_merge;
+
 use Doctrine\DBAL\ColumnCase;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Portability\Connection;
@@ -12,11 +15,10 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
+
 use Doctrine\DBAL\Types\Types;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-use function array_keys;
-use function array_merge;
 use function strlen;
 
 class PortabilityTest extends FunctionalTestCase

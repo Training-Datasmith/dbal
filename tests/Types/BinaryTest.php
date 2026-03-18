@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Types;
 
+use function array_map;
+use function base64_encode;
+
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\BinaryType;
 use Doctrine\DBAL\Types\ConversionException;
+
+use function fopen;
+
+use function implode;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
-use function array_map;
-use function base64_encode;
-use function fopen;
-use function implode;
 use function range;
 
 class BinaryTest extends TestCase

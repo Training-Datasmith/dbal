@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\IBMDB2;
 
+use function implode;
+
 use SensitiveParameter;
 
-use function implode;
 use function sprintf;
 use function str_contains;
 
@@ -50,7 +51,7 @@ final readonly class DataSourceName
      * @param array<string,mixed> $params
      */
     public static function fromConnectionParameters(#[SensitiveParameter]
-    array $params,): self
+        array $params, ): self
     {
         if (isset($params['dbname']) && str_contains((string) $params['dbname'], '=')) {
             return new self($params['dbname']);

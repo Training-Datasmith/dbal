@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Portability;
 
-use Closure;
-
 use function array_change_key_case;
+
 use function array_map;
 use function array_reduce;
-use function is_string;
-use function rtrim;
-use function strtolower;
-use function strtoupper;
 
 use const CASE_LOWER;
 use const CASE_UPPER;
+
+use Closure;
+
+use function is_string;
+use function rtrim;
+
+use function strtolower;
+use function strtoupper;
 
 final readonly class Converter
 {

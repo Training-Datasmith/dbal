@@ -90,7 +90,7 @@ class AbstractAssetTest extends TestCase
 
         // @phpstan-ignore expr.resultUnused
         new /** @extends AbstractAsset<GenericName> */
-        class extends AbstractAsset {
+        class () extends AbstractAsset {
         };
     }
 

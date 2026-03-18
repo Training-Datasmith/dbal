@@ -19,9 +19,10 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
 use Doctrine\DBAL\Types\Types;
 use PHPUnit\Framework\Assert;
-use Throwable;
 
 use function sprintf;
+
+use Throwable;
 
 final class ForeignKeyConstraintViolationsTest extends FunctionalTestCase
 {

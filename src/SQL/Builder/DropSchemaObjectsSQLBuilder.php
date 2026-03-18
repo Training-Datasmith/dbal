@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\SQL\Builder;
 
+use function array_merge;
+
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Sequence;
-use Doctrine\DBAL\Schema\Table;
 
-use function array_merge;
+use Doctrine\DBAL\Schema\Table;
 
 final readonly class DropSchemaObjectsSQLBuilder
 {

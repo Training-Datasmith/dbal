@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\OCI8;
 
+use function addcslashes;
+use function assert;
+
 use Doctrine\DBAL\Driver\Connection as ConnectionInterface;
 use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Driver\Exception\IdentityColumnsNotSupported;
+
 use Doctrine\DBAL\Driver\OCI8\Exception\Error;
 use Doctrine\DBAL\SQL\Parser;
 
-use function addcslashes;
-use function assert;
 use function is_resource;
 use function oci_commit;
 use function oci_parse;

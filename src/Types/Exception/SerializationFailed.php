@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Doctrine\DBAL\Types\Exception;
 
 use Doctrine\DBAL\Types\ConversionException;
-use Throwable;
 
 use function get_debug_type;
+
 use function sprintf;
+
+use Throwable;
 
 final class SerializationFailed extends ConversionException implements TypesException
 {

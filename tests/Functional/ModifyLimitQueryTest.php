@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Tests\Functional;
 
+use function array_change_key_case;
+
+use const CASE_LOWER;
+
+use function count;
+
 use Doctrine\DBAL\Platforms\DB2Platform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\SQLServerPlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
+
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Tests\FunctionalTestCase;
+
 use Doctrine\DBAL\Types\Types;
-
-use function array_change_key_case;
-use function count;
-
-use const CASE_LOWER;
 
 class ModifyLimitQueryTest extends FunctionalTestCase
 {

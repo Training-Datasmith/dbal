@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\IBMDB2\Exception;
 
-use Doctrine\DBAL\Driver\AbstractException;
-
 use function db2_conn_error;
+
 use function db2_conn_errormsg;
+
+use Doctrine\DBAL\Driver\AbstractException;
 
 /** @internal */
 final class ConnectionError extends AbstractException
@@ -18,6 +19,6 @@ final class ConnectionError extends AbstractException
         $message  = db2_conn_errormsg($connection);
         $sqlState = db2_conn_error($connection);
 
-        return Factory::create($message, static fn(int $code): self => new self($message, $sqlState, $code));
+        return Factory::create($message, static fn (int $code): self => new self($message, $sqlState, $code));
     }
 }

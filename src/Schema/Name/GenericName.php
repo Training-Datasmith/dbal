@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Schema\Name;
 
+use function array_map;
+use function array_merge;
+
+use function array_values;
+
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Name;
 
-use function array_map;
-use function array_merge;
-use function array_values;
 use function implode;
 
 /**

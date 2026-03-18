@@ -4,23 +4,29 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\SQLSrv;
 
+use function assert;
+
 use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\Driver\SQLSrv\Exception\Error;
 use Doctrine\DBAL\Driver\Statement as StatementInterface;
+
 use Doctrine\DBAL\ParameterType;
 
-use function assert;
 use function is_int;
-use function sqlsrv_execute;
-use function SQLSRV_PHPTYPE_STREAM;
-use function SQLSRV_PHPTYPE_STRING;
-use function sqlsrv_prepare;
-use function SQLSRV_SQLTYPE_VARBINARY;
-use function stripos;
 
 use const SQLSRV_ENC_BINARY;
 use const SQLSRV_ENC_CHAR;
+
+use function sqlsrv_execute;
+
 use const SQLSRV_PARAM_IN;
+
+use function SQLSRV_PHPTYPE_STREAM;
+use function SQLSRV_PHPTYPE_STRING;
+
+use function sqlsrv_prepare;
+use function SQLSRV_SQLTYPE_VARBINARY;
+use function stripos;
 
 final class Statement implements StatementInterface
 {
@@ -124,7 +130,7 @@ final class Statement implements StatementInterface
                     break;
 
                 default:
-                    $params[$column - 1] =& $variable;
+                    $params[$column - 1] = & $variable;
                     break;
             }
         }
