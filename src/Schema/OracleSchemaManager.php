@@ -278,7 +278,7 @@ class OracleSchemaManager extends AbstractSchemaManager
 
         $this->connection->executeStatement($statement);
 
-        $statement = 'GRANT DBA TO ' . $database;
+        $statement = 'GRANT DBA TO ' . $this->platform->quoteSingleIdentifier($database);
         $this->connection->executeStatement($statement);
     }
 

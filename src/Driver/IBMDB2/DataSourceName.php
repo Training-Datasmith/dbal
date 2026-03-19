@@ -6,6 +6,7 @@ namespace Doctrine\DBAL\Driver\IBMDB2;
 
 use function implode;
 
+use InvalidArgumentException;
 use SensitiveParameter;
 
 use function sprintf;
@@ -53,8 +54,14 @@ final readonly class DataSourceName
     public static function fromConnectionParameters(#[SensitiveParameter]
         array $params, ): self
     {
-        if (isset($params['dbname']) && str_contains((string) $params['dbname'], '=')) {
-            return new self($params['dbname']);
+        if (isset($params['dbname'])) {
+            $dbname = (string) $params['dbname'];
+
+            if (str_contains($dbname, '=') || str_contains($dbname, ';')) {
+                throw new InvalidArgumentException(
+                    'The "dbname" connection parameter must not contain "=" or ";" to prevent DSN injection.',
+                );
+            }
         }
 
         $dsnParams = [];

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Doctrine\DBAL\Driver\PgSQL;
 
-use function addslashes;
 use function array_filter;
 use function array_keys;
 
@@ -23,6 +22,7 @@ use const PGSQL_CONNECT_FORCE_NEW;
 
 use function preg_match;
 use function restore_error_handler;
+use function str_replace;
 
 use SensitiveParameter;
 
@@ -96,7 +96,11 @@ final class Driver extends AbstractPostgreSQLDriver
         );
 
         return implode(' ', array_map(
-            static fn (int|string $value, string $key): string => sprintf("%s='%s'", $key, addslashes((string) $value)),
+            static fn (int|string $value, string $key): string => sprintf(
+                "%s='%s'",
+                $key,
+                str_replace(['\\', "'"], ['\\\\', "\\'"], (string) $value),
+            ),
             array_values($components),
             array_keys($components),
         ));

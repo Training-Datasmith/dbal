@@ -68,7 +68,7 @@ final readonly class Connection implements ConnectionInterface
 
     public function lastInsertId(): int|string
     {
-        $result = $this->query('SELECT @@IDENTITY');
+        $result = $this->query('SELECT SCOPE_IDENTITY()');
 
         $lastInsertId = $result->fetchOne();
 

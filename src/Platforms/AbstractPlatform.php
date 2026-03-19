@@ -2294,7 +2294,7 @@ abstract class AbstractPlatform
      */
     public function createSavePoint(string $savepoint): string
     {
-        return 'SAVEPOINT ' . $savepoint;
+        return 'SAVEPOINT ' . $this->quoteSingleIdentifier($savepoint);
     }
 
     /**
@@ -2302,7 +2302,7 @@ abstract class AbstractPlatform
      */
     public function releaseSavePoint(string $savepoint): string
     {
-        return 'RELEASE SAVEPOINT ' . $savepoint;
+        return 'RELEASE SAVEPOINT ' . $this->quoteSingleIdentifier($savepoint);
     }
 
     /**
@@ -2310,7 +2310,7 @@ abstract class AbstractPlatform
      */
     public function rollbackSavePoint(string $savepoint): string
     {
-        return 'ROLLBACK TO SAVEPOINT ' . $savepoint;
+        return 'ROLLBACK TO SAVEPOINT ' . $this->quoteSingleIdentifier($savepoint);
     }
 
     /**
