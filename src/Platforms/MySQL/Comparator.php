@@ -1,19 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\DBAL\Platforms\MySQL;
+declare (strict_types=1);
+namespace Doctrine\DBAL\Platforms\My_Sql;
 
 use function array_diff_assoc;
-
-use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
+use Doctrine\DBAL\Platforms\Abstract_My_Sql_Platform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Comparator as BaseComparator;
-use Doctrine\DBAL\Schema\ComparatorConfig;
+use Doctrine\DBAL\Schema\Comparator_Config;
 use Doctrine\DBAL\Schema\Table;
-
-use Doctrine\DBAL\Schema\TableDiff;
-
+use Doctrine\DBAL\Schema\Table_Diff;
 /**
  * Compares schemas in the context of MySQL platform.
  *
@@ -23,78 +19,55 @@ use Doctrine\DBAL\Schema\TableDiff;
  *
  * @phpstan-import-type PlatformOptions from Column
  */
-class Comparator extends BaseComparator
+class Comparator extends Base_Comparator
 {
     /** @internal The comparator can be only instantiated by a schema manager. */
-    public function __construct(
-        AbstractMySQLPlatform $platform,
-        private readonly CharsetMetadataProvider $charsetMetadataProvider,
-        private readonly CollationMetadataProvider $collationMetadataProvider,
-        private readonly DefaultTableOptions $defaultTableOptions,
-        ComparatorConfig $config = new ComparatorConfig(),
-    ) {
+    public function __construct(Abstract_My_Sql_Platform $platform, private readonly Charset_Metadata_Provider $charset_metadata_provider, private readonly Collation_Metadata_Provider $collation_metadata_provider, private readonly Default_Table_Options $default_table_options, Comparator_Config $config = new Comparator_Config())
+    {
         parent::__construct($platform, $config);
     }
-
-    public function compareTables(Table $oldTable, Table $newTable): TableDiff
+    public function compare_tables(Table $old_table, Table $new_table): Table_Diff
     {
-        return parent::compareTables(
-            $this->normalizeTable($oldTable),
-            $this->normalizeTable($newTable),
-        );
+        return parent::compare_tables($this->normalize_table($old_table), $this->normalize_table($new_table));
     }
-
-    private function normalizeTable(Table $table): Table
+    private function normalize_table(Table $table): Table
     {
-        $charset   = $table->getOption('charset');
-        $collation = $table->getOption('collation');
-
+        $charset = $table->get_option('charset');
+        $collation = $table->get_option('collation');
         if ($charset === null && $collation !== null) {
-            $charset = $this->collationMetadataProvider->getCollationCharset($collation);
+            $charset = $this->collation_metadata_provider->get_collation_charset($collation);
         } elseif ($charset !== null && $collation === null) {
-            $collation = $this->charsetMetadataProvider->getDefaultCharsetCollation($charset);
+            $collation = $this->charset_metadata_provider->get_default_charset_collation($charset);
         } elseif ($charset === null && $collation === null) {
-            $charset   = $this->defaultTableOptions->getCharset();
-            $collation = $this->defaultTableOptions->getCollation();
+            $charset = $this->default_table_options->get_charset();
+            $collation = $this->default_table_options->get_collation();
         }
-
-        $tableOptions = [
-            'charset'   => $charset,
-            'collation' => $collation,
-        ];
-
+        $table_options = ['charset' => $charset, 'collation' => $collation];
         $table = clone $table;
-
-        foreach ($table->getColumns() as $column) {
-            $originalOptions   = $column->getPlatformOptions();
-            $normalizedOptions = $this->normalizeOptions($originalOptions);
-
-            $overrideOptions = array_diff_assoc($normalizedOptions, $tableOptions);
-
-            if ($overrideOptions === $originalOptions) {
+        foreach ($table->get_columns() as $column) {
+            $original_options = $column->get_platform_options();
+            $normalized_options = $this->normalize_options($original_options);
+            $override_options = array_diff_assoc($normalized_options, $table_options);
+            if ($override_options === $original_options) {
                 continue;
             }
-
             /** @phpstan-ignore argument.type */
-            $column->setPlatformOptions($overrideOptions);
+            $column->set_platform_options($override_options);
         }
-
         return $table;
     }
-
     /**
      * @param PlatformOptions $options
      *
      * @return PlatformOptions
      */
-    private function normalizeOptions(array $options): array
+    private function normalize_options(array $options): array
     {
-        if (isset($options['charset']) && ! isset($options['collation'])) {
-            $options['collation'] = $this->charsetMetadataProvider->getDefaultCharsetCollation($options['charset']);
-        } elseif (isset($options['collation']) && ! isset($options['charset'])) {
-            $options['charset'] = $this->collationMetadataProvider->getCollationCharset($options['collation']);
+        if (isset($options['charset']) && !isset($options['collation'])) {
+            $options['collation'] = $this->charset_metadata_provider->get_default_charset_collation($options['charset']);
+        } elseif (isset($options['collation']) && !isset($options['charset'])) {
+            $options['charset'] = $this->collation_metadata_provider->get_collation_charset($options['collation']);
         }
-
         return $options;
     }
 }

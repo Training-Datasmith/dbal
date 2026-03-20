@@ -1,102 +1,80 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Sq_Lite3;
 
-namespace Doctrine\DBAL\Driver\SQLite3;
-
-use Doctrine\DBAL\Driver\FetchUtils;
+use Doctrine\DBAL\Driver\Fetch_Utils;
 use Doctrine\DBAL\Driver\Result as ResultInterface;
-use Doctrine\DBAL\Exception\InvalidColumnIndex;
-
+use Doctrine\DBAL\Exception\Invalid_Column_Index;
 use const SQLITE3_ASSOC;
-
 use const SQLITE3_NUM;
-
-use SQLite3Result;
-
-final class Result implements ResultInterface
+use Sq_Lite3result;
+final class Result implements Result_Interface
 {
     /** @internal The result can be only instantiated by its driver connection or statement. */
-    public function __construct(private ?SQLite3Result $result, private readonly int $changes)
+    public function __construct(private ?Sq_Lite3result $result, private readonly int $changes)
     {
     }
-
-    public function fetchNumeric(): array|false
-    {
-        if ($this->result === null) {
-            return false;
-        }
-
-        return $this->result->fetchArray(SQLITE3_NUM);
-    }
-
-    public function fetchAssociative(): array|false
+    public function fetch_numeric(): array|false
     {
         if ($this->result === null) {
             return false;
         }
-
-        return $this->result->fetchArray(SQLITE3_ASSOC);
+        return $this->result->fetch_array(SQLITE3_NUM);
     }
-
-    public function fetchOne(): mixed
+    public function fetch_associative(): array|false
     {
-        return FetchUtils::fetchOne($this);
+        if ($this->result === null) {
+            return false;
+        }
+        return $this->result->fetch_array(SQLITE3_ASSOC);
     }
-
+    public function fetch_one(): mixed
+    {
+        return Fetch_Utils::fetch_one($this);
+    }
     /** @inheritDoc */
-    public function fetchAllNumeric(): array
+    public function fetch_all_numeric(): array
     {
-        return FetchUtils::fetchAllNumeric($this);
+        return Fetch_Utils::fetch_all_numeric($this);
     }
-
     /** @inheritDoc */
-    public function fetchAllAssociative(): array
+    public function fetch_all_associative(): array
     {
-        return FetchUtils::fetchAllAssociative($this);
+        return Fetch_Utils::fetch_all_associative($this);
     }
-
     /** @inheritDoc */
-    public function fetchFirstColumn(): array
+    public function fetch_first_column(): array
     {
-        return FetchUtils::fetchFirstColumn($this);
+        return Fetch_Utils::fetch_first_column($this);
     }
-
-    public function rowCount(): int
+    public function row_count(): int
     {
         return $this->changes;
     }
-
-    public function columnCount(): int
+    public function column_count(): int
     {
         if ($this->result === null) {
             return 0;
         }
-
-        return $this->result->numColumns();
+        return $this->result->num_columns();
     }
-
-    public function getColumnName(int $index): string
+    public function get_column_name(int $index): string
     {
         if ($this->result === null) {
-            throw InvalidColumnIndex::new($index);
+            throw Invalid_Column_Index::new($index);
         }
-
-        $name = $this->result->columnName($index);
-
+        $name = $this->result->column_name($index);
         if ($name === false) {
-            throw InvalidColumnIndex::new($index);
+            throw Invalid_Column_Index::new($index);
         }
-
         return $name;
     }
-
     public function free(): void
     {
         if ($this->result === null) {
             return;
         }
-
         $this->result->finalize();
         $this->result = null;
     }

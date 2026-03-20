@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\Exception;
 
-use Doctrine\DBAL\Driver\AbstractException;
+use Doctrine\DBAL\Driver\Abstract_Exception;
 use Throwable;
-
 /** @internal */
-final class IdentityColumnsNotSupported extends AbstractException
+final class Identity_Columns_Not_Supported extends Abstract_Exception
 {
     public static function new(?Throwable $previous = null): self
     {

@@ -1,73 +1,59 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Sql_Srv;
 
-namespace Doctrine\DBAL\Driver\SQLSrv;
-
-use Doctrine\DBAL\Driver\AbstractSQLServerDriver;
-use Doctrine\DBAL\Driver\AbstractSQLServerDriver\Exception\PortWithoutHost;
-use Doctrine\DBAL\Driver\SQLSrv\Exception\Error;
-use SensitiveParameter;
-
+use Doctrine\DBAL\Driver\Abstract_Sql_Server_Driver;
+use Doctrine\DBAL\Driver\Abstract_Sql_Server_Driver\Exception\Port_Without_Host;
+use Doctrine\DBAL\Driver\Sql_Srv\Exception\Error;
+use Sensitive_Parameter;
 use function sqlsrv_configure;
 use function sqlsrv_connect;
-
 /**
  * Driver for ext/sqlsrv.
  */
-final class Driver extends AbstractSQLServerDriver
+final class Driver extends Abstract_Sql_Server_Driver
 {
     /**
      * {@inheritDoc}
      */
     public function connect(
-        #[SensitiveParameter]
-        array $params,
-    ): Connection {
-        $serverName = '';
-
+        #[Sensitive_Parameter]
+        array $params
+    ): Connection
+    {
+        $server_name = '';
         if (isset($params['host'])) {
-            $serverName = $params['host'];
-
+            $server_name = $params['host'];
             if (isset($params['port'])) {
-                $serverName .= ',' . $params['port'];
+                $server_name .= ',' . $params['port'];
             }
         } elseif (isset($params['port'])) {
-            throw PortWithoutHost::new();
+            throw Port_Without_Host::new();
         }
-
-        $driverOptions = $params['driverOptions'] ?? [];
-
+        $driver_options = $params['driverOptions'] ?? [];
         if (isset($params['dbname'])) {
-            $driverOptions['Database'] = $params['dbname'];
+            $driver_options['Database'] = $params['dbname'];
         }
-
         if (isset($params['charset'])) {
-            $driverOptions['CharacterSet'] = $params['charset'];
+            $driver_options['CharacterSet'] = $params['charset'];
         }
-
         if (isset($params['user'])) {
-            $driverOptions['UID'] = $params['user'];
+            $driver_options['UID'] = $params['user'];
         }
-
         if (isset($params['password'])) {
-            $driverOptions['PWD'] = $params['password'];
+            $driver_options['PWD'] = $params['password'];
         }
-
-        if (! isset($driverOptions['ReturnDatesAsStrings'])) {
-            $driverOptions['ReturnDatesAsStrings'] = 1;
+        if (!isset($driver_options['ReturnDatesAsStrings'])) {
+            $driver_options['ReturnDatesAsStrings'] = 1;
         }
-
-        if (! sqlsrv_configure('WarningsReturnAsErrors', 0)) {
+        if (!sqlsrv_configure('WarningsReturnAsErrors', 0)) {
             throw Error::new();
         }
-
-        $connection = sqlsrv_connect($serverName, $driverOptions);
-
+        $connection = sqlsrv_connect($server_name, $driver_options);
         if ($connection === false) {
             throw Error::new();
         }
-
         return new Connection($connection);
     }
 }

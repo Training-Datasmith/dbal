@@ -1,26 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\Middleware;
 
 use Doctrine\DBAL\Driver\Result;
 use Doctrine\DBAL\Driver\Statement;
-use Doctrine\DBAL\ParameterType;
-
-abstract class AbstractStatementMiddleware implements Statement
+use Doctrine\DBAL\Parameter_Type;
+abstract class Abstract_Statement_Middleware implements Statement
 {
-    public function __construct(private readonly Statement $wrappedStatement)
+    public function __construct(private readonly Statement $wrapped_statement)
     {
     }
-
-    public function bindValue(int|string $param, mixed $value, ParameterType $type): void
+    public function bind_value(int|string $param, mixed $value, Parameter_Type $type): void
     {
-        $this->wrappedStatement->bindValue($param, $value, $type);
+        $this->wrapped_statement->bind_value($param, $value, $type);
     }
-
     public function execute(): Result
     {
-        return $this->wrappedStatement->execute();
+        return $this->wrapped_statement->execute();
     }
 }

@@ -1,19 +1,15 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\DBAL\Driver\PgSQL;
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Pg_Sql;
 
 use function array_keys;
 use function array_map;
 use function assert;
-
-use Doctrine\DBAL\Driver\FetchUtils;
-use Doctrine\DBAL\Driver\PgSQL\Exception\UnexpectedValue;
+use Doctrine\DBAL\Driver\Fetch_Utils;
+use Doctrine\DBAL\Driver\Pg_Sql\Exception\Unexpected_Value;
 use Doctrine\DBAL\Driver\Result as ResultInterface;
-
-use Doctrine\DBAL\Exception\InvalidColumnIndex;
-
+use Doctrine\DBAL\Exception\Invalid_Column_Index;
 use function hex2bin;
 use function pg_affected_rows;
 use function pg_fetch_all;
@@ -24,229 +20,171 @@ use function pg_field_name;
 use function pg_field_type;
 use function pg_free_result;
 use function pg_num_fields;
-
-use PgSql\Result as PgSqlResult;
-
+use Pg_Sql\Result as PgSqlResult;
 use const PGSQL_ASSOC;
 use const PGSQL_NUM;
-
 use const PHP_INT_SIZE;
-
 use function substr;
-
-use ValueError;
-
-final class Result implements ResultInterface
+use Value_Error;
+final class Result implements Result_Interface
 {
-    public function __construct(private ?PgSqlResult $result)
+    public function __construct(private ?Pg_Sql_Result $result)
     {
     }
-
     public function __destruct()
     {
-        if (! isset($this->result)) {
+        if (!isset($this->result)) {
             return;
         }
-
         $this->free();
     }
-
     /** {@inheritDoc} */
-    public function fetchNumeric(): array|false
+    public function fetch_numeric(): array|false
     {
         if ($this->result === null) {
             return false;
         }
-
         $row = pg_fetch_row($this->result);
         if ($row === false) {
             return false;
         }
-
-        return $this->mapNumericRow($row, $this->fetchNumericColumnTypes());
+        return $this->map_numeric_row($row, $this->fetch_numeric_column_types());
     }
-
     /** {@inheritDoc} */
-    public function fetchAssociative(): array|false
+    public function fetch_associative(): array|false
     {
         if ($this->result === null) {
             return false;
         }
-
         $row = pg_fetch_assoc($this->result);
         if ($row === false) {
             return false;
         }
-
-        return $this->mapAssociativeRow($row, $this->fetchAssociativeColumnTypes());
+        return $this->map_associative_row($row, $this->fetch_associative_column_types());
     }
-
     /** {@inheritDoc} */
-    public function fetchOne(): mixed
+    public function fetch_one(): mixed
     {
-        return FetchUtils::fetchOne($this);
+        return Fetch_Utils::fetch_one($this);
     }
-
     /** {@inheritDoc} */
-    public function fetchAllNumeric(): array
+    public function fetch_all_numeric(): array
     {
         if ($this->result === null) {
             return [];
         }
-
-        $types = $this->fetchNumericColumnTypes();
-
-        return array_map(
-            fn (array $row): array => $this->mapNumericRow($row, $types),
-            pg_fetch_all($this->result, PGSQL_NUM),
-        );
+        $types = $this->fetch_numeric_column_types();
+        return array_map(fn(array $row): array => $this->map_numeric_row($row, $types), pg_fetch_all($this->result, PGSQL_NUM));
     }
-
     /** {@inheritDoc} */
-    public function fetchAllAssociative(): array
+    public function fetch_all_associative(): array
     {
         if ($this->result === null) {
             return [];
         }
-
-        $types = $this->fetchAssociativeColumnTypes();
-
-        return array_map(
-            fn (array $row): array => $this->mapAssociativeRow($row, $types),
-            pg_fetch_all($this->result, PGSQL_ASSOC),
-        );
+        $types = $this->fetch_associative_column_types();
+        return array_map(fn(array $row): array => $this->map_associative_row($row, $types), pg_fetch_all($this->result, PGSQL_ASSOC));
     }
-
     /** {@inheritDoc} */
-    public function fetchFirstColumn(): array
+    public function fetch_first_column(): array
     {
         if ($this->result === null) {
             return [];
         }
-
-        $postgresType = pg_field_type($this->result, 0);
-
-        return array_map(
-            fn (?string $value): bool|float|int|string|null => $this->mapType($postgresType, $value),
-            pg_fetch_all_columns($this->result),
-        );
+        $postgres_type = pg_field_type($this->result, 0);
+        return array_map(fn(?string $value): bool|float|int|string|null => $this->map_type($postgres_type, $value), pg_fetch_all_columns($this->result));
     }
-
-    public function rowCount(): int
+    public function row_count(): int
     {
         if ($this->result === null) {
             return 0;
         }
-
         return pg_affected_rows($this->result);
     }
-
-    public function columnCount(): int
+    public function column_count(): int
     {
         if ($this->result === null) {
             return 0;
         }
-
         return pg_num_fields($this->result);
     }
-
-    public function getColumnName(int $index): string
+    public function get_column_name(int $index): string
     {
         if ($this->result === null) {
-            throw InvalidColumnIndex::new($index);
+            throw Invalid_Column_Index::new($index);
         }
-
         try {
             return pg_field_name($this->result, $index);
-        } catch (ValueError) {
-            throw InvalidColumnIndex::new($index);
+        } catch (Value_Error) {
+            throw Invalid_Column_Index::new($index);
         }
     }
-
     public function free(): void
     {
         if ($this->result === null) {
             return;
         }
-
         pg_free_result($this->result);
         $this->result = null;
     }
-
     /** @return array<int, string> */
-    private function fetchNumericColumnTypes(): array
+    private function fetch_numeric_column_types(): array
     {
         assert($this->result !== null);
-
-        $types     = [];
-        $numFields = pg_num_fields($this->result);
-        for ($i = 0; $i < $numFields; ++$i) {
+        $types = [];
+        $num_fields = pg_num_fields($this->result);
+        for ($i = 0; $i < $num_fields; ++$i) {
             $types[$i] = pg_field_type($this->result, $i);
         }
-
         return $types;
     }
-
     /** @return array<string, string> */
-    private function fetchAssociativeColumnTypes(): array
+    private function fetch_associative_column_types(): array
     {
         assert($this->result !== null);
-
-        $types     = [];
-        $numFields = pg_num_fields($this->result);
-        for ($i = 0; $i < $numFields; ++$i) {
+        $types = [];
+        $num_fields = pg_num_fields($this->result);
+        for ($i = 0; $i < $num_fields; ++$i) {
             $types[pg_field_name($this->result, $i)] = pg_field_type($this->result, $i);
         }
-
         return $types;
     }
-
     /**
      * @param list<string|null>  $row
      * @param array<int, string> $types
      *
      * @return list<mixed>
      */
-    private function mapNumericRow(array $row, array $types): array
+    private function map_numeric_row(array $row, array $types): array
     {
         assert($this->result !== null);
-
-        return array_map(
-            fn (?string $value, $field): bool|float|int|string|null => $this->mapType($types[$field], $value),
-            $row,
-            array_keys($row),
-        );
+        return array_map(fn(?string $value, $field): bool|float|int|string|null => $this->map_type($types[$field], $value), $row, array_keys($row));
     }
-
     /**
      * @param array<string, string|null> $row
      * @param array<string, string>      $types
      *
      * @return array<string, mixed>
      */
-    private function mapAssociativeRow(array $row, array $types): array
+    private function map_associative_row(array $row, array $types): array
     {
         assert($this->result !== null);
-
-        $mappedRow = [];
+        $mapped_row = [];
         foreach ($row as $field => $value) {
-            $mappedRow[$field] = $this->mapType($types[$field], $value);
+            $mapped_row[$field] = $this->map_type($types[$field], $value);
         }
-
-        return $mappedRow;
+        return $mapped_row;
     }
-
-    private function mapType(string $postgresType, ?string $value): string|int|float|bool|null
+    private function map_type(string $postgres_type, ?string $value): string|int|float|bool|null
     {
         if ($value === null) {
             return null;
         }
-
-        return match ($postgresType) {
+        return match ($postgres_type) {
             'bool' => match ($value) {
                 't' => true,
                 'f' => false,
-                default => throw UnexpectedValue::new($value, $postgresType),
+                default => throw Unexpected_Value::new($value, $postgres_type),
             },
             'bytea' => hex2bin(substr($value, 2)),
             'float4', 'float8' => (float) $value,

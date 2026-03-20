@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Exception;
 
-use Doctrine\DBAL\ConnectionException;
-
-final class CommitFailedRollbackOnly extends ConnectionException
+use Doctrine\DBAL\Connection_Exception;
+final class Commit_Failed_Rollback_Only extends Connection_Exception
 {
     public static function new(): self
     {

@@ -1,22 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Exception;
 
 use Doctrine\DBAL\Exception;
-
 use function sprintf;
-
-class DatabaseRequired extends \Exception implements Exception
+class Database_Required extends \Exception implements Exception
 {
-    public static function new(string $methodName): self
+    public static function new(string $method_name): self
     {
-        return new self(
-            sprintf(
-                'A database is required for the method: %s.',
-                $methodName,
-            ),
-        );
+        return new self(sprintf('A database is required for the method: %s.', $method_name));
     }
 }

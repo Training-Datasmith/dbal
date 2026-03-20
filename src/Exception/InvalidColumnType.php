@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Exception;
 
 use Doctrine\DBAL\Exception;
 use LogicException;
-
-abstract class InvalidColumnType extends LogicException implements Exception
+abstract class Invalid_Column_Type extends LogicException implements Exception
 {
 }

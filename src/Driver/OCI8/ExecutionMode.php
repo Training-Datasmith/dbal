@@ -1,7 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\OCI8;
 
 /**
@@ -9,22 +8,19 @@ namespace Doctrine\DBAL\Driver\OCI8;
  *
  * @internal This class is not covered by the backward compatibility promise
  */
-final class ExecutionMode
+final class Execution_Mode
 {
-    private bool $isAutoCommitEnabled = true;
-
-    public function enableAutoCommit(): void
+    private bool $is_auto_commit_enabled = true;
+    public function enable_auto_commit(): void
     {
-        $this->isAutoCommitEnabled = true;
+        $this->is_auto_commit_enabled = true;
     }
-
-    public function disableAutoCommit(): void
+    public function disable_auto_commit(): void
     {
-        $this->isAutoCommitEnabled = false;
+        $this->is_auto_commit_enabled = false;
     }
-
-    public function isAutoCommitEnabled(): bool
+    public function is_auto_commit_enabled(): bool
     {
-        return $this->isAutoCommitEnabled;
+        return $this->is_auto_commit_enabled;
     }
 }

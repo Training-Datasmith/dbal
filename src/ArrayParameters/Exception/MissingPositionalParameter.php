@@ -1,21 +1,16 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Array_Parameters\Exception;
 
-namespace Doctrine\DBAL\ArrayParameters\Exception;
-
-use Doctrine\DBAL\ArrayParameters\Exception;
+use Doctrine\DBAL\Array_Parameters\Exception;
 use LogicException;
-
 use function sprintf;
-
 /** @internal */
-class MissingPositionalParameter extends LogicException implements Exception
+class Missing_Positional_Parameter extends LogicException implements Exception
 {
     public static function new(int $index): self
     {
-        return new self(
-            sprintf('Positional parameter at index %d does not have a bound value.', $index),
-        );
+        return new self(sprintf('Positional parameter at index %d does not have a bound value.', $index));
     }
 }

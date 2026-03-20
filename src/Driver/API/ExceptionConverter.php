@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\API;
 
 use Doctrine\DBAL\Driver\Exception;
-use Doctrine\DBAL\Exception\DriverException;
+use Doctrine\DBAL\Exception\Driver_Exception;
 use Doctrine\DBAL\Query;
-
-interface ExceptionConverter
+interface Exception_Converter
 {
     /**
      * Converts a given driver-level exception into a DBAL-level driver exception.
@@ -21,5 +19,5 @@ interface ExceptionConverter
      *
      * @return DriverException An instance of {@see DriverException} or one of its subclasses.
      */
-    public function convert(Exception $exception, ?Query $query): DriverException;
+    public function convert(Exception $exception, ?Query $query): Driver_Exception;
 }

@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\Mysqli\Exception;
 
-use Doctrine\DBAL\Driver\AbstractException;
-
+use Doctrine\DBAL\Driver\Abstract_Exception;
 /** @internal */
-final class HostRequired extends AbstractException
+final class Host_Required extends Abstract_Exception
 {
-    public static function forPersistentConnection(): self
+    public static function for_persistent_connection(): self
     {
         return new self('The "host" parameter is required for a persistent connection');
     }

@@ -1,37 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\Mysqli\Exception;
 
-use Doctrine\DBAL\Driver\AbstractException;
+use Doctrine\DBAL\Driver\Abstract_Exception;
 use mysqli;
 use mysqli_sql_exception;
 use ReflectionProperty;
-
 use function sprintf;
-
 /** @internal */
-final class InvalidCharset extends AbstractException
+final class Invalid_Charset extends Abstract_Exception
 {
-    public static function fromCharset(mysqli $connection, string $charset): self
+    public static function from_charset(mysqli $connection, string $charset): self
     {
-        return new self(
-            sprintf('Failed to set charset "%s": %s', $charset, $connection->error),
-            $connection->sqlstate,
-            $connection->errno,
-        );
+        return new self(sprintf('Failed to set charset "%s": %s', $charset, $connection->error), $connection->sqlstate, $connection->errno);
     }
-
     public static function upcast(mysqli_sql_exception $exception, string $charset): self
     {
         $p = new ReflectionProperty(mysqli_sql_exception::class, 'sqlstate');
-
-        return new self(
-            sprintf('Failed to set charset "%s": %s', $charset, $exception->getMessage()),
-            $p->getValue($exception),
-            $exception->getCode(),
-            $exception,
-        );
+        return new self(sprintf('Failed to set charset "%s": %s', $charset, $exception->get_message()), $p->get_value($exception), $exception->get_code(), $exception);
     }
 }

@@ -1,46 +1,31 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\PDO\Sql_Srv;
 
-namespace Doctrine\DBAL\Driver\PDO\SQLSrv;
-
-use Doctrine\DBAL\Driver\Middleware\AbstractStatementMiddleware;
+use Doctrine\DBAL\Driver\Middleware\Abstract_Statement_Middleware;
 use Doctrine\DBAL\Driver\PDO\Statement as PDOStatement;
-use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Parameter_Type;
 use PDO;
-
-final class Statement extends AbstractStatementMiddleware
+final class Statement extends Abstract_Statement_Middleware
 {
     /** @internal The statement can be only instantiated by its driver connection. */
     public function __construct(private readonly PDOStatement $statement)
     {
         parent::__construct($statement);
     }
-
-    public function bindValue(int|string $param, mixed $value, ParameterType $type): void
+    public function bind_value(int|string $param, mixed $value, Parameter_Type $type): void
     {
         switch ($type) {
-            case ParameterType::LARGE_OBJECT:
-            case ParameterType::BINARY:
-                $this->statement->bindParamWithDriverOptions(
-                    $param,
-                    $value,
-                    $type,
-                    PDO::SQLSRV_ENCODING_BINARY,
-                );
+            case Parameter_Type::LARGE_OBJECT:
+            case Parameter_Type::BINARY:
+                $this->statement->bind_param_with_driver_options($param, $value, $type, PDO::SQLSRV_ENCODING_BINARY);
                 break;
-
-            case ParameterType::ASCII:
-                $this->statement->bindParamWithDriverOptions(
-                    $param,
-                    $value,
-                    ParameterType::STRING,
-                    PDO::SQLSRV_ENCODING_SYSTEM,
-                );
+            case Parameter_Type::ASCII:
+                $this->statement->bind_param_with_driver_options($param, $value, Parameter_Type::STRING, PDO::SQLSRV_ENCODING_SYSTEM);
                 break;
-
             default:
-                $this->statement->bindValue($param, $value, $type);
+                $this->statement->bind_value($param, $value, $type);
         }
     }
 }

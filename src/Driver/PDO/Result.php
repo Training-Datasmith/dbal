@@ -1,103 +1,88 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\PDO;
 
 use Doctrine\DBAL\Driver\Result as ResultInterface;
-use Doctrine\DBAL\Exception\InvalidColumnIndex;
+use Doctrine\DBAL\Exception\Invalid_Column_Index;
 use PDO;
 use PDOException;
 use PDOStatement;
-use ValueError;
-
-final readonly class Result implements ResultInterface
+use Value_Error;
+final readonly class Result implements Result_Interface
 {
     /** @internal The result can be only instantiated by its driver connection or statement. */
     public function __construct(private PDOStatement $statement)
     {
     }
-
-    public function fetchNumeric(): array|false
+    public function fetch_numeric(): array|false
     {
         return $this->fetch(PDO::FETCH_NUM);
     }
-
-    public function fetchAssociative(): array|false
+    public function fetch_associative(): array|false
     {
         return $this->fetch(PDO::FETCH_ASSOC);
     }
-
-    public function fetchOne(): mixed
+    public function fetch_one(): mixed
     {
         return $this->fetch(PDO::FETCH_COLUMN);
     }
-
     /**
      * {@inheritDoc}
      */
-    public function fetchAllNumeric(): array
+    public function fetch_all_numeric(): array
     {
-        return $this->fetchAll(PDO::FETCH_NUM);
+        return $this->fetch_all(PDO::FETCH_NUM);
     }
-
     /**
      * {@inheritDoc}
      */
-    public function fetchAllAssociative(): array
+    public function fetch_all_associative(): array
     {
-        return $this->fetchAll(PDO::FETCH_ASSOC);
+        return $this->fetch_all(PDO::FETCH_ASSOC);
     }
-
     /**
      * {@inheritDoc}
      */
-    public function fetchFirstColumn(): array
+    public function fetch_first_column(): array
     {
-        return $this->fetchAll(PDO::FETCH_COLUMN);
+        return $this->fetch_all(PDO::FETCH_COLUMN);
     }
-
-    public function rowCount(): int
+    public function row_count(): int
     {
         try {
-            return $this->statement->rowCount();
+            return $this->statement->row_count();
         } catch (PDOException $exception) {
             throw Exception::new($exception);
         }
     }
-
-    public function columnCount(): int
+    public function column_count(): int
     {
         try {
-            return $this->statement->columnCount();
+            return $this->statement->column_count();
         } catch (PDOException $exception) {
             throw Exception::new($exception);
         }
     }
-
     /** @throws Exception */
-    public function getColumnName(int $index): string
+    public function get_column_name(int $index): string
     {
         try {
-            $meta = $this->statement->getColumnMeta($index);
-        } catch (ValueError $exception) {
-            throw InvalidColumnIndex::new($index, $exception);
+            $meta = $this->statement->get_column_meta($index);
+        } catch (Value_Error $exception) {
+            throw Invalid_Column_Index::new($index, $exception);
         } catch (PDOException $exception) {
             throw Exception::new($exception);
         }
-
         if ($meta === false) {
-            throw InvalidColumnIndex::new($index);
+            throw Invalid_Column_Index::new($index);
         }
-
         return $meta['name'];
     }
-
     public function free(): void
     {
-        $this->statement->closeCursor();
+        $this->statement->close_cursor();
     }
-
     /**
      * @phpstan-param PDO::FETCH_* $mode
      *
@@ -111,7 +96,6 @@ final readonly class Result implements ResultInterface
             throw Exception::new($exception);
         }
     }
-
     /**
      * @phpstan-param PDO::FETCH_* $mode
      *
@@ -119,10 +103,10 @@ final readonly class Result implements ResultInterface
      *
      * @throws Exception
      */
-    private function fetchAll(int $mode): array
+    private function fetch_all(int $mode): array
     {
         try {
-            return $this->statement->fetchAll($mode);
+            return $this->statement->fetch_all($mode);
         } catch (PDOException $exception) {
             throw Exception::new($exception);
         }

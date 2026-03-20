@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Exception;
 
-use Doctrine\DBAL\ConnectionException;
-
-final class SavepointsNotSupported extends ConnectionException
+use Doctrine\DBAL\Connection_Exception;
+final class Savepoints_Not_Supported extends Connection_Exception
 {
     public static function new(): self
     {

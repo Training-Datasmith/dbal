@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Exception\Invalid_Column_Type;
 
-namespace Doctrine\DBAL\Exception\InvalidColumnType;
-
-use Doctrine\DBAL\Exception\InvalidColumnType;
-
+use Doctrine\DBAL\Exception\Invalid_Column_Type;
 /** @internal */
-final class ColumnScaleRequired extends InvalidColumnType
+final class Column_Scale_Required extends Invalid_Column_Type
 {
     public static function new(): self
     {

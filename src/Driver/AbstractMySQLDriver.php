@@ -1,91 +1,69 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver;
 
 use Doctrine\DBAL\Driver;
-use Doctrine\DBAL\Driver\API\ExceptionConverter as ExceptionConverterInterface;
-use Doctrine\DBAL\Driver\API\MySQL\ExceptionConverter;
-use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
-use Doctrine\DBAL\Platforms\Exception\InvalidPlatformVersion;
-use Doctrine\DBAL\Platforms\MariaDB1010Platform;
-use Doctrine\DBAL\Platforms\MariaDB1052Platform;
-use Doctrine\DBAL\Platforms\MariaDB1060Platform;
-use Doctrine\DBAL\Platforms\MariaDB110700Platform;
-use Doctrine\DBAL\Platforms\MariaDBPlatform;
-use Doctrine\DBAL\Platforms\MySQL80Platform;
-use Doctrine\DBAL\Platforms\MySQL84Platform;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\ServerVersionProvider;
+use Doctrine\DBAL\Driver\API\Exception_Converter as ExceptionConverterInterface;
+use Doctrine\DBAL\Driver\API\My_Sql\Exception_Converter;
+use Doctrine\DBAL\Platforms\Abstract_My_Sql_Platform;
+use Doctrine\DBAL\Platforms\Exception\Invalid_Platform_Version;
+use Doctrine\DBAL\Platforms\Maria_Db1010platform;
+use Doctrine\DBAL\Platforms\Maria_Db1052platform;
+use Doctrine\DBAL\Platforms\Maria_Db1060platform;
+use Doctrine\DBAL\Platforms\Maria_Db110700platform;
+use Doctrine\DBAL\Platforms\Maria_Db_Platform;
+use Doctrine\DBAL\Platforms\My_Sql80platform;
+use Doctrine\DBAL\Platforms\My_Sql84platform;
+use Doctrine\DBAL\Platforms\My_Sql_Platform;
+use Doctrine\DBAL\Server_Version_Provider;
 use Doctrine\Deprecations\Deprecation;
-
 use function preg_match;
 use function stripos;
 use function version_compare;
-
 /**
  * Abstract base implementation of the {@see Driver} interface for MySQL based drivers.
  */
-abstract class AbstractMySQLDriver implements Driver
+abstract class Abstract_My_Sql_Driver implements Driver
 {
     /**
      * {@inheritDoc}
      *
      * @throws InvalidPlatformVersion
      */
-    public function getDatabasePlatform(ServerVersionProvider $versionProvider): AbstractMySQLPlatform
+    public function get_database_platform(Server_Version_Provider $version_provider): Abstract_My_Sql_Platform
     {
-        $version = $versionProvider->getServerVersion();
+        $version = $version_provider->get_server_version();
         if (stripos($version, 'mariadb') !== false) {
-            $mariaDbVersion = $this->getMariaDbMysqlVersionNumber($version);
-            if (version_compare($mariaDbVersion, '11.7.0', '>=')) {
-                return new MariaDB110700Platform();
+            $maria_db_version = $this->get_maria_db_mysql_version_number($version);
+            if (version_compare($maria_db_version, '11.7.0', '>=')) {
+                return new Maria_Db110700platform();
             }
-
-            if (version_compare($mariaDbVersion, '10.10.0', '>=')) {
-                return new MariaDB1010Platform();
+            if (version_compare($maria_db_version, '10.10.0', '>=')) {
+                return new Maria_Db1010platform();
             }
-
-            if (version_compare($mariaDbVersion, '10.6.0', '>=')) {
-                return new MariaDB1060Platform();
+            if (version_compare($maria_db_version, '10.6.0', '>=')) {
+                return new Maria_Db1060platform();
             }
-
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/pull/6343',
-                'Support for MariaDB < 10.6.0 is deprecated and will be removed in DBAL 5',
-            );
-
-            if (version_compare($mariaDbVersion, '10.5.2', '>=')) {
-                return new MariaDB1052Platform();
+            Deprecation::trigger('doctrine/dbal', 'https://github.com/doctrine/dbal/pull/6343', 'Support for MariaDB < 10.6.0 is deprecated and will be removed in DBAL 5');
+            if (version_compare($maria_db_version, '10.5.2', '>=')) {
+                return new Maria_Db1052platform();
             }
-
-            return new MariaDBPlatform();
+            return new Maria_Db_Platform();
         }
-
         if (version_compare($version, '8.4.0', '>=')) {
-            return new MySQL84Platform();
+            return new My_Sql84platform();
         }
-
         if (version_compare($version, '8.0.0', '>=')) {
-            return new MySQL80Platform();
+            return new My_Sql80platform();
         }
-
-        Deprecation::trigger(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/6343',
-            'Support for MySQL < 8 is deprecated and will be removed in DBAL 5',
-        );
-
-        return new MySQLPlatform();
+        Deprecation::trigger('doctrine/dbal', 'https://github.com/doctrine/dbal/pull/6343', 'Support for MySQL < 8 is deprecated and will be removed in DBAL 5');
+        return new My_Sql_Platform();
     }
-
-    public function getExceptionConverter(): ExceptionConverterInterface
+    public function get_exception_converter(): Exception_Converter_Interface
     {
-        return new ExceptionConverter();
+        return new Exception_Converter();
     }
-
     /**
      * Detect MariaDB server version, including hack for some mariadb distributions
      * that starts with the prefix '5.5.5-'
@@ -94,21 +72,11 @@ abstract class AbstractMySQLDriver implements Driver
      *
      * @throws InvalidPlatformVersion
      */
-    private function getMariaDbMysqlVersionNumber(string $versionString): string
+    private function get_maria_db_mysql_version_number(string $version_string): string
     {
-        if (
-            preg_match(
-                '/^(?:5\.5\.5-)?(mariadb-)?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)/i',
-                $versionString,
-                $versionParts,
-            ) !== 1
-        ) {
-            throw InvalidPlatformVersion::new(
-                $versionString,
-                '^(?:5\.5\.5-)?(mariadb-)?<major_version>.<minor_version>.<patch_version>',
-            );
+        if (preg_match('/^(?:5\.5\.5-)?(mariadb-)?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)/i', $version_string, $version_parts) !== 1) {
+            throw Invalid_Platform_Version::new($version_string, '^(?:5\.5\.5-)?(mariadb-)?<major_version>.<minor_version>.<patch_version>');
         }
-
-        return $versionParts['major'] . '.' . $versionParts['minor'] . '.' . $versionParts['patch'];
+        return $version_parts['major'] . '.' . $version_parts['minor'] . '.' . $version_parts['patch'];
     }
 }

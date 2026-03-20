@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\IBMDB2\Exception;
 
-use Doctrine\DBAL\Driver\AbstractException;
-
+use Doctrine\DBAL\Driver\Abstract_Exception;
 /** @internal */
-final class PrepareFailed extends AbstractException
+final class Prepare_Failed extends Abstract_Exception
 {
     /** @phpstan-param array{message: string, ...}|null $error */
     public static function new(?array $error): self
@@ -15,7 +13,6 @@ final class PrepareFailed extends AbstractException
         if ($error === null) {
             return new self('Unknown error');
         }
-
         return new self($error['message']);
     }
 }

@@ -1,14 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Platforms\Exception;
 
 use LogicException;
-
 use function sprintf;
-
-final class NotSupported extends LogicException implements PlatformException
+final class Not_Supported extends LogicException implements Platform_Exception
 {
     public static function new(string $method): self
     {

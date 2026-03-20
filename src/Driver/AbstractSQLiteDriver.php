@@ -1,27 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver;
 
 use Doctrine\DBAL\Driver;
-use Doctrine\DBAL\Driver\API\ExceptionConverter as ExceptionConverterInterface;
-use Doctrine\DBAL\Driver\API\SQLite\ExceptionConverter;
-use Doctrine\DBAL\Platforms\SQLitePlatform;
-use Doctrine\DBAL\ServerVersionProvider;
-
+use Doctrine\DBAL\Driver\API\Exception_Converter as ExceptionConverterInterface;
+use Doctrine\DBAL\Driver\API\Sq_Lite\Exception_Converter;
+use Doctrine\DBAL\Platforms\Sq_Lite_Platform;
+use Doctrine\DBAL\Server_Version_Provider;
 /**
  * Abstract base implementation of the {@see Driver} interface for SQLite based drivers.
  */
-abstract class AbstractSQLiteDriver implements Driver
+abstract class Abstract_Sq_Lite_Driver implements Driver
 {
-    public function getDatabasePlatform(ServerVersionProvider $versionProvider): SQLitePlatform
+    public function get_database_platform(Server_Version_Provider $version_provider): Sq_Lite_Platform
     {
-        return new SQLitePlatform();
+        return new Sq_Lite_Platform();
     }
-
-    public function getExceptionConverter(): ExceptionConverterInterface
+    public function get_exception_converter(): Exception_Converter_Interface
     {
-        return new ExceptionConverter();
+        return new Exception_Converter();
     }
 }

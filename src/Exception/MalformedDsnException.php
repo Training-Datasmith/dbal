@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Exception;
 
-class MalformedDsnException extends InvalidArgumentException
+class Malformed_Dsn_Exception extends InvalidArgumentException
 {
     public static function new(): self
     {

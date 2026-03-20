@@ -1,48 +1,38 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Sq_Lite3;
 
-namespace Doctrine\DBAL\Driver\SQLite3;
-
-use Doctrine\DBAL\Driver\AbstractSQLiteDriver;
-use SensitiveParameter;
-use SQLite3;
-
-final class Driver extends AbstractSQLiteDriver
+use Doctrine\DBAL\Driver\Abstract_Sq_Lite_Driver;
+use Sensitive_Parameter;
+use Sq_Lite3;
+final class Driver extends Abstract_Sq_Lite_Driver
 {
     /**
      * {@inheritDoc}
      */
     public function connect(
-        #[SensitiveParameter]
-        array $params,
-    ): Connection {
-        $isMemory = $params['memory'] ?? false;
-
+        #[Sensitive_Parameter]
+        array $params
+    ): Connection
+    {
+        $is_memory = $params['memory'] ?? false;
         if (isset($params['path'])) {
-            if ($isMemory) {
-                throw new Exception(
-                    'Invalid connection settings: specifying both parameters "path" and "memory" is ambiguous.',
-                );
+            if ($is_memory) {
+                throw new Exception('Invalid connection settings: specifying both parameters "path" and "memory" is ambiguous.');
             }
-
             $filename = $params['path'];
-        } elseif ($isMemory) {
+        } elseif ($is_memory) {
             $filename = ':memory:';
         } else {
-            throw new Exception(
-                'Invalid connection settings: specify either the "path" or the "memory" parameter for SQLite3.',
-            );
+            throw new Exception('Invalid connection settings: specify either the "path" or the "memory" parameter for SQLite3.');
         }
-
         try {
-            $connection = new SQLite3($filename);
+            $connection = new Sq_Lite3($filename);
         } catch (\Exception $e) {
             throw Exception::new($e);
         }
-
-        $connection->enableExceptions(true);
-
+        $connection->enable_exceptions(true);
         return new Connection($connection);
     }
 }

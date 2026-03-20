@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Sq_Lite3;
 
-namespace Doctrine\DBAL\Driver\SQLite3;
-
-use Doctrine\DBAL\Driver\AbstractException;
-
+use Doctrine\DBAL\Driver\Abstract_Exception;
 /** @internal */
-final class Exception extends AbstractException
+final class Exception extends Abstract_Exception
 {
     public static function new(\Exception $exception): self
     {
-        return new self($exception->getMessage(), null, (int) $exception->getCode(), $exception);
+        return new self($exception->get_message(), null, (int) $exception->get_code(), $exception);
     }
 }

@@ -1,87 +1,68 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\Middleware;
 
 use Doctrine\DBAL\Driver\Result;
-
 use function get_debug_type;
-
 use LogicException;
-
 use function method_exists;
 use function sprintf;
-
-abstract class AbstractResultMiddleware implements Result
+abstract class Abstract_Result_Middleware implements Result
 {
-    public function __construct(private readonly Result $wrappedResult)
+    public function __construct(private readonly Result $wrapped_result)
     {
     }
-
-    public function fetchNumeric(): array|false
+    public function fetch_numeric(): array|false
     {
-        return $this->wrappedResult->fetchNumeric();
+        return $this->wrapped_result->fetch_numeric();
     }
-
-    public function fetchAssociative(): array|false
+    public function fetch_associative(): array|false
     {
-        return $this->wrappedResult->fetchAssociative();
+        return $this->wrapped_result->fetch_associative();
     }
-
-    public function fetchOne(): mixed
+    public function fetch_one(): mixed
     {
-        return $this->wrappedResult->fetchOne();
+        return $this->wrapped_result->fetch_one();
     }
-
     /**
      * {@inheritDoc}
      */
-    public function fetchAllNumeric(): array
+    public function fetch_all_numeric(): array
     {
-        return $this->wrappedResult->fetchAllNumeric();
+        return $this->wrapped_result->fetch_all_numeric();
     }
-
     /**
      * {@inheritDoc}
      */
-    public function fetchAllAssociative(): array
+    public function fetch_all_associative(): array
     {
-        return $this->wrappedResult->fetchAllAssociative();
+        return $this->wrapped_result->fetch_all_associative();
     }
-
     /**
      * {@inheritDoc}
      */
-    public function fetchFirstColumn(): array
+    public function fetch_first_column(): array
     {
-        return $this->wrappedResult->fetchFirstColumn();
+        return $this->wrapped_result->fetch_first_column();
     }
-
-    public function rowCount(): int|string
+    public function row_count(): int|string
     {
-        return $this->wrappedResult->rowCount();
+        return $this->wrapped_result->row_count();
     }
-
-    public function columnCount(): int
+    public function column_count(): int
     {
-        return $this->wrappedResult->columnCount();
+        return $this->wrapped_result->column_count();
     }
-
-    public function getColumnName(int $index): string
+    public function get_column_name(int $index): string
     {
-        if (! method_exists($this->wrappedResult, 'getColumnName')) {
-            throw new LogicException(sprintf(
-                'The driver result %s does not support accessing the column name.',
-                get_debug_type($this->wrappedResult),
-            ));
+        if (!method_exists($this->wrapped_result, 'getColumnName')) {
+            throw new LogicException(sprintf('The driver result %s does not support accessing the column name.', get_debug_type($this->wrapped_result)));
         }
-
-        return $this->wrappedResult->getColumnName($index);
+        return $this->wrapped_result->get_column_name($index);
     }
-
     public function free(): void
     {
-        $this->wrappedResult->free();
+        $this->wrapped_result->free();
     }
 }

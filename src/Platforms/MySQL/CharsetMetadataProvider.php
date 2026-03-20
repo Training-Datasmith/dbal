@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\DBAL\Platforms\MySQL;
+declare (strict_types=1);
+namespace Doctrine\DBAL\Platforms\My_Sql;
 
 /** @internal */
-interface CharsetMetadataProvider
+interface Charset_Metadata_Provider
 {
     /** @return ?non-empty-string */
-    public function getDefaultCharsetCollation(string $charset): ?string;
+    public function get_default_charset_collation(string $charset): ?string;
 }

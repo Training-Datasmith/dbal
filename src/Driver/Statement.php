@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver;
 
-use Doctrine\DBAL\ParameterType;
-
+use Doctrine\DBAL\Parameter_Type;
 /**
  * Driver-level statement
  */
@@ -28,8 +26,7 @@ interface Statement
      *
      * @throws Exception
      */
-    public function bindValue(int|string $param, mixed $value, ParameterType $type): void;
-
+    public function bind_value(int|string $param, mixed $value, Parameter_Type $type): void;
     /**
      * Executes a prepared statement
      *

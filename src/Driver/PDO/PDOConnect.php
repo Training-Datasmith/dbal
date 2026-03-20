@@ -1,31 +1,27 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\PDO;
 
 use PDO;
-
 use const PHP_VERSION_ID;
-
-use SensitiveParameter;
-
+use Sensitive_Parameter;
 /** @internal */
-trait PDOConnect
+trait Pdo_Connect
 {
     /** @param array<int, mixed> $options */
-    private function doConnect(
-        #[SensitiveParameter]
+    private function do_connect(
+        #[Sensitive_Parameter]
         string $dsn,
         string $username,
-        #[SensitiveParameter]
+        #[Sensitive_Parameter]
         string $password,
-        array $options,
-    ): PDO {
+        array $options
+    ): PDO
+    {
         if (PHP_VERSION_ID < 80400) {
             return new PDO($dsn, $username, $password, $options);
         }
-
         return PDO::connect($dsn, $username, $password, $options);
     }
 }

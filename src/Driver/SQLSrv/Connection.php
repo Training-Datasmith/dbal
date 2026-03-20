@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\DBAL\Driver\SQLSrv;
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Sql_Srv;
 
 use Doctrine\DBAL\Driver\Connection as ConnectionInterface;
-use Doctrine\DBAL\Driver\Exception\NoIdentityValue;
-use Doctrine\DBAL\Driver\SQLSrv\Exception\Error;
-
+use Doctrine\DBAL\Driver\Exception\No_Identity_Value;
+use Doctrine\DBAL\Driver\Sql_Srv\Exception\Error;
 use function sqlsrv_begin_transaction;
 use function sqlsrv_commit;
 use function sqlsrv_query;
@@ -15,8 +13,7 @@ use function sqlsrv_rollback;
 use function sqlsrv_rows_affected;
 use function sqlsrv_server_info;
 use function str_replace;
-
-final readonly class Connection implements ConnectionInterface
+final readonly class Connection implements Connection_Interface
 {
     /**
      * @internal The connection can be only instantiated by its driver.
@@ -26,82 +23,64 @@ final readonly class Connection implements ConnectionInterface
     public function __construct(private mixed $connection)
     {
     }
-
-    public function getServerVersion(): string
+    public function get_server_version(): string
     {
-        $serverInfo = sqlsrv_server_info($this->connection);
-
-        return $serverInfo['SQLServerVersion'];
+        $server_info = sqlsrv_server_info($this->connection);
+        return $server_info['SQLServerVersion'];
     }
-
     public function prepare(string $sql): Statement
     {
         return new Statement($this->connection, $sql);
     }
-
     public function query(string $sql): Result
     {
         return $this->prepare($sql)->execute();
     }
-
     public function quote(string $value): string
     {
         return "'" . str_replace("'", "''", $value) . "'";
     }
-
     public function exec(string $sql): int
     {
         $stmt = sqlsrv_query($this->connection, $sql);
-
         if ($stmt === false) {
             throw Error::new();
         }
-
-        $rowsAffected = sqlsrv_rows_affected($stmt);
-
-        if ($rowsAffected === false) {
+        $rows_affected = sqlsrv_rows_affected($stmt);
+        if ($rows_affected === false) {
             throw Error::new();
         }
-
-        return $rowsAffected;
+        return $rows_affected;
     }
-
-    public function lastInsertId(): int|string
+    public function last_insert_id(): int|string
     {
         $result = $this->query('SELECT SCOPE_IDENTITY()');
-
-        $lastInsertId = $result->fetchOne();
-
-        if ($lastInsertId === null) {
-            throw NoIdentityValue::new();
+        $last_insert_id = $result->fetch_one();
+        if ($last_insert_id === null) {
+            throw No_Identity_Value::new();
         }
-
-        return $lastInsertId;
+        return $last_insert_id;
     }
-
-    public function beginTransaction(): void
+    public function begin_transaction(): void
     {
-        if (! sqlsrv_begin_transaction($this->connection)) {
+        if (!sqlsrv_begin_transaction($this->connection)) {
             throw Error::new();
         }
     }
-
     public function commit(): void
     {
-        if (! sqlsrv_commit($this->connection)) {
+        if (!sqlsrv_commit($this->connection)) {
             throw Error::new();
         }
     }
-
-    public function rollBack(): void
+    public function roll_back(): void
     {
-        if (! sqlsrv_rollback($this->connection)) {
+        if (!sqlsrv_rollback($this->connection)) {
             throw Error::new();
         }
     }
-
     /** @return resource */
-    public function getNativeConnection()
+    public function get_native_connection()
     {
         return $this->connection;
     }

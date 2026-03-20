@@ -1,9 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Exception;
 
-final class ConnectionLost extends ConnectionException
+final class Connection_Lost extends Connection_Exception
 {
 }

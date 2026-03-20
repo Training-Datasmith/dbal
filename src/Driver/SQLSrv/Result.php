@@ -1,25 +1,19 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Sql_Srv;
 
-namespace Doctrine\DBAL\Driver\SQLSrv;
-
-use Doctrine\DBAL\Driver\FetchUtils;
+use Doctrine\DBAL\Driver\Fetch_Utils;
 use Doctrine\DBAL\Driver\Result as ResultInterface;
-use Doctrine\DBAL\Exception\InvalidColumnIndex;
-
+use Doctrine\DBAL\Exception\Invalid_Column_Index;
 use function sqlsrv_fetch;
 use function sqlsrv_fetch_array;
-
 use const SQLSRV_FETCH_ASSOC;
 use const SQLSRV_FETCH_NUMERIC;
-
 use function sqlsrv_field_metadata;
-
 use function sqlsrv_num_fields;
 use function sqlsrv_rows_affected;
-
-final readonly class Result implements ResultInterface
+final readonly class Result implements Result_Interface
 {
     /**
      * @internal The result can be only instantiated by its driver connection or statement.
@@ -29,79 +23,63 @@ final readonly class Result implements ResultInterface
     public function __construct(private mixed $statement)
     {
     }
-
-    public function fetchNumeric(): array|false
+    public function fetch_numeric(): array|false
     {
         return $this->fetch(SQLSRV_FETCH_NUMERIC);
     }
-
-    public function fetchAssociative(): array|false
+    public function fetch_associative(): array|false
     {
         return $this->fetch(SQLSRV_FETCH_ASSOC);
     }
-
-    public function fetchOne(): mixed
+    public function fetch_one(): mixed
     {
-        return FetchUtils::fetchOne($this);
+        return Fetch_Utils::fetch_one($this);
     }
-
     /**
      * {@inheritDoc}
      */
-    public function fetchAllNumeric(): array
+    public function fetch_all_numeric(): array
     {
-        return FetchUtils::fetchAllNumeric($this);
+        return Fetch_Utils::fetch_all_numeric($this);
     }
-
     /**
      * {@inheritDoc}
      */
-    public function fetchAllAssociative(): array
+    public function fetch_all_associative(): array
     {
-        return FetchUtils::fetchAllAssociative($this);
+        return Fetch_Utils::fetch_all_associative($this);
     }
-
     /**
      * {@inheritDoc}
      */
-    public function fetchFirstColumn(): array
+    public function fetch_first_column(): array
     {
-        return FetchUtils::fetchFirstColumn($this);
+        return Fetch_Utils::fetch_first_column($this);
     }
-
-    public function rowCount(): int
+    public function row_count(): int
     {
         $count = sqlsrv_rows_affected($this->statement);
-
         if ($count !== false) {
             return $count;
         }
-
         return 0;
     }
-
-    public function columnCount(): int
+    public function column_count(): int
     {
         $count = sqlsrv_num_fields($this->statement);
-
         if ($count !== false) {
             return $count;
         }
-
         return 0;
     }
-
-    public function getColumnName(int $index): string
+    public function get_column_name(int $index): string
     {
         $meta = sqlsrv_field_metadata($this->statement);
-
-        if ($meta === false || ! isset($meta[$index])) {
-            throw InvalidColumnIndex::new($index);
+        if ($meta === false || !isset($meta[$index])) {
+            throw Invalid_Column_Index::new($index);
         }
-
         return $meta[$index]['Name'];
     }
-
     public function free(): void
     {
         // emulate it by fetching and discarding rows, similarly to what PDO does in this case
@@ -111,9 +89,8 @@ final readonly class Result implements ResultInterface
         while (sqlsrv_fetch($this->statement) === true) {
         }
     }
-
-    private function fetch(int $fetchType): mixed
+    private function fetch(int $fetch_type): mixed
     {
-        return sqlsrv_fetch_array($this->statement, $fetchType) ?? false;
+        return sqlsrv_fetch_array($this->statement, $fetch_type) ?? false;
     }
 }

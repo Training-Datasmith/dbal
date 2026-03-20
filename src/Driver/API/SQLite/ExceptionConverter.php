@@ -1,85 +1,63 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\API\Sq_Lite;
 
-namespace Doctrine\DBAL\Driver\API\SQLite;
-
-use Doctrine\DBAL\Driver\API\ExceptionConverter as ExceptionConverterInterface;
+use Doctrine\DBAL\Driver\API\Exception_Converter as ExceptionConverterInterface;
 use Doctrine\DBAL\Driver\Exception;
-use Doctrine\DBAL\Exception\ConnectionException;
-use Doctrine\DBAL\Exception\DriverException;
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use Doctrine\DBAL\Exception\InvalidFieldNameException;
-use Doctrine\DBAL\Exception\LockWaitTimeoutException;
-use Doctrine\DBAL\Exception\NonUniqueFieldNameException;
-use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
-use Doctrine\DBAL\Exception\ReadOnlyException;
-use Doctrine\DBAL\Exception\SyntaxErrorException;
-use Doctrine\DBAL\Exception\TableExistsException;
-use Doctrine\DBAL\Exception\TableNotFoundException;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\DBAL\Exception\Connection_Exception;
+use Doctrine\DBAL\Exception\Driver_Exception;
+use Doctrine\DBAL\Exception\Foreign_Key_Constraint_Violation_Exception;
+use Doctrine\DBAL\Exception\Invalid_Field_Name_Exception;
+use Doctrine\DBAL\Exception\Lock_Wait_Timeout_Exception;
+use Doctrine\DBAL\Exception\Non_Unique_Field_Name_Exception;
+use Doctrine\DBAL\Exception\Not_Null_Constraint_Violation_Exception;
+use Doctrine\DBAL\Exception\Read_Only_Exception;
+use Doctrine\DBAL\Exception\Syntax_Error_Exception;
+use Doctrine\DBAL\Exception\Table_Exists_Exception;
+use Doctrine\DBAL\Exception\Table_Not_Found_Exception;
+use Doctrine\DBAL\Exception\Unique_Constraint_Violation_Exception;
 use Doctrine\DBAL\Query;
-
 use function str_contains;
-
 /** @internal */
-final class ExceptionConverter implements ExceptionConverterInterface
+final class Exception_Converter implements Exception_Converter_Interface
 {
     /** @link http://www.sqlite.org/c3ref/c_abort.html */
-    public function convert(Exception $exception, ?Query $query): DriverException
+    public function convert(Exception $exception, ?Query $query): Driver_Exception
     {
-        if (str_contains($exception->getMessage(), 'database is locked')) {
-            return new LockWaitTimeoutException($exception, $query);
+        if (str_contains($exception->get_message(), 'database is locked')) {
+            return new Lock_Wait_Timeout_Exception($exception, $query);
         }
-
-        if (
-            str_contains($exception->getMessage(), 'must be unique') ||
-            str_contains($exception->getMessage(), 'is not unique') ||
-            str_contains($exception->getMessage(), 'are not unique') ||
-            str_contains($exception->getMessage(), 'UNIQUE constraint failed')
-        ) {
-            return new UniqueConstraintViolationException($exception, $query);
+        if (str_contains($exception->get_message(), 'must be unique') || str_contains($exception->get_message(), 'is not unique') || str_contains($exception->get_message(), 'are not unique') || str_contains($exception->get_message(), 'UNIQUE constraint failed')) {
+            return new Unique_Constraint_Violation_Exception($exception, $query);
         }
-
-        if (
-            str_contains($exception->getMessage(), 'may not be NULL') ||
-            str_contains($exception->getMessage(), 'NOT NULL constraint failed')
-        ) {
-            return new NotNullConstraintViolationException($exception, $query);
+        if (str_contains($exception->get_message(), 'may not be NULL') || str_contains($exception->get_message(), 'NOT NULL constraint failed')) {
+            return new Not_Null_Constraint_Violation_Exception($exception, $query);
         }
-
-        if (str_contains($exception->getMessage(), 'no such table:')) {
-            return new TableNotFoundException($exception, $query);
+        if (str_contains($exception->get_message(), 'no such table:')) {
+            return new Table_Not_Found_Exception($exception, $query);
         }
-
-        if (str_contains($exception->getMessage(), 'already exists')) {
-            return new TableExistsException($exception, $query);
+        if (str_contains($exception->get_message(), 'already exists')) {
+            return new Table_Exists_Exception($exception, $query);
         }
-
-        if (str_contains($exception->getMessage(), 'has no column named')) {
-            return new InvalidFieldNameException($exception, $query);
+        if (str_contains($exception->get_message(), 'has no column named')) {
+            return new Invalid_Field_Name_Exception($exception, $query);
         }
-
-        if (str_contains($exception->getMessage(), 'ambiguous column name')) {
-            return new NonUniqueFieldNameException($exception, $query);
+        if (str_contains($exception->get_message(), 'ambiguous column name')) {
+            return new Non_Unique_Field_Name_Exception($exception, $query);
         }
-
-        if (str_contains($exception->getMessage(), 'syntax error')) {
-            return new SyntaxErrorException($exception, $query);
+        if (str_contains($exception->get_message(), 'syntax error')) {
+            return new Syntax_Error_Exception($exception, $query);
         }
-
-        if (str_contains($exception->getMessage(), 'attempt to write a readonly database')) {
-            return new ReadOnlyException($exception, $query);
+        if (str_contains($exception->get_message(), 'attempt to write a readonly database')) {
+            return new Read_Only_Exception($exception, $query);
         }
-
-        if (str_contains($exception->getMessage(), 'unable to open database file')) {
-            return new ConnectionException($exception, $query);
+        if (str_contains($exception->get_message(), 'unable to open database file')) {
+            return new Connection_Exception($exception, $query);
         }
-
-        if (str_contains($exception->getMessage(), 'FOREIGN KEY constraint failed')) {
-            return new ForeignKeyConstraintViolationException($exception, $query);
+        if (str_contains($exception->get_message(), 'FOREIGN KEY constraint failed')) {
+            return new Foreign_Key_Constraint_Violation_Exception($exception, $query);
         }
-
-        return new DriverException($exception, $query);
+        return new Driver_Exception($exception, $query);
     }
 }

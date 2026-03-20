@@ -1,50 +1,40 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\DBAL\Driver\PgSQL;
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Pg_Sql;
 
 use function count;
-
 use Doctrine\DBAL\SQL\Parser\Visitor;
-
 use function implode;
-
-final class ConvertParameters implements Visitor
+final class Convert_Parameters implements Visitor
 {
     /** @var list<string> */
     private array $buffer = [];
-
     /** @var array<array-key, int> */
-    private array $parameterMap = [];
-
-    public function acceptPositionalParameter(string $sql): void
+    private array $parameter_map = [];
+    public function accept_positional_parameter(string $sql): void
     {
-        $position                      = count($this->parameterMap) + 1;
-        $this->parameterMap[$position] = $position;
-        $this->buffer[]                = '$' . $position;
+        $position = count($this->parameter_map) + 1;
+        $this->parameter_map[$position] = $position;
+        $this->buffer[] = '$' . $position;
     }
-
-    public function acceptNamedParameter(string $sql): void
+    public function accept_named_parameter(string $sql): void
     {
-        $position                 = count($this->parameterMap) + 1;
-        $this->parameterMap[$sql] = $position;
-        $this->buffer[]           = '$' . $position;
+        $position = count($this->parameter_map) + 1;
+        $this->parameter_map[$sql] = $position;
+        $this->buffer[] = '$' . $position;
     }
-
-    public function acceptOther(string $sql): void
+    public function accept_other(string $sql): void
     {
         $this->buffer[] = $sql;
     }
-
-    public function getSQL(): string
+    public function get_sql(): string
     {
         return implode('', $this->buffer);
     }
-
     /** @return array<array-key, int> */
-    public function getParameterMap(): array
+    public function get_parameter_map(): array
     {
-        return $this->parameterMap;
+        return $this->parameter_map;
     }
 }

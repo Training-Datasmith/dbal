@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver;
 
 use Throwable;
-
 /**
  * Contract for a driver exception.
  *
@@ -19,5 +17,5 @@ interface Exception extends Throwable
      *
      * Returns null if the driver does not provide a SQLSTATE for the error occurred.
      */
-    public function getSQLState(): ?string;
+    public function get_sql_state(): ?string;
 }

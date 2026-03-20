@@ -1,19 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Cache;
 
-use Doctrine\DBAL\Cache\Exception\NoCacheKey;
+use Doctrine\DBAL\Cache\Exception\No_Cache_Key;
 use Doctrine\DBAL\Connection;
-
 use function hash;
-
-use Psr\Cache\CacheItemPoolInterface;
-
+use Psr\Cache\Cache_Item_Pool_Interface;
 use function serialize;
 use function sha1;
-
 /**
  * Query Cache Profile handles the data relevant for query caching.
  *
@@ -22,35 +17,27 @@ use function sha1;
  * @phpstan-import-type WrapperParameterType from Connection
  * @final
  */
-class QueryCacheProfile
+class Query_Cache_Profile
 {
-    public function __construct(
-        private readonly int $lifetime = 0,
-        private readonly ?string $cacheKey = null,
-        private readonly ?CacheItemPoolInterface $resultCache = null,
-    ) {
-    }
-
-    public function getResultCache(): ?CacheItemPoolInterface
+    public function __construct(private readonly int $lifetime = 0, private readonly ?string $cache_key = null, private readonly ?Cache_Item_Pool_Interface $result_cache = null)
     {
-        return $this->resultCache;
     }
-
-    public function getLifetime(): int
+    public function get_result_cache(): ?Cache_Item_Pool_Interface
+    {
+        return $this->result_cache;
+    }
+    public function get_lifetime(): int
     {
         return $this->lifetime;
     }
-
     /** @throws CacheException */
-    public function getCacheKey(): string
+    public function get_cache_key(): string
     {
-        if ($this->cacheKey === null) {
-            throw NoCacheKey::new();
+        if ($this->cache_key === null) {
+            throw No_Cache_Key::new();
         }
-
-        return $this->cacheKey;
+        return $this->cache_key;
     }
-
     /**
      * Generates the real cache key from query, params, types and connection parameters.
      *
@@ -60,35 +47,26 @@ class QueryCacheProfile
      *
      * @return array{string, string}
      */
-    public function generateCacheKeys(string $sql, array $params, array $types, array $connectionParams = []): array
+    public function generate_cache_keys(string $sql, array $params, array $types, array $connection_params = []): array
     {
-        if (isset($connectionParams['password'])) {
-            unset($connectionParams['password']);
+        if (isset($connection_params['password'])) {
+            unset($connection_params['password']);
         }
-
-        $realCacheKey = 'query=' . $sql .
-            '&params=' . serialize($params) .
-            '&types=' . serialize($types) .
-            '&connectionParams=' . hash('sha256', serialize($connectionParams));
-
+        $real_cache_key = 'query=' . $sql . '&params=' . serialize($params) . '&types=' . serialize($types) . '&connectionParams=' . hash('sha256', serialize($connection_params));
         // should the key be automatically generated using the inputs or is the cache key set?
-        $cacheKey = $this->cacheKey ?? sha1($realCacheKey);
-
-        return [$cacheKey, $realCacheKey];
+        $cache_key = $this->cache_key ?? sha1($real_cache_key);
+        return [$cache_key, $real_cache_key];
     }
-
-    public function setResultCache(CacheItemPoolInterface $cache): QueryCacheProfile
+    public function set_result_cache(Cache_Item_Pool_Interface $cache): Query_Cache_Profile
     {
-        return new QueryCacheProfile($this->lifetime, $this->cacheKey, $cache);
+        return new Query_Cache_Profile($this->lifetime, $this->cache_key, $cache);
     }
-
-    public function setCacheKey(?string $cacheKey): self
+    public function set_cache_key(?string $cache_key): self
     {
-        return new QueryCacheProfile($this->lifetime, $cacheKey, $this->resultCache);
+        return new Query_Cache_Profile($this->lifetime, $cache_key, $this->result_cache);
     }
-
-    public function setLifetime(int $lifetime): self
+    public function set_lifetime(int $lifetime): self
     {
-        return new QueryCacheProfile($lifetime, $this->cacheKey, $this->resultCache);
+        return new Query_Cache_Profile($lifetime, $this->cache_key, $this->result_cache);
     }
 }

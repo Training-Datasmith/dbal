@@ -1,9 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Exception;
 
-class TransactionRolledBack extends DriverException
+class Transaction_Rolled_Back extends Driver_Exception
 {
 }

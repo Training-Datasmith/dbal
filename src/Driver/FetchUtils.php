@@ -1,69 +1,57 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver;
 
 /** @internal */
-final class FetchUtils
+final class Fetch_Utils
 {
     /** @throws Exception */
-    public static function fetchOne(Result $result): mixed
+    public static function fetch_one(Result $result): mixed
     {
-        $row = $result->fetchNumeric();
-
+        $row = $result->fetch_numeric();
         if ($row === false) {
             return false;
         }
-
         return $row[0];
     }
-
     /**
      * @return list<list<mixed>>
      *
      * @throws Exception
      */
-    public static function fetchAllNumeric(Result $result): array
+    public static function fetch_all_numeric(Result $result): array
     {
         $rows = [];
-
-        while (($row = $result->fetchNumeric()) !== false) {
+        while (($row = $result->fetch_numeric()) !== false) {
             $rows[] = $row;
         }
-
         return $rows;
     }
-
     /**
      * @return list<array<string,mixed>>
      *
      * @throws Exception
      */
-    public static function fetchAllAssociative(Result $result): array
+    public static function fetch_all_associative(Result $result): array
     {
         $rows = [];
-
-        while (($row = $result->fetchAssociative()) !== false) {
+        while (($row = $result->fetch_associative()) !== false) {
             $rows[] = $row;
         }
-
         return $rows;
     }
-
     /**
      * @return list<mixed>
      *
      * @throws Exception
      */
-    public static function fetchFirstColumn(Result $result): array
+    public static function fetch_first_column(Result $result): array
     {
         $rows = [];
-
-        while (($row = $result->fetchOne()) !== false) {
+        while (($row = $result->fetch_one()) !== false) {
             $rows[] = $row;
         }
-
         return $rows;
     }
 }

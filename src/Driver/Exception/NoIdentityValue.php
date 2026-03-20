@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\Exception;
 
-use Doctrine\DBAL\Driver\AbstractException;
+use Doctrine\DBAL\Driver\Abstract_Exception;
 use Throwable;
-
 /** @internal */
-final class NoIdentityValue extends AbstractException
+final class No_Identity_Value extends Abstract_Exception
 {
     public static function new(?Throwable $previous = null): self
     {

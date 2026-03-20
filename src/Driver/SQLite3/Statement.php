@@ -1,42 +1,31 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\DBAL\Driver\SQLite3;
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Sq_Lite3;
 
 use function assert;
-
 use Doctrine\DBAL\Driver\Statement as StatementInterface;
-use Doctrine\DBAL\ParameterType;
-use SQLite3;
-
+use Doctrine\DBAL\Parameter_Type;
+use Sq_Lite3;
 use const SQLITE3_BLOB;
-
 use const SQLITE3_INTEGER;
 use const SQLITE3_NULL;
 use const SQLITE3_TEXT;
-
-use SQLite3Stmt;
-
-final readonly class Statement implements StatementInterface
+use Sq_Lite3stmt;
+final readonly class Statement implements Statement_Interface
 {
-    private const TYPE_BLOB    = SQLITE3_BLOB;
+    private const TYPE_BLOB = SQLITE3_BLOB;
     private const TYPE_INTEGER = SQLITE3_INTEGER;
-    private const TYPE_NULL    = SQLITE3_NULL;
-    private const TYPE_TEXT    = SQLITE3_TEXT;
-
+    private const TYPE_NULL = SQLITE3_NULL;
+    private const TYPE_TEXT = SQLITE3_TEXT;
     /** @internal The statement can be only instantiated by its driver connection. */
-    public function __construct(
-        private SQLite3 $connection,
-        private SQLite3Stmt $statement,
-    ) {
-    }
-
-    public function bindValue(int|string $param, mixed $value, ParameterType $type): void
+    public function __construct(private Sq_Lite3 $connection, private Sq_Lite3stmt $statement)
     {
-        $this->statement->bindValue($param, $value, $this->convertParamType($type));
     }
-
+    public function bind_value(int|string $param, mixed $value, Parameter_Type $type): void
+    {
+        $this->statement->bind_value($param, $value, $this->convert_param_type($type));
+    }
     public function execute(): Result
     {
         try {
@@ -44,20 +33,17 @@ final readonly class Statement implements StatementInterface
         } catch (\Exception $e) {
             throw Exception::new($e);
         }
-
         assert($result !== false);
-
         return new Result($result, $this->connection->changes());
     }
-
     /** @phpstan-return self::TYPE_* */
-    private function convertParamType(ParameterType $type): int
+    private function convert_param_type(Parameter_Type $type): int
     {
         return match ($type) {
-            ParameterType::NULL => self::TYPE_NULL,
-            ParameterType::INTEGER, ParameterType::BOOLEAN => self::TYPE_INTEGER,
-            ParameterType::STRING, ParameterType::ASCII => self::TYPE_TEXT,
-            ParameterType::BINARY, ParameterType::LARGE_OBJECT => self::TYPE_BLOB,
+            Parameter_Type::NULL => self::TYPE_NULL,
+            Parameter_Type::INTEGER, Parameter_Type::BOOLEAN => self::TYPE_INTEGER,
+            Parameter_Type::STRING, Parameter_Type::ASCII => self::TYPE_TEXT,
+            Parameter_Type::BINARY, Parameter_Type::LARGE_OBJECT => self::TYPE_BLOB,
         };
     }
 }

@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Exception;
 
-use Doctrine\DBAL\ConnectionException;
-
-final class NoActiveTransaction extends ConnectionException
+use Doctrine\DBAL\Connection_Exception;
+final class No_Active_Transaction extends Connection_Exception
 {
     public static function new(): self
     {

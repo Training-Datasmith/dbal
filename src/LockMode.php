@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL;
 
 /**
  * Contains all supported lock modes.
  */
-enum LockMode
+enum Lock_Mode
 {
     case NONE;
     case OPTIMISTIC;

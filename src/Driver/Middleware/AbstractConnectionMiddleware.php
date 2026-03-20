@@ -1,69 +1,57 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\Middleware;
 
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Driver\Result;
 use Doctrine\DBAL\Driver\Statement;
-
-abstract class AbstractConnectionMiddleware implements Connection
+abstract class Abstract_Connection_Middleware implements Connection
 {
-    public function __construct(private readonly Connection $wrappedConnection)
+    public function __construct(private readonly Connection $wrapped_connection)
     {
     }
-
     public function prepare(string $sql): Statement
     {
-        return $this->wrappedConnection->prepare($sql);
+        return $this->wrapped_connection->prepare($sql);
     }
-
     public function query(string $sql): Result
     {
-        return $this->wrappedConnection->query($sql);
+        return $this->wrapped_connection->query($sql);
     }
-
     public function quote(string $value): string
     {
-        return $this->wrappedConnection->quote($value);
+        return $this->wrapped_connection->quote($value);
     }
-
     public function exec(string $sql): int|string
     {
-        return $this->wrappedConnection->exec($sql);
+        return $this->wrapped_connection->exec($sql);
     }
-
-    public function lastInsertId(): int|string
+    public function last_insert_id(): int|string
     {
-        return $this->wrappedConnection->lastInsertId();
+        return $this->wrapped_connection->last_insert_id();
     }
-
-    public function beginTransaction(): void
+    public function begin_transaction(): void
     {
-        $this->wrappedConnection->beginTransaction();
+        $this->wrapped_connection->begin_transaction();
     }
-
     public function commit(): void
     {
-        $this->wrappedConnection->commit();
+        $this->wrapped_connection->commit();
     }
-
-    public function rollBack(): void
+    public function roll_back(): void
     {
-        $this->wrappedConnection->rollBack();
+        $this->wrapped_connection->roll_back();
     }
-
-    public function getServerVersion(): string
+    public function get_server_version(): string
     {
-        return $this->wrappedConnection->getServerVersion();
+        return $this->wrapped_connection->get_server_version();
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getNativeConnection()
+    public function get_native_connection()
     {
-        return $this->wrappedConnection->getNativeConnection();
+        return $this->wrapped_connection->get_native_connection();
     }
 }

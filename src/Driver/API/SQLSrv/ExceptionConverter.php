@@ -1,49 +1,43 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\API\Sql_Srv;
 
-namespace Doctrine\DBAL\Driver\API\SQLSrv;
-
-use Doctrine\DBAL\Driver\API\ExceptionConverter as ExceptionConverterInterface;
+use Doctrine\DBAL\Driver\API\Exception_Converter as ExceptionConverterInterface;
 use Doctrine\DBAL\Driver\Exception;
-use Doctrine\DBAL\Exception\ConnectionException;
-use Doctrine\DBAL\Exception\DatabaseObjectNotFoundException;
-use Doctrine\DBAL\Exception\DriverException;
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use Doctrine\DBAL\Exception\InvalidFieldNameException;
-use Doctrine\DBAL\Exception\NonUniqueFieldNameException;
-use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
-use Doctrine\DBAL\Exception\SyntaxErrorException;
-use Doctrine\DBAL\Exception\TableExistsException;
-use Doctrine\DBAL\Exception\TableNotFoundException;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\DBAL\Exception\Connection_Exception;
+use Doctrine\DBAL\Exception\Database_Object_Not_Found_Exception;
+use Doctrine\DBAL\Exception\Driver_Exception;
+use Doctrine\DBAL\Exception\Foreign_Key_Constraint_Violation_Exception;
+use Doctrine\DBAL\Exception\Invalid_Field_Name_Exception;
+use Doctrine\DBAL\Exception\Non_Unique_Field_Name_Exception;
+use Doctrine\DBAL\Exception\Not_Null_Constraint_Violation_Exception;
+use Doctrine\DBAL\Exception\Syntax_Error_Exception;
+use Doctrine\DBAL\Exception\Table_Exists_Exception;
+use Doctrine\DBAL\Exception\Table_Not_Found_Exception;
+use Doctrine\DBAL\Exception\Unique_Constraint_Violation_Exception;
 use Doctrine\DBAL\Query;
-
 /**
  * @internal
  *
  * @link https://docs.microsoft.com/en-us/sql/relational-databases/errors-events/database-engine-events-and-errors
  */
-final class ExceptionConverter implements ExceptionConverterInterface
+final class Exception_Converter implements Exception_Converter_Interface
 {
-    public function convert(Exception $exception, ?Query $query): DriverException
+    public function convert(Exception $exception, ?Query $query): Driver_Exception
     {
-        return match ($exception->getCode()) {
-            102 => new SyntaxErrorException($exception, $query),
-            207 => new InvalidFieldNameException($exception, $query),
-            208 => new TableNotFoundException($exception, $query),
-            209 => new NonUniqueFieldNameException($exception, $query),
-            515 => new NotNullConstraintViolationException($exception, $query),
-            547,
-            4712 => new ForeignKeyConstraintViolationException($exception, $query),
-            2601,
-            2627 => new UniqueConstraintViolationException($exception, $query),
-            2714 => new TableExistsException($exception, $query),
-            3701,
-            15151 => new DatabaseObjectNotFoundException($exception, $query),
-            11001,
-            18456 => new ConnectionException($exception, $query),
-            default => new DriverException($exception, $query),
+        return match ($exception->get_code()) {
+            102 => new Syntax_Error_Exception($exception, $query),
+            207 => new Invalid_Field_Name_Exception($exception, $query),
+            208 => new Table_Not_Found_Exception($exception, $query),
+            209 => new Non_Unique_Field_Name_Exception($exception, $query),
+            515 => new Not_Null_Constraint_Violation_Exception($exception, $query),
+            547, 4712 => new Foreign_Key_Constraint_Violation_Exception($exception, $query),
+            2601, 2627 => new Unique_Constraint_Violation_Exception($exception, $query),
+            2714 => new Table_Exists_Exception($exception, $query),
+            3701, 15151 => new Database_Object_Not_Found_Exception($exception, $query),
+            11001, 18456 => new Connection_Exception($exception, $query),
+            default => new Driver_Exception($exception, $query),
         };
     }
 }

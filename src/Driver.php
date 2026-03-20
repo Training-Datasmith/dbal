@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL;
 
-use Doctrine\DBAL\Driver\API\ExceptionConverter;
+use Doctrine\DBAL\Driver\API\Exception_Converter;
 use Doctrine\DBAL\Driver\Connection as DriverConnection;
 use Doctrine\DBAL\Driver\Exception;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\Exception\PlatformException;
-use SensitiveParameter;
-
+use Doctrine\DBAL\Platforms\Abstract_Platform;
+use Doctrine\DBAL\Platforms\Exception\Platform_Exception;
+use Sensitive_Parameter;
 /**
  * Driver interface.
  * Interface that all DBAL drivers must implement.
@@ -30,10 +28,9 @@ interface Driver
      * @throws Exception
      */
     public function connect(
-        #[SensitiveParameter]
-        array $params,
-    ): DriverConnection;
-
+        #[Sensitive_Parameter]
+        array $params
+    ): Driver_Connection;
     /**
      * Gets the DatabasePlatform instance that provides all the metadata about
      * the platform this driver connects to.
@@ -42,10 +39,9 @@ interface Driver
      *
      * @throws PlatformException
      */
-    public function getDatabasePlatform(ServerVersionProvider $versionProvider): AbstractPlatform;
-
+    public function get_database_platform(Server_Version_Provider $version_provider): Abstract_Platform;
     /**
      * Gets the ExceptionConverter that can be used to convert driver-level exceptions into DBAL exceptions.
      */
-    public function getExceptionConverter(): ExceptionConverter;
+    public function get_exception_converter(): Exception_Converter;
 }

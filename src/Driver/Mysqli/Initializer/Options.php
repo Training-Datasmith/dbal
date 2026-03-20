@@ -1,27 +1,23 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Driver\Mysqli\Initializer;
 
-use Doctrine\DBAL\Driver\Mysqli\Exception\InvalidOption;
+use Doctrine\DBAL\Driver\Mysqli\Exception\Invalid_Option;
 use Doctrine\DBAL\Driver\Mysqli\Initializer;
 use mysqli;
-
 use function mysqli_options;
-
 final readonly class Options implements Initializer
 {
     /** @param array<int,mixed> $options */
     public function __construct(private array $options)
     {
     }
-
     public function initialize(mysqli $connection): void
     {
         foreach ($this->options as $option => $value) {
-            if (! mysqli_options($connection, $option, $value)) {
-                throw InvalidOption::fromOption($option, $value);
+            if (!mysqli_options($connection, $option, $value)) {
+                throw Invalid_Option::from_option($option, $value);
             }
         }
     }

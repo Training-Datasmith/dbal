@@ -1,25 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Doctrine\DBAL\Driver\SQLite3;
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Sq_Lite3;
 
 use function assert;
-
 use Doctrine\DBAL\Driver\Connection as ConnectionInterface;
-use Doctrine\DBAL\Driver\Exception\NoIdentityValue;
-
+use Doctrine\DBAL\Driver\Exception\No_Identity_Value;
 use function sprintf;
-
-use SQLite3;
-
-final readonly class Connection implements ConnectionInterface
+use Sq_Lite3;
+final readonly class Connection implements Connection_Interface
 {
     /** @internal The connection can be only instantiated by its driver. */
-    public function __construct(private SQLite3 $connection)
+    public function __construct(private Sq_Lite3 $connection)
     {
     }
-
     public function prepare(string $sql): Statement
     {
         try {
@@ -27,12 +21,9 @@ final readonly class Connection implements ConnectionInterface
         } catch (\Exception $e) {
             throw Exception::new($e);
         }
-
         assert($statement !== false);
-
         return new Statement($this->connection, $statement);
     }
-
     public function query(string $sql): Result
     {
         try {
@@ -40,17 +31,13 @@ final readonly class Connection implements ConnectionInterface
         } catch (\Exception $e) {
             throw Exception::new($e);
         }
-
         assert($result !== false);
-
         return new Result($result, $this->connection->changes());
     }
-
     public function quote(string $value): string
     {
-        return sprintf('\'%s\'', SQLite3::escapeString($value));
+        return sprintf('\'%s\'', Sq_Lite3::escape_string($value));
     }
-
     public function exec(string $sql): int
     {
         try {
@@ -58,21 +45,17 @@ final readonly class Connection implements ConnectionInterface
         } catch (\Exception $e) {
             throw Exception::new($e);
         }
-
         return $this->connection->changes();
     }
-
-    public function lastInsertId(): int
+    public function last_insert_id(): int
     {
-        $value = $this->connection->lastInsertRowID();
+        $value = $this->connection->last_insert_row_id();
         if ($value === 0) {
-            throw NoIdentityValue::new();
+            throw No_Identity_Value::new();
         }
-
         return $value;
     }
-
-    public function beginTransaction(): void
+    public function begin_transaction(): void
     {
         try {
             $this->connection->exec('BEGIN');
@@ -80,7 +63,6 @@ final readonly class Connection implements ConnectionInterface
             throw Exception::new($e);
         }
     }
-
     public function commit(): void
     {
         try {
@@ -89,8 +71,7 @@ final readonly class Connection implements ConnectionInterface
             throw Exception::new($e);
         }
     }
-
-    public function rollBack(): void
+    public function roll_back(): void
     {
         try {
             $this->connection->exec('ROLLBACK');
@@ -98,14 +79,12 @@ final readonly class Connection implements ConnectionInterface
             throw Exception::new($e);
         }
     }
-
-    public function getNativeConnection(): SQLite3
+    public function get_native_connection(): Sq_Lite3
     {
         return $this->connection;
     }
-
-    public function getServerVersion(): string
+    public function get_server_version(): string
     {
-        return SQLite3::version()['versionString'];
+        return Sq_Lite3::version()['versionString'];
     }
 }

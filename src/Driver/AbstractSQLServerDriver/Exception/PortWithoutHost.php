@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Doctrine\DBAL\Driver\Abstract_Sql_Server_Driver\Exception;
 
-namespace Doctrine\DBAL\Driver\AbstractSQLServerDriver\Exception;
-
-use Doctrine\DBAL\Driver\AbstractException;
-
+use Doctrine\DBAL\Driver\Abstract_Exception;
 /** @internal */
-final class PortWithoutHost extends AbstractException
+final class Port_Without_Host extends Abstract_Exception
 {
     public static function new(): self
     {

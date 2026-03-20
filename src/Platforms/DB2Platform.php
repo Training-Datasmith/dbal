@@ -1,365 +1,260 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Doctrine\DBAL\Platforms;
 
 use function array_merge;
 use function count;
 use function current;
-
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Platforms\Db2\Db2MetadataProvider;
-use Doctrine\DBAL\Platforms\Exception\NotSupported;
+use Doctrine\DBAL\Platforms\Db2\Db2metadata_Provider;
+use Doctrine\DBAL\Platforms\Exception\Not_Supported;
 use Doctrine\DBAL\Platforms\Keywords\DB2Keywords;
-use Doctrine\DBAL\Platforms\Keywords\KeywordList;
-use Doctrine\DBAL\Schema\ColumnDiff;
-use Doctrine\DBAL\Schema\DB2SchemaManager;
+use Doctrine\DBAL\Platforms\Keywords\Keyword_List;
+use Doctrine\DBAL\Schema\Column_Diff;
+use Doctrine\DBAL\Schema\Db2schema_Manager;
 use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
-use Doctrine\DBAL\Schema\Name\UnquotedIdentifierFolding;
-use Doctrine\DBAL\Schema\TableDiff;
-use Doctrine\DBAL\SQL\Builder\DefaultSelectSQLBuilder;
-use Doctrine\DBAL\SQL\Builder\SelectSQLBuilder;
-use Doctrine\DBAL\TransactionIsolationLevel;
-
-use Doctrine\DBAL\Types\DateTimeType;
+use Doctrine\DBAL\Schema\Name\Unquoted_Identifier_Folding;
+use Doctrine\DBAL\Schema\Table_Diff;
+use Doctrine\DBAL\SQL\Builder\Default_Select_Sql_Builder;
+use Doctrine\DBAL\SQL\Builder\Select_Sql_Builder;
+use Doctrine\DBAL\Transaction_Isolation_Level;
+use Doctrine\DBAL\Types\Date_Time_Type;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Deprecations\Deprecation;
-
 use function explode;
 use function implode;
 use function sprintf;
 use function str_contains;
-
 /**
  * Provides the behavior, features and SQL dialect of the Db2 database platform of the oldest supported version.
  */
-class DB2Platform extends AbstractPlatform
+class DB2Platform extends Abstract_Platform
 {
     public function __construct()
     {
-        parent::__construct(UnquotedIdentifierFolding::UPPER);
+        parent::__construct(Unquoted_Identifier_Folding::UPPER);
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getBlobTypeDeclarationSQL(array $column): string
+    public function get_blob_type_declaration_sql(array $column): string
     {
         // todo blob(n) with $column['length'];
         return 'BLOB(1M)';
     }
-
-    protected function initializeDoctrineTypeMappings(): void
+    protected function initialize_doctrine_type_mappings(): void
     {
-        $this->doctrineTypeMapping = [
-            'bigint'    => Types::BIGINT,
-            'binary'    => Types::BINARY,
-            'blob'      => Types::BLOB,
-            'character' => Types::STRING,
-            'clob'      => Types::TEXT,
-            'date'      => Types::DATE_MUTABLE,
-            'decimal'   => Types::DECIMAL,
-            'double'    => Types::FLOAT,
-            'integer'   => Types::INTEGER,
-            'real'      => Types::SMALLFLOAT,
-            'smallint'  => Types::SMALLINT,
-            'time'      => Types::TIME_MUTABLE,
-            'timestamp' => Types::DATETIME_MUTABLE,
-            'varbinary' => Types::BINARY,
-            'varchar'   => Types::STRING,
-        ];
+        $this->doctrine_type_mapping = ['bigint' => Types::BIGINT, 'binary' => Types::BINARY, 'blob' => Types::BLOB, 'character' => Types::STRING, 'clob' => Types::TEXT, 'date' => Types::DATE_MUTABLE, 'decimal' => Types::DECIMAL, 'double' => Types::FLOAT, 'integer' => Types::INTEGER, 'real' => Types::SMALLFLOAT, 'smallint' => Types::SMALLINT, 'time' => Types::TIME_MUTABLE, 'timestamp' => Types::DATETIME_MUTABLE, 'varbinary' => Types::BINARY, 'varchar' => Types::STRING];
     }
-
-    protected function getBinaryTypeDeclarationSQLSnippet(?int $length): string
+    protected function get_binary_type_declaration_sql_snippet(?int $length): string
     {
-        return $this->getCharTypeDeclarationSQLSnippet($length) . ' FOR BIT DATA';
+        return $this->get_char_type_declaration_sql_snippet($length) . ' FOR BIT DATA';
     }
-
-    protected function getVarbinaryTypeDeclarationSQLSnippet(?int $length): string
+    protected function get_varbinary_type_declaration_sql_snippet(?int $length): string
     {
-        return $this->getVarcharTypeDeclarationSQLSnippet($length) . ' FOR BIT DATA';
+        return $this->get_varchar_type_declaration_sql_snippet($length) . ' FOR BIT DATA';
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getClobTypeDeclarationSQL(array $column): string
+    public function get_clob_type_declaration_sql(array $column): string
     {
         // todo clob(n) with $column['length'];
         return 'CLOB(1M)';
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getBooleanTypeDeclarationSQL(array $column): string
+    public function get_boolean_type_declaration_sql(array $column): string
     {
         return 'SMALLINT';
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getIntegerTypeDeclarationSQL(array $column): string
+    public function get_integer_type_declaration_sql(array $column): string
     {
-        return 'INTEGER' . $this->_getCommonIntegerTypeDeclarationSQL($column);
+        return 'INTEGER' . $this->_get_common_integer_type_declaration_sql($column);
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getBigIntTypeDeclarationSQL(array $column): string
+    public function get_big_int_type_declaration_sql(array $column): string
     {
-        return 'BIGINT' . $this->_getCommonIntegerTypeDeclarationSQL($column);
+        return 'BIGINT' . $this->_get_common_integer_type_declaration_sql($column);
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getSmallIntTypeDeclarationSQL(array $column): string
+    public function get_small_int_type_declaration_sql(array $column): string
     {
-        return 'SMALLINT' . $this->_getCommonIntegerTypeDeclarationSQL($column);
+        return 'SMALLINT' . $this->_get_common_integer_type_declaration_sql($column);
     }
-
     /**
      * {@inheritDoc}
      */
-    protected function _getCommonIntegerTypeDeclarationSQL(array $column): string
+    protected function _get_common_integer_type_declaration_sql(array $column): string
     {
-        if (! empty($column['autoincrement'])) {
+        if (!empty($column['autoincrement'])) {
             return ' GENERATED BY DEFAULT AS IDENTITY';
         }
-
         return '';
     }
-
-    public function getBitAndComparisonExpression(string $value1, string $value2): string
+    public function get_bit_and_comparison_expression(string $value1, string $value2): string
     {
         return 'BITAND(' . $value1 . ', ' . $value2 . ')';
     }
-
-    public function getBitOrComparisonExpression(string $value1, string $value2): string
+    public function get_bit_or_comparison_expression(string $value1, string $value2): string
     {
         return 'BITOR(' . $value1 . ', ' . $value2 . ')';
     }
-
-    protected function getDateArithmeticIntervalExpression(
-        string $date,
-        string $operator,
-        string $interval,
-        DateIntervalUnit $unit,
-    ): string {
+    protected function get_date_arithmetic_interval_expression(string $date, string $operator, string $interval, Date_Interval_Unit $unit): string
+    {
         switch ($unit) {
-            case DateIntervalUnit::WEEK:
-                $interval = $this->multiplyInterval($interval, 7);
-                $unit     = DateIntervalUnit::DAY;
+            case Date_Interval_Unit::WEEK:
+                $interval = $this->multiply_interval($interval, 7);
+                $unit = Date_Interval_Unit::DAY;
                 break;
-
-            case DateIntervalUnit::QUARTER:
-                $interval = $this->multiplyInterval($interval, 3);
-                $unit     = DateIntervalUnit::MONTH;
+            case Date_Interval_Unit::QUARTER:
+                $interval = $this->multiply_interval($interval, 3);
+                $unit = Date_Interval_Unit::MONTH;
                 break;
         }
-
         return $date . ' ' . $operator . ' ' . $interval . ' ' . $unit->value;
     }
-
-    public function getDateDiffExpression(string $date1, string $date2): string
+    public function get_date_diff_expression(string $date1, string $date2): string
     {
         return 'DAYS(' . $date1 . ') - DAYS(' . $date2 . ')';
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getDateTimeTypeDeclarationSQL(array $column): string
+    public function get_date_time_type_declaration_sql(array $column): string
     {
         if (isset($column['version']) && $column['version'] === true) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/pull/6940',
-                'The "version" column platform option is deprecated.',
-            );
-
+            Deprecation::trigger('doctrine/dbal', 'https://github.com/doctrine/dbal/pull/6940', 'The "version" column platform option is deprecated.');
             return 'TIMESTAMP(0) WITH DEFAULT';
         }
-
         return 'TIMESTAMP(0)';
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getDateTypeDeclarationSQL(array $column): string
+    public function get_date_type_declaration_sql(array $column): string
     {
         return 'DATE';
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getTimeTypeDeclarationSQL(array $column): string
+    public function get_time_type_declaration_sql(array $column): string
     {
         return 'TIME';
     }
-
-    public function getTruncateTableSQL(string $tableName, bool $cascade = false): string
+    public function get_truncate_table_sql(string $table_name, bool $cascade = false): string
     {
-        $tableIdentifier = new Identifier($tableName);
-
-        return 'TRUNCATE ' . $tableIdentifier->getQuotedName($this) . ' IMMEDIATE';
+        $table_identifier = new Identifier($table_name);
+        return 'TRUNCATE ' . $table_identifier->get_quoted_name($this) . ' IMMEDIATE';
     }
-
-    public function getSetTransactionIsolationSQL(TransactionIsolationLevel $level): string
+    public function get_set_transaction_isolation_sql(Transaction_Isolation_Level $level): string
     {
-        throw NotSupported::new(__METHOD__);
+        throw Not_Supported::new(__METHOD__);
     }
-
     /** @internal The method should be only used from within the {@see AbstractSchemaManager} class hierarchy. */
-    public function getListViewsSQL(string $database): string
+    public function get_list_views_sql(string $database): string
     {
         return 'SELECT NAME, TEXT FROM SYSIBM.SYSVIEWS';
     }
-
     /** @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy. */
-    public function supportsCommentOnStatement(): bool
+    public function supports_comment_on_statement(): bool
     {
         return true;
     }
-
-    public function getCurrentDateSQL(): string
+    public function get_current_date_sql(): string
     {
         return 'CURRENT DATE';
     }
-
-    public function getCurrentTimeSQL(): string
+    public function get_current_time_sql(): string
     {
         return 'CURRENT TIME';
     }
-
-    public function getCurrentTimestampSQL(): string
+    public function get_current_timestamp_sql(): string
     {
         return 'CURRENT TIMESTAMP';
     }
-
     /** @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy. */
-    public function getIndexDeclarationSQL(Index $index): string
+    public function get_index_declaration_sql(Index $index): string
     {
         // Index declaration in statements like CREATE TABLE is not supported.
-        throw NotSupported::new(__METHOD__);
+        throw Not_Supported::new(__METHOD__);
     }
-
     /**
      * {@inheritDoc}
      */
-    protected function _getCreateTableSQL(string $name, array $columns, array $options = []): array
+    protected function _get_create_table_sql(string $name, array $columns, array $options = []): array
     {
-        $this->validateCreateTableOptions($options, __METHOD__);
-
+        $this->validate_create_table_options($options, __METHOD__);
         $indexes = [];
         if (isset($options['indexes'])) {
             $indexes = $options['indexes'];
         }
-
         $options['indexes'] = [];
-
-        $sqls = parent::_getCreateTableSQL($name, $columns, $options);
-
+        $sqls = parent::_get_create_table_sql($name, $columns, $options);
         foreach ($indexes as $definition) {
-            $sqls[] = $this->getCreateIndexSQL($definition, $name);
+            $sqls[] = $this->get_create_index_sql($definition, $name);
         }
-
         return $sqls;
     }
-
     /**
      * {@inheritDoc}
      */
-    public function getAlterTableSQL(TableDiff $diff): array
+    public function get_alter_table_sql(Table_Diff $diff): array
     {
-        $sql         = [];
-        $commentsSQL = [];
-
-        $tableNameSQL = $diff->getOldTable()->getQuotedName($this);
-
-        $queryParts = [];
-        foreach ($diff->getAddedColumns() as $column) {
-            $columnDef = $column->toArray();
-            $queryPart = 'ADD COLUMN ' . $this->getColumnDeclarationSQL($column->getQuotedName($this), $columnDef);
-
+        $sql = [];
+        $comments_sql = [];
+        $table_name_sql = $diff->get_old_table()->get_quoted_name($this);
+        $query_parts = [];
+        foreach ($diff->get_added_columns() as $column) {
+            $column_def = $column->to_array();
+            $query_part = 'ADD COLUMN ' . $this->get_column_declaration_sql($column->get_quoted_name($this), $column_def);
             // Adding non-nullable columns to a table requires a default value to be specified.
-            if (
-                ! empty($columnDef['notnull']) &&
-                ! isset($columnDef['default']) &&
-                empty($columnDef['autoincrement'])
-            ) {
-                $queryPart .= ' WITH DEFAULT';
+            if (!empty($column_def['notnull']) && !isset($column_def['default']) && empty($column_def['autoincrement'])) {
+                $query_part .= ' WITH DEFAULT';
             }
-
-            $queryParts[] = $queryPart;
-
-            $comment = $column->getComment();
-
+            $query_parts[] = $query_part;
+            $comment = $column->get_comment();
             if ($comment === '') {
                 continue;
             }
-
-            $commentsSQL[] = $this->getCommentOnColumnSQL(
-                $tableNameSQL,
-                $column->getQuotedName($this),
-                $comment,
-            );
+            $comments_sql[] = $this->get_comment_on_column_sql($table_name_sql, $column->get_quoted_name($this), $comment);
         }
-
-        $needsReorg = false;
-        foreach ($diff->getDroppedColumns() as $column) {
-            $queryParts[] =  'DROP COLUMN ' . $column->getQuotedName($this);
-            $needsReorg   = true;
+        $needs_reorg = false;
+        foreach ($diff->get_dropped_columns() as $column) {
+            $query_parts[] = 'DROP COLUMN ' . $column->get_quoted_name($this);
+            $needs_reorg = true;
         }
-
-        foreach ($diff->getChangedColumns() as $columnDiff) {
-            if ($columnDiff->hasCommentChanged()) {
-                $newColumn     = $columnDiff->getNewColumn();
-                $commentsSQL[] = $this->getCommentOnColumnSQL(
-                    $tableNameSQL,
-                    $newColumn->getQuotedName($this),
-                    $newColumn->getComment(),
-                );
+        foreach ($diff->get_changed_columns() as $column_diff) {
+            if ($column_diff->has_comment_changed()) {
+                $new_column = $column_diff->get_new_column();
+                $comments_sql[] = $this->get_comment_on_column_sql($table_name_sql, $new_column->get_quoted_name($this), $new_column->get_comment());
             }
-
-            $this->gatherAlterColumnSQL(
-                $tableNameSQL,
-                $columnDiff,
-                $sql,
-                $queryParts,
-                $needsReorg,
-            );
+            $this->gather_alter_column_sql($table_name_sql, $column_diff, $sql, $query_parts, $needs_reorg);
         }
-
-        if (count($queryParts) > 0) {
-            $sql[] = 'ALTER TABLE ' . $tableNameSQL . ' ' . implode(' ', $queryParts);
+        if (count($query_parts) > 0) {
+            $sql[] = 'ALTER TABLE ' . $table_name_sql . ' ' . implode(' ', $query_parts);
         }
-
         // Some table alteration operations require a table reorganization.
-        if ($needsReorg) {
-            $sql[] = "CALL SYSPROC.ADMIN_CMD ('REORG TABLE " . $tableNameSQL . "')";
+        if ($needs_reorg) {
+            $sql[] = "CALL SYSPROC.ADMIN_CMD ('REORG TABLE " . $table_name_sql . "')";
         }
-
-        return array_merge(
-            $this->getPreAlterTableIndexForeignKeySQL($diff),
-            $sql,
-            $commentsSQL,
-            $this->getPostAlterTableIndexForeignKeySQL($diff),
-        );
+        return array_merge($this->get_pre_alter_table_index_foreign_key_sql($diff), $sql, $comments_sql, $this->get_post_alter_table_index_foreign_key_sql($diff));
     }
-
-    public function getRenameTableSQL(string $oldName, string $newName): string
+    public function get_rename_table_sql(string $old_name, string $new_name): string
     {
-        return sprintf('RENAME TABLE %s TO %s', $oldName, $newName);
+        return sprintf('RENAME TABLE %s TO %s', $old_name, $new_name);
     }
-
     /**
      * Gathers the table alteration SQL for a given column diff.
      *
@@ -368,205 +263,151 @@ class DB2Platform extends AbstractPlatform
      * @param list<string> $sql        The sequence of table alteration statements to fill.
      * @param list<string> $queryParts The sequence of column alteration clauses to fill.
      */
-    private function gatherAlterColumnSQL(
-        string $table,
-        ColumnDiff $columnDiff,
-        array &$sql,
-        array &$queryParts,
-        bool &$needsReorg,
-    ): void {
-        $alterColumnClauses = $this->getAlterColumnClausesSQL($columnDiff, $needsReorg);
-
-        if (count($alterColumnClauses) < 1) {
+    private function gather_alter_column_sql(string $table, Column_Diff $column_diff, array &$sql, array &$query_parts, bool &$needs_reorg): void
+    {
+        $alter_column_clauses = $this->get_alter_column_clauses_sql($column_diff, $needs_reorg);
+        if (count($alter_column_clauses) < 1) {
             return;
         }
-
         // If we have a single column alteration, we can append the clause to the main query.
-        if (count($alterColumnClauses) === 1) {
-            $queryParts[] = current($alterColumnClauses);
-
+        if (count($alter_column_clauses) === 1) {
+            $query_parts[] = current($alter_column_clauses);
             return;
         }
-
         // We have multiple alterations for the same column,
         // so we need to trigger a complete ALTER TABLE statement
         // for each ALTER COLUMN clause.
-        foreach ($alterColumnClauses as $alterColumnClause) {
-            $sql[] = 'ALTER TABLE ' . $table . ' ' . $alterColumnClause;
+        foreach ($alter_column_clauses as $alter_column_clause) {
+            $sql[] = 'ALTER TABLE ' . $table . ' ' . $alter_column_clause;
         }
     }
-
     /**
      * Returns the ALTER COLUMN SQL clauses for altering a column described by the given column diff.
      *
      * @return string[]
      */
-    private function getAlterColumnClausesSQL(ColumnDiff $columnDiff, bool &$needsReorg): array
+    private function get_alter_column_clauses_sql(Column_Diff $column_diff, bool &$needs_reorg): array
     {
-        $newColumn   = $columnDiff->getNewColumn();
-        $columnArray = $newColumn->toArray();
-
-        $newName = $columnDiff->getNewColumn()->getQuotedName($this);
-        $oldName = $columnDiff->getOldColumn()->getQuotedName($this);
-
-        $alterClause = 'ALTER COLUMN ' . $newName;
-
-        if ($newColumn->getColumnDefinition() !== null) {
-            $needsReorg = true;
-
-            return [$alterClause . ' ' . $newColumn->getColumnDefinition()];
+        $new_column = $column_diff->get_new_column();
+        $column_array = $new_column->to_array();
+        $new_name = $column_diff->get_new_column()->get_quoted_name($this);
+        $old_name = $column_diff->get_old_column()->get_quoted_name($this);
+        $alter_clause = 'ALTER COLUMN ' . $new_name;
+        if ($new_column->get_column_definition() !== null) {
+            $needs_reorg = true;
+            return [$alter_clause . ' ' . $new_column->get_column_definition()];
         }
-
         $clauses = [];
-
-        if ($columnDiff->hasNameChanged()) {
-            $clauses[] = 'RENAME COLUMN ' . $oldName . ' TO ' . $newName;
+        if ($column_diff->has_name_changed()) {
+            $clauses[] = 'RENAME COLUMN ' . $old_name . ' TO ' . $new_name;
         }
-
-        if (
-            $columnDiff->hasTypeChanged() ||
-            $columnDiff->hasLengthChanged() ||
-            $columnDiff->hasPrecisionChanged() ||
-            $columnDiff->hasScaleChanged() ||
-            $columnDiff->hasFixedChanged()
-        ) {
-            $needsReorg = true;
-            $clauses[]  = $alterClause . ' SET DATA TYPE ' . $newColumn->getType()
-                    ->getSQLDeclaration($columnArray, $this);
+        if ($column_diff->has_type_changed() || $column_diff->has_length_changed() || $column_diff->has_precision_changed() || $column_diff->has_scale_changed() || $column_diff->has_fixed_changed()) {
+            $needs_reorg = true;
+            $clauses[] = $alter_clause . ' SET DATA TYPE ' . $new_column->get_type()->get_sql_declaration($column_array, $this);
         }
-
-        if ($columnDiff->hasNotNullChanged()) {
-            $needsReorg = true;
-            $clauses[]  = $newColumn->getNotnull() ? $alterClause . ' SET NOT NULL' : $alterClause . ' DROP NOT NULL';
+        if ($column_diff->has_not_null_changed()) {
+            $needs_reorg = true;
+            $clauses[] = $new_column->get_notnull() ? $alter_clause . ' SET NOT NULL' : $alter_clause . ' DROP NOT NULL';
         }
-
-        if ($columnDiff->hasDefaultChanged()) {
-            if ($newColumn->getDefault() !== null) {
-                $defaultClause = $this->getDefaultValueDeclarationSQL($columnArray);
-
-                if ($defaultClause !== '') {
-                    $needsReorg = true;
-                    $clauses[]  = $alterClause . ' SET' . $defaultClause;
+        if ($column_diff->has_default_changed()) {
+            if ($new_column->get_default() !== null) {
+                $default_clause = $this->get_default_value_declaration_sql($column_array);
+                if ($default_clause !== '') {
+                    $needs_reorg = true;
+                    $clauses[] = $alter_clause . ' SET' . $default_clause;
                 }
             } else {
-                $needsReorg = true;
-                $clauses[]  = $alterClause . ' DROP DEFAULT';
+                $needs_reorg = true;
+                $clauses[] = $alter_clause . ' DROP DEFAULT';
             }
         }
-
         return $clauses;
     }
-
     /**
      * {@inheritDoc}
      */
-    protected function getRenameIndexSQL(string $oldIndexName, Index $index, string $tableName): array
+    protected function get_rename_index_sql(string $old_index_name, Index $index, string $table_name): array
     {
-        if (str_contains($tableName, '.')) {
-            [$schema]     = explode('.', $tableName);
-            $oldIndexName = $schema . '.' . $oldIndexName;
+        if (str_contains($table_name, '.')) {
+            [$schema] = explode('.', $table_name);
+            $old_index_name = $schema . '.' . $old_index_name;
         }
-
-        return ['RENAME INDEX ' . $oldIndexName . ' TO ' . $index->getQuotedName($this)];
+        return ['RENAME INDEX ' . $old_index_name . ' TO ' . $index->get_quoted_name($this)];
     }
-
     /**
      * {@inheritDoc}
      *
      * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
      */
-    public function getDefaultValueDeclarationSQL(array $column): string
+    public function get_default_value_declaration_sql(array $column): string
     {
         if (isset($column['autoincrement']) && $column['autoincrement'] === true) {
             return '';
         }
-
         if (isset($column['version']) && $column['version'] === true) {
-            Deprecation::trigger(
-                'doctrine/dbal',
-                'https://github.com/doctrine/dbal/pull/6940',
-                'The "version" column platform option is deprecated.',
-            );
-
-            if ($column['type'] instanceof DateTimeType) {
+            Deprecation::trigger('doctrine/dbal', 'https://github.com/doctrine/dbal/pull/6940', 'The "version" column platform option is deprecated.');
+            if ($column['type'] instanceof Date_Time_Type) {
                 $column['default'] = '1';
             }
         }
-
-        return parent::getDefaultValueDeclarationSQL($column);
+        return parent::get_default_value_declaration_sql($column);
     }
-
-    public function getEmptyIdentityInsertSQL(string $quotedTableName, string $quotedIdentifierColumnName): string
+    public function get_empty_identity_insert_sql(string $quoted_table_name, string $quoted_identifier_column_name): string
     {
-        return 'INSERT INTO ' . $quotedTableName . ' (' . $quotedIdentifierColumnName . ') VALUES (DEFAULT)';
+        return 'INSERT INTO ' . $quoted_table_name . ' (' . $quoted_identifier_column_name . ') VALUES (DEFAULT)';
     }
-
-    public function getCreateTemporaryTableSnippetSQL(): string
+    public function get_create_temporary_table_snippet_sql(): string
     {
         return 'DECLARE GLOBAL TEMPORARY TABLE';
     }
-
-    public function getTemporaryTableName(string $tableName): string
+    public function get_temporary_table_name(string $table_name): string
     {
-        return 'SESSION.' . $tableName;
+        return 'SESSION.' . $table_name;
     }
-
-    protected function doModifyLimitQuery(string $query, ?int $limit, int $offset): string
+    protected function do_modify_limit_query(string $query, ?int $limit, int $offset): string
     {
         if ($offset > 0) {
             $query .= sprintf(' OFFSET %d ROWS', $offset);
         }
-
         if ($limit !== null) {
             $query .= sprintf(' FETCH NEXT %d ROWS ONLY', $limit);
         }
-
         return $query;
     }
-
-    public function getLocateExpression(string $string, string $substring, ?string $start = null): string
+    public function get_locate_expression(string $string, string $substring, ?string $start = null): string
     {
         if ($start === null) {
             return sprintf('LOCATE(%s, %s)', $substring, $string);
         }
-
         return sprintf('LOCATE(%s, %s, %s)', $substring, $string, $start);
     }
-
-    public function getSubstringExpression(string $string, string $start, ?string $length = null): string
+    public function get_substring_expression(string $string, string $start, ?string $length = null): string
     {
         if ($length === null) {
             return sprintf('SUBSTR(%s, %s)', $string, $start);
         }
-
         return sprintf('SUBSTR(%s, %s, %s)', $string, $start, $length);
     }
-
-    public function getLengthExpression(string $string): string
+    public function get_length_expression(string $string): string
     {
         return 'LENGTH(' . $string . ', CODEUNITS32)';
     }
-
-    public function getCurrentDatabaseExpression(): string
+    public function get_current_database_expression(): string
     {
         return 'CURRENT_USER';
     }
-
-    public function supportsIdentityColumns(): bool
+    public function supports_identity_columns(): bool
     {
         return true;
     }
-
-    public function createSelectSQLBuilder(): SelectSQLBuilder
+    public function create_select_sql_builder(): Select_Sql_Builder
     {
-        return new DefaultSelectSQLBuilder($this, 'WITH RR USE AND KEEP UPDATE LOCKS', null);
+        return new Default_Select_Sql_Builder($this, 'WITH RR USE AND KEEP UPDATE LOCKS', null);
     }
-
-    public function getDummySelectSQL(string $expression = '1'): string
+    public function get_dummy_select_sql(string $expression = '1'): string
     {
         return sprintf('SELECT %s FROM sysibm.sysdummy1', $expression);
     }
-
     /**
      * {@inheritDoc}
      *
@@ -574,31 +415,22 @@ class DB2Platform extends AbstractPlatform
      *
      * TODO: We have to investigate how to get Db2 up and running with savepoints.
      */
-    public function supportsSavepoints(): bool
+    public function supports_savepoints(): bool
     {
         return false;
     }
-
     /** @deprecated */
-    protected function createReservedKeywordsList(): KeywordList
+    protected function create_reserved_keywords_list(): Keyword_List
     {
-        Deprecation::triggerIfCalledFromOutside(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/6607',
-            '%s is deprecated.',
-            __METHOD__,
-        );
-
+        Deprecation::trigger_if_called_from_outside('doctrine/dbal', 'https://github.com/doctrine/dbal/pull/6607', '%s is deprecated.', __METHOD__);
         return new DB2Keywords();
     }
-
-    public function createMetadataProvider(Connection $connection): Db2MetadataProvider
+    public function create_metadata_provider(Connection $connection): Db2metadata_Provider
     {
-        return new Db2MetadataProvider($connection, $this);
+        return new Db2metadata_Provider($connection, $this);
     }
-
-    public function createSchemaManager(Connection $connection): DB2SchemaManager
+    public function create_schema_manager(Connection $connection): Db2schema_Manager
     {
-        return new DB2SchemaManager($connection, $this);
+        return new Db2schema_Manager($connection, $this);
     }
 }
